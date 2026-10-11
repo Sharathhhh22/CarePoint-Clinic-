@@ -21,7 +21,7 @@ export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }:
     // Expected format: Date: YYYY-MM-DD, Time: e.g., "10:30 AM" or "14:30"
     
     // Quick and dirty parser for time
-    let timeStr = appointmentTime
+    const timeStr = appointmentTime
     let [time, modifier] = timeStr.split(" ")
     let [hours, minutes] = time.split(":")
     
@@ -142,4 +142,5 @@ export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }:
     </div>
   )
 }
+
 
