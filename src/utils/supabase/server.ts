@@ -1,12 +1,13 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { env } from '@/config/env'
 
 export async function createClient() {
   const cookieStore = await cookies()
 
   return createServerClient(
-    'https://ctfskadogvzmmeboajgn.supabase.co',
-    'sb_publishable_zzp6go7I4NOEtTz90ZFSsA_-ngRHV6s',
+    env.supabase.url,
+    env.supabase.anonKey,
     {
       cookies: {
         getAll() {
@@ -19,9 +20,6 @@ export async function createClient() {
             )
           } catch (e) {
             console.error("COOKIE SET ERROR:", e)
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
           }
         },
       },

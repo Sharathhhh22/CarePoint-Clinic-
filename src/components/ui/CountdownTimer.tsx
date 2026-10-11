@@ -1,75 +1,26 @@
-
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Clock, BellRing, CheckCircle2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useCountdown } from "@/hooks/useCountdown"
 
 interface CountdownTimerProps {
   appointmentDate: string // YYYY-MM-DD
-  appointmentTime: string // HH:MM AM/PM
+  appointmentTime: string // HH:MM AM/PM or HH:MM
   doctorName?: string
 }
 
 export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState<{ days: number, hours: number, minutes: number, seconds: number } | null>(null)
-  const [isNotified, setIsNotified] = useState(false)
-  const [status, setStatus] = useState<"upcoming" | "happening_now" | "past">("upcoming")
+  const { timeLeft, status } = useCountdown(appointmentDate, appointmentTime)
+  const [isNotified, setIsNotified] = useState(true)
 
-  useEffect(() => {
-    // Parse the appointment date and time
-    // Expected format: Date: YYYY-MM-DD, Time: e.g., "10:30 AM" or "14:30"
-    
-    // Quick and dirty parser for time
-    const timeStr = appointmentTime
-    let [time, modifier] = timeStr.split(" ")
-    let [hours, minutes] = time.split(":")
-    
-    let hoursNum = parseInt(hours, 10)
-    if (modifier?.toUpperCase() === "PM" && hoursNum < 12) hoursNum += 12
-    if (modifier?.toUpperCase() === "AM" && hoursNum === 12) hoursNum = 0
-    
-    const targetDate = new Date(`${appointmentDate}T${hoursNum.toString().padStart(2, "0")}:${minutes}:00`)
+  // Trigger notification if within 5 minutes
+  const isWithinFiveMinutes = timeLeft && timeLeft.totalMilliseconds <= 5 * 60 * 1000
 
-    const calculateTimeLeft = () => {
-      const now = new Date()
-      const difference = targetDate.getTime() - now.getTime()
-
-      if (difference > 0) {
-        // If we are within 5 minutes, trigger the notification (if not already triggered)
-        if (difference <= 5 * 60 * 1000 && !isNotified) {
-          setIsNotified(true)
-        }
-
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        })
-        setStatus("upcoming")
-      } else if (difference > -60 * 60 * 1000) { // Within 1 hour after start
-        setTimeLeft(null)
-        setStatus("happening_now")
-        if (!isNotified) setIsNotified(true)
-      } else {
-        setTimeLeft(null)
-        setStatus("past")
-      }
-    }
-
-    // Run once immediately
-    calculateTimeLeft()
-    
-    // Update every second
-    const timer = setInterval(calculateTimeLeft, 1000)
-    return () => clearInterval(timer)
-  }, [appointmentDate, appointmentTime, isNotified])
-
-  // Custom In-App Notification Toast that pops up when time is near
   const renderNotification = () => (
     <AnimatePresence>
-      {isNotified && status !== "past" && (
+      {isNotified && (status === "happening_now" || isWithinFiveMinutes) && status !== "past" && (
         <motion.div 
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -111,36 +62,34 @@ export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }:
   if (!timeLeft) return null
 
   return (
-    <div className="bg-surface-raised dark:bg-slate-900 border border-border-default rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
       {renderNotification()}
       
       <div className="flex items-center gap-2">
-        <Clock className="w-5 h-5 text-accent-bg" />
-        <h3 className="font-semibold text-tx-primary">Time until appointment</h3>
+        <Clock className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+        <h3 className="font-semibold text-slate-900 dark:text-white">Time until appointment</h3>
       </div>
       
       <div className="flex gap-2 text-center">
         {timeLeft.days > 0 && (
-          <div className="bg-surface dark:bg-slate-800 border border-border-default rounded-lg px-3 py-2 w-16">
-            <span className="block text-xl font-bold text-accent-bg">{timeLeft.days}</span>
-            <span className="text-[10px] uppercase font-semibold text-tx-muted">Days</span>
+          <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+            <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.days}</span>
+            <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Days</span>
           </div>
         )}
-        <div className="bg-surface dark:bg-slate-800 border border-border-default rounded-lg px-3 py-2 w-16">
-          <span className="block text-xl font-bold text-accent-bg">{timeLeft.hours.toString().padStart(2, "0")}</span>
-          <span className="text-[10px] uppercase font-semibold text-tx-muted">Hrs</span>
+        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+          <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.hours.toString().padStart(2, "0")}</span>
+          <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Hrs</span>
         </div>
-        <div className="bg-surface dark:bg-slate-800 border border-border-default rounded-lg px-3 py-2 w-16">
-          <span className="block text-xl font-bold text-accent-bg">{timeLeft.minutes.toString().padStart(2, "0")}</span>
-          <span className="text-[10px] uppercase font-semibold text-tx-muted">Min</span>
+        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+          <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.minutes.toString().padStart(2, "0")}</span>
+          <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Min</span>
         </div>
-        <div className="bg-surface dark:bg-slate-800 border border-border-default rounded-lg px-3 py-2 w-16">
-          <span className="block text-xl font-bold text-accent-bg">{timeLeft.seconds.toString().padStart(2, "0")}</span>
-          <span className="text-[10px] uppercase font-semibold text-tx-muted">Sec</span>
+        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+          <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.seconds.toString().padStart(2, "0")}</span>
+          <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Sec</span>
         </div>
       </div>
     </div>
   )
 }
-
-

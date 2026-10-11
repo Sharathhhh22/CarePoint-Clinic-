@@ -7,6 +7,7 @@ import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import CancelButton from "./CancelButton"
 import EmergencyButton from "@/components/telephony/EmergencyButton"
+import { StatusBadge } from "@/components/ui/StatusBadge"
 
 export const revalidate = 0 // Always fetch latest data
 
@@ -33,7 +34,7 @@ export default async function AppointmentsPage() {
     `)
     .order('appointment_date', { ascending: false })
 
-  const now = new Date();
+  const now = new Date()
   const upcoming = appointments?.filter(a => ['confirmed', 'held'].includes(a.status) && new Date(a.appointment_date + 'T' + a.appointment_time) >= now) || []
   const past = appointments?.filter(a => !(['confirmed', 'held'].includes(a.status) && new Date(a.appointment_date + 'T' + a.appointment_time) >= now)) || []
 
@@ -41,13 +42,13 @@ export default async function AppointmentsPage() {
     <div className="container mx-auto p-6 md:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
         <div>
-          <h2 className="section-title text-slate-900">Appointments History</h2>
-          <p className="text-slate-500">
+          <h2 className="section-title text-slate-900 dark:text-white">Appointments History</h2>
+          <p className="text-slate-500 dark:text-slate-400">
             {isAdminOrStaff ? "Manage all clinic appointments." : "View your past and upcoming appointments."}
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button asChild>
+          <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white font-medium">
             <Link href="/appointments/new">
               <Plus className="mr-2 h-4 w-4" />
               New Appointment
@@ -59,10 +60,10 @@ export default async function AppointmentsPage() {
       <div className="mt-8 space-y-8">
         
         {/* Upcoming Appointments */}
-        <Card className="border-blue-100">
-          <CardHeader className="bg-blue-50/50 rounded-t-lg pb-4">
-            <CardTitle className="text-blue-900">Upcoming Appointments</CardTitle>
-            <CardDescription>
+        <Card className="border-teal-100 dark:border-teal-900/40">
+          <CardHeader className="bg-teal-50/50 dark:bg-teal-950/20 rounded-t-lg pb-4">
+            <CardTitle className="text-teal-950 dark:text-teal-100">Upcoming Appointments</CardTitle>
+            <CardDescription className="text-teal-700/80 dark:text-teal-300/80">
               Scheduled visits that have not yet occurred.
             </CardDescription>
           </CardHeader>
@@ -72,17 +73,17 @@ export default async function AppointmentsPage() {
                 <TableRow>
                   <TableHead>Date & Time</TableHead>
                   {isAdminOrStaff && <TableHead>Patient</TableHead>}
-                  <TableHead>Doctor</TableHead>
+                  <TableHead>Doctor & Specialty</TableHead>
                   <TableHead>Clinic</TableHead>
-                  <TableHead className="text-right">Status & Actions</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {upcoming.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={isAdminOrStaff ? 5 : 4} className="h-32 text-center">
-                      <div className="flex flex-col items-center justify-center text-slate-500">
-                        <Calendar className="mb-2 h-8 w-8 text-slate-400" />
+                      <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+                        <Calendar className="mb-2 h-8 w-8 text-slate-400 dark:text-slate-500" />
                         <p>No upcoming appointments found.</p>
                       </div>
                     </TableCell>
@@ -90,35 +91,25 @@ export default async function AppointmentsPage() {
                 ) : (
                   upcoming.map((apt: any) => (
                     <TableRow key={apt.id}>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-medium text-slate-900 dark:text-white">
                         {apt.appointment_date} <br/>
-                        <span className="text-xs text-slate-500">{apt.appointment_time}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">{apt.appointment_time}</span>
                       </TableCell>
                       {isAdminOrStaff && (
                         <TableCell>
-                          <div className="font-medium">{apt.profiles?.full_name}</div>
-                          <div className="text-xs text-slate-500">{apt.profiles?.mobile || 'No mobile'}</div>
+                          <div className="font-medium text-slate-900 dark:text-white">{apt.profiles?.full_name || 'Anonymous'}</div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">{apt.profiles?.mobile || 'No mobile'}</div>
                         </TableCell>
                       )}
                       <TableCell>
-                        <div className="font-medium">Dr. {apt.doctors?.name}</div>
-                        <div className="text-xs text-slate-500">{apt.departments?.name}</div>
+                        <div className="font-medium text-slate-900 dark:text-white">Dr. {apt.doctors?.name}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">{apt.departments?.name}</div>
                       </TableCell>
-                      <TableCell>{apt.clinics?.name}</TableCell>
+                      <TableCell className="text-slate-700 dark:text-slate-300">{apt.clinics?.name}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {apt.payment_mode === 'online' ? (
-                            <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
-                              Paid
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10">
-                              Unpaid
-                            </span>
-                          )}
-                          <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                            Upcoming
-                          </span>
+                          <StatusBadge status={apt.payment_mode || "pay_at_clinic"} type="payment" />
+                          <StatusBadge status="upcoming" />
                           {!isAdminOrStaff && (
                             <EmergencyButton 
                               doctorId={apt.doctor_id} 
@@ -151,7 +142,7 @@ export default async function AppointmentsPage() {
                 <TableRow>
                   <TableHead>Date & Time</TableHead>
                   {isAdminOrStaff && <TableHead>Patient</TableHead>}
-                  <TableHead>Doctor</TableHead>
+                  <TableHead>Doctor & Specialty</TableHead>
                   <TableHead>Clinic</TableHead>
                   <TableHead className="text-right">Status</TableHead>
                 </TableRow>
@@ -160,8 +151,8 @@ export default async function AppointmentsPage() {
                 {past.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={isAdminOrStaff ? 5 : 4} className="h-32 text-center">
-                      <div className="flex flex-col items-center justify-center text-slate-500">
-                        <Calendar className="mb-2 h-8 w-8 text-slate-300" />
+                      <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
+                        <Calendar className="mb-2 h-8 w-8 text-slate-400 dark:text-slate-500" />
                         <p>No past appointments found.</p>
                       </div>
                     </TableCell>
@@ -169,36 +160,22 @@ export default async function AppointmentsPage() {
                 ) : (
                   past.map((apt: any) => (
                     <TableRow key={apt.id}>
-                      <TableCell className="font-medium text-slate-500">
+                      <TableCell className="font-medium text-slate-700 dark:text-slate-300">
                         {apt.appointment_date} <br/>
                         <span className="text-xs text-slate-400">{apt.appointment_time}</span>
                       </TableCell>
                       {isAdminOrStaff && (
                         <TableCell>
-                          <div className="font-medium text-slate-700">{apt.profiles?.full_name}</div>
+                          <div className="font-medium text-slate-700 dark:text-slate-300">{apt.profiles?.full_name}</div>
                         </TableCell>
                       )}
                       <TableCell>
-                        <div className="font-medium text-slate-700">Dr. {apt.doctors?.name}</div>
+                        <div className="font-medium text-slate-700 dark:text-slate-300">Dr. {apt.doctors?.name}</div>
                         <div className="text-xs text-slate-400">{apt.departments?.name}</div>
                       </TableCell>
-                      <TableCell className="text-slate-500">{apt.clinics?.name}</TableCell>
+                      <TableCell className="text-slate-600 dark:text-slate-400">{apt.clinics?.name}</TableCell>
                       <TableCell className="text-right">
-                        {apt.status === 'completed' && (
-                          <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                            Completed
-                          </span>
-                        )}
-                        {apt.status === 'cancelled' && (
-                          <span className="inline-flex items-center rounded-full bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                            Cancelled
-                          </span>
-                        )}
-                        {apt.status === 'no_show' && (
-                          <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10">
-                            No Show
-                          </span>
-                        )}
+                        <StatusBadge status={apt.status || "completed"} />
                       </TableCell>
                     </TableRow>
                   ))
@@ -212,4 +189,3 @@ export default async function AppointmentsPage() {
     </div>
   )
 }
-

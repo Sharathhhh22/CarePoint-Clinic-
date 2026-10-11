@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { env } from '@/config/env'
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -7,15 +8,15 @@ export async function updateSession(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    'https://ctfskadogvzmmeboajgn.supabase.co',
-    'sb_publishable_zzp6go7I4NOEtTz90ZFSsA_-ngRHV6s',
+    env.supabase.url,
+    env.supabase.anonKey,
     {
       cookies: {
         getAll() {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -52,8 +53,6 @@ export async function updateSession(request: NextRequest) {
   } else {
     // Unauthenticated user
     if (isProtectedRoute || (!isPublicRoute && path !== '/appointments/new' && !path.startsWith('/api') && path !== '/departments' && path !== '/showcase')) {
-      // If it's a protected route, or it's not a known public route (and not some other existing public endpoints), redirect to login
-      // To be safe and strictly follow the prompt, we enforce login for dashboard, settings, profile.
       url.pathname = '/login'
       return NextResponse.redirect(url)
     }

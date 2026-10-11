@@ -3,6 +3,7 @@ import { Users, Calendar, Clock, Activity, AlertCircle } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import EmergencyButton from "@/components/telephony/EmergencyButton"
+import { StatusBadge } from "@/components/ui/StatusBadge"
 
 export const revalidate = 0
 
@@ -134,19 +135,9 @@ export default async function Dashboard() {
                     <div className="sm:text-right">
                       <p className="font-medium text-slate-900 dark:text-white">{apt.appointment_date}</p>
                       <p className="text-sm text-slate-500 dark:text-slate-400">{apt.appointment_time}</p>
-                      <div className="flex gap-2 justify-end mt-1">
-                        <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-400/20">
-                          Upcoming
-                        </span>
-                        {apt.payment_mode === 'online' ? (
-                          <span className="inline-flex items-center rounded-full bg-green-50 dark:bg-green-900/30 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-700/10 dark:ring-green-400/20">
-                            Paid Online
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center rounded-full bg-orange-50 dark:bg-orange-900/30 px-2 py-1 text-xs font-medium text-orange-700 dark:text-orange-400 ring-1 ring-inset ring-orange-700/10 dark:ring-orange-400/20">
-                            Pay at Clinic
-                          </span>
-                        )}
+                      <div className="flex gap-2 justify-end mt-1 items-center">
+                        <StatusBadge status={apt.payment_mode || "pay_at_clinic"} type="payment" />
+                        <StatusBadge status="upcoming" />
                         {!isAdminOrStaff && (
                           <EmergencyButton 
                             doctorId={apt.doctor_id} 
@@ -166,4 +157,5 @@ export default async function Dashboard() {
     </div>
   )
 }
+
 
