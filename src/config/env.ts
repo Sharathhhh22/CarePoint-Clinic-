@@ -10,8 +10,18 @@ export const env = {
   },
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || '',
-    model: 'gemini-3.8-flash',
+    model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
     isAvailable: () => Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'MISSING_API_KEY'),
+  },
+  openai: {
+    apiKey: process.env.OPENAI_API_KEY || '',
+    model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+    isAvailable: () => Boolean(process.env.OPENAI_API_KEY),
+  },
+  anthropic: {
+    apiKey: process.env.ANTHROPIC_API_KEY || '',
+    model: process.env.ANTHROPIC_MODEL || 'claude-3-5-haiku-20241022',
+    isAvailable: () => Boolean(process.env.ANTHROPIC_API_KEY),
   },
   stripe: {
     secretKey: process.env.STRIPE_SECRET_KEY || '',

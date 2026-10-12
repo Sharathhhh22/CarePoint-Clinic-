@@ -8,6 +8,7 @@ import { redirect } from "next/navigation"
 import CancelButton from "./CancelButton"
 import EmergencyButton from "@/components/telephony/EmergencyButton"
 import { StatusBadge } from "@/components/ui/StatusBadge"
+import { formatDoctorName } from "@/lib/utils"
 
 export const revalidate = 0 // Always fetch latest data
 
@@ -42,13 +43,13 @@ export default async function AppointmentsPage() {
     <div className="container mx-auto p-6 md:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
         <div>
-          <h2 className="section-title text-slate-900 dark:text-white">Appointments History</h2>
-          <p className="text-slate-500 dark:text-slate-400">
+          <h2 className="section-title text-foreground">Appointments History</h2>
+          <p className="text-muted-foreground">
             {isAdminOrStaff ? "Manage all clinic appointments." : "View your past and upcoming appointments."}
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button asChild className="bg-teal-600 hover:bg-teal-700 text-white font-medium">
+          <Button asChild className="bg-primary hover:bg-primary-hover text-primary-foreground font-medium">
             <Link href="/appointments/new">
               <Plus className="mr-2 h-4 w-4" />
               New Appointment
@@ -60,10 +61,10 @@ export default async function AppointmentsPage() {
       <div className="mt-8 space-y-8">
         
         {/* Upcoming Appointments */}
-        <Card className="border-teal-100 dark:border-teal-900/40">
-          <CardHeader className="bg-teal-50/50 dark:bg-teal-950/20 rounded-t-lg pb-4">
-            <CardTitle className="text-teal-950 dark:text-teal-100">Upcoming Appointments</CardTitle>
-            <CardDescription className="text-teal-700/80 dark:text-teal-300/80">
+        <Card className="border-border">
+          <CardHeader className="bg-surface rounded-t-lg pb-4 border-b border-border">
+            <CardTitle className="text-foreground">Upcoming Appointments</CardTitle>
+            <CardDescription className="text-muted-foreground">
               Scheduled visits that have not yet occurred.
             </CardDescription>
           </CardHeader>
@@ -82,8 +83,8 @@ export default async function AppointmentsPage() {
                 {upcoming.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={isAdminOrStaff ? 5 : 4} className="h-32 text-center">
-                      <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
-                        <Calendar className="mb-2 h-8 w-8 text-slate-400 dark:text-slate-500" />
+                      <div className="flex flex-col items-center justify-center text-muted-foreground">
+                        <Calendar className="mb-2 h-8 w-8 text-muted-foreground" />
                         <p>No upcoming appointments found.</p>
                       </div>
                     </TableCell>
@@ -91,21 +92,21 @@ export default async function AppointmentsPage() {
                 ) : (
                   upcoming.map((apt: any) => (
                     <TableRow key={apt.id}>
-                      <TableCell className="font-medium text-slate-900 dark:text-white">
+                      <TableCell className="font-medium text-foreground">
                         {apt.appointment_date} <br/>
-                        <span className="text-xs text-slate-500 dark:text-slate-400">{apt.appointment_time}</span>
+                        <span className="text-xs text-muted-foreground">{apt.appointment_time}</span>
                       </TableCell>
                       {isAdminOrStaff && (
                         <TableCell>
-                          <div className="font-medium text-slate-900 dark:text-white">{apt.profiles?.full_name || 'Anonymous'}</div>
-                          <div className="text-xs text-slate-500 dark:text-slate-400">{apt.profiles?.mobile || 'No mobile'}</div>
+                          <div className="font-medium text-foreground">{apt.profiles?.full_name || 'Anonymous'}</div>
+                          <div className="text-xs text-muted-foreground">{apt.profiles?.mobile || 'No mobile'}</div>
                         </TableCell>
                       )}
                       <TableCell>
-                        <div className="font-medium text-slate-900 dark:text-white">Dr. {apt.doctors?.name}</div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400">{apt.departments?.name}</div>
+                        <div className="font-medium text-foreground">{formatDoctorName(apt.doctors?.name)}</div>
+                        <div className="text-xs text-muted-foreground">{apt.departments?.name}</div>
                       </TableCell>
-                      <TableCell className="text-slate-700 dark:text-slate-300">{apt.clinics?.name}</TableCell>
+                      <TableCell className="text-muted-foreground">{apt.clinics?.name}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <StatusBadge status={apt.payment_mode || "pay_at_clinic"} type="payment" />
@@ -151,8 +152,8 @@ export default async function AppointmentsPage() {
                 {past.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={isAdminOrStaff ? 5 : 4} className="h-32 text-center">
-                      <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400">
-                        <Calendar className="mb-2 h-8 w-8 text-slate-400 dark:text-slate-500" />
+                      <div className="flex flex-col items-center justify-center text-muted-foreground">
+                        <Calendar className="mb-2 h-8 w-8 text-muted-foreground" />
                         <p>No past appointments found.</p>
                       </div>
                     </TableCell>
@@ -160,20 +161,20 @@ export default async function AppointmentsPage() {
                 ) : (
                   past.map((apt: any) => (
                     <TableRow key={apt.id}>
-                      <TableCell className="font-medium text-slate-700 dark:text-slate-300">
+                      <TableCell className="font-medium text-foreground">
                         {apt.appointment_date} <br/>
-                        <span className="text-xs text-slate-400">{apt.appointment_time}</span>
+                        <span className="text-xs text-muted-foreground">{apt.appointment_time}</span>
                       </TableCell>
                       {isAdminOrStaff && (
                         <TableCell>
-                          <div className="font-medium text-slate-700 dark:text-slate-300">{apt.profiles?.full_name}</div>
+                          <div className="font-medium text-foreground">{apt.profiles?.full_name}</div>
                         </TableCell>
                       )}
                       <TableCell>
-                        <div className="font-medium text-slate-700 dark:text-slate-300">Dr. {apt.doctors?.name}</div>
-                        <div className="text-xs text-slate-400">{apt.departments?.name}</div>
+                        <div className="font-medium text-foreground">{formatDoctorName(apt.doctors?.name)}</div>
+                        <div className="text-xs text-muted-foreground">{apt.departments?.name}</div>
                       </TableCell>
-                      <TableCell className="text-slate-600 dark:text-slate-400">{apt.clinics?.name}</TableCell>
+                      <TableCell className="text-muted-foreground">{apt.clinics?.name}</TableCell>
                       <TableCell className="text-right">
                         <StatusBadge status={apt.status || "completed"} />
                       </TableCell>

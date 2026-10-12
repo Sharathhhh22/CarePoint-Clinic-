@@ -69,29 +69,29 @@ export default function DashboardLayout({
   ]
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex transition-colors">
+    <div className="min-h-screen bg-background flex transition-colors">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-slate-900/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside 
-        className={`fixed lg:sticky top-0 left-0 z-50 h-screen w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transform transition-transform duration-200 ease-in-out lg:translate-x-0 flex flex-col ${
+        className={`fixed lg:sticky top-0 left-0 z-50 h-screen w-64 bg-surface border-r border-border transform transition-transform duration-200 ease-in-out lg:translate-x-0 flex flex-col ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800 shrink-0">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-border shrink-0">
           <Link href="/dashboard" className="flex items-center space-x-2">
-            <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              APPOINTLY
+            <span className="text-xl font-bold tracking-tight text-foreground">
+              SlotUrSelf
             </span>
           </Link>
           <button 
-            className="lg:hidden text-slate-500 hover:text-slate-900 dark:hover:text-white"
+            className="lg:hidden text-muted-foreground hover:text-foreground"
             onClick={() => setIsSidebarOpen(false)}
           >
             <X className="w-5 h-5" />
@@ -107,23 +107,23 @@ export default function DashboardLayout({
                 href={item.href}
                 className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg nav-text text-sm transition-colors ${
                   isActive 
-                    ? "bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400" 
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
+                    ? "bg-primary/10 text-primary font-medium" 
+                    : "text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
                 }`}
               >
-                <item.icon className={`w-5 h-5 ${isActive ? "text-primary-600 dark:text-primary-400" : "text-slate-400 dark:text-slate-500"}`} />
+                <item.icon className={`w-5 h-5 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
                 <span>{item.label}</span>
               </Link>
             )
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 shrink-0">
+        <div className="p-4 border-t border-border shrink-0">
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-3 px-3 py-2.5 w-full rounded-lg nav-text text-sm text-slate-600 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-700 dark:hover:text-red-400 transition-colors"
+            className="flex items-center space-x-3 px-3 py-2.5 w-full rounded-lg nav-text text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors group"
           >
-            <LogOut className="w-5 h-5 text-slate-400 dark:text-slate-500 group-hover:text-red-600" />
+            <LogOut className="w-5 h-5 text-muted-foreground group-hover:text-destructive" />
             <span>Logout</span>
           </button>
         </div>
@@ -131,26 +131,26 @@ export default function DashboardLayout({
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 lg:px-8 shrink-0 sticky top-0 z-30 justify-between gap-4 transition-colors">
+        <header className="h-16 bg-surface border-b border-border flex items-center px-4 lg:px-8 shrink-0 sticky top-0 z-30 justify-between gap-4 transition-colors">
           <div className="flex items-center flex-1">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 mr-4 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
+              className="p-2 mr-4 text-muted-foreground hover:text-foreground rounded-lg hover:bg-surface-elevated lg:hidden"
             >
               <Menu className="w-6 h-6" />
             </button>
             <div className="relative w-full max-w-md hidden sm:block">
-              <svg xmlns="http://www.w3.org/2000/svg" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               <input 
                 type="text" 
                 placeholder="Search clinics, doctors, conditions..." 
-                className="w-full h-9 pl-9 pr-4 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors dark:text-white"
+                className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-input-bg text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
               />
             </div>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <button 
-              className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Toggle Dark Mode"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
@@ -159,7 +159,7 @@ export default function DashboardLayout({
             {!isAdmin && !isDoctor && (
               <Link 
                 href="/appointments/new"
-                className="inline-flex h-9 items-center justify-center rounded-md bg-teal-600 hover:bg-teal-700 px-4 md:px-5 text-sm font-medium text-white transition-colors shadow-sm whitespace-nowrap"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-primary hover:bg-primary-hover px-4 md:px-5 text-sm font-medium text-primary-foreground transition-colors shadow-sm whitespace-nowrap"
               >
                 Book Appointment
               </Link>

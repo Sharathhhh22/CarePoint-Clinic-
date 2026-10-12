@@ -19,7 +19,6 @@ export default async function AdminPatientsPage() {
   }
 
   // Fetch all profiles that are not admin/staff (i.e. patients)
-  // In Supabase, patient role is typically 'patient' or null if default
   const { data: patients } = await supabase
     .from('profiles')
     .select('*')
@@ -29,15 +28,15 @@ export default async function AdminPatientsPage() {
   return (
     <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
       <div className="mb-4">
-        <Link href="/admin" className="text-[13px] font-medium tracking-wide text-slate-500 hover:text-slate-900 flex items-center">
+        <Link href="/admin" className="text-[13px] font-medium tracking-wide text-muted-foreground hover:text-foreground flex items-center">
           <ArrowLeft className="mr-1 h-3.5 w-3.5" /> Back to Admin Panel
         </Link>
       </div>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Patient Directory</h2>
-          <p className="text-slate-500 mt-1">View all registered patients.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Patient Directory</h2>
+          <p className="text-muted-foreground mt-1">View all registered patients.</p>
         </div>
       </div>
 
@@ -58,9 +57,9 @@ export default async function AdminPatientsPage() {
             <TableBody>
               {patients?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-slate-500 py-8">
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                     <div className="flex flex-col items-center justify-center">
-                      <Users className="mb-2 h-8 w-8 text-slate-400" />
+                      <Users className="mb-2 h-8 w-8 text-muted-foreground" />
                       <p>No patients found.</p>
                     </div>
                   </TableCell>
@@ -68,14 +67,14 @@ export default async function AdminPatientsPage() {
               ) : (
                 patients?.map((pat: any) => (
                   <TableRow key={pat.id}>
-                    <TableCell className="font-medium">{pat.full_name || 'N/A'}</TableCell>
-                    <TableCell className="text-slate-500">{pat.email || 'Hidden by privacy settings'}</TableCell>
+                    <TableCell className="font-medium text-foreground">{pat.full_name || 'N/A'}</TableCell>
+                    <TableCell className="text-muted-foreground">{pat.email || 'Hidden by privacy settings'}</TableCell>
                     <TableCell>
-                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20 capitalize">
+                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-400 ring-1 ring-inset ring-teal-600/30 capitalize">
                         {pat.role || 'Patient'}
                       </span>
                     </TableCell>
-                    <TableCell className="text-slate-500">
+                    <TableCell className="text-muted-foreground">
                       {new Date(pat.created_at).toLocaleDateString()}
                     </TableCell>
                   </TableRow>

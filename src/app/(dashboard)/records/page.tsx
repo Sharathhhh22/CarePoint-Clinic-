@@ -100,9 +100,6 @@ export default function MedicalRecordsPage() {
     try {
       // 1. Delete from DB
       await supabase.from('patient_records').delete().eq('id', id)
-      
-      // We skip deleting from storage here for simplicity, but in production you'd extract the path and delete it.
-      
       setRecords(records.filter(r => r.id !== id))
     } catch (err) {
       console.error(err)
@@ -112,7 +109,7 @@ export default function MedicalRecordsPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Activity className="h-8 w-8 animate-spin text-primary-600" />
+        <Activity className="h-8 w-8 animate-spin text-primary" />
       </div>
     )
   }
@@ -120,12 +117,12 @@ export default function MedicalRecordsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="section-title text-slate-900">Medical Records</h1>
-        <p className="text-slate-500 mt-2">Securely store and access your past prescriptions, lab reports, and scans.</p>
+        <h1 className="section-title text-foreground">Medical Records</h1>
+        <p className="text-muted-foreground mt-2">Securely store and access your past prescriptions, lab reports, and scans.</p>
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 p-4 rounded-lg border border-red-100">
+        <div className="bg-destructive/10 text-destructive p-4 rounded-lg border border-destructive/20">
           {error}
         </div>
       )}
@@ -147,7 +144,7 @@ export default function MedicalRecordsPage() {
                     id="title" 
                     value={title} 
                     onChange={(e) => setTitle(e.target.value)} 
-                    placeholder="e.g. Blood Test Results - Jan 2024"
+                    placeholder="e.g. Blood Test Results"
                     required
                   />
                 </div>
@@ -160,9 +157,9 @@ export default function MedicalRecordsPage() {
                     accept=".pdf,.jpg,.jpeg,.png"
                     required
                   />
-                  <p className="text-xs text-slate-500">PDF, JPG, or PNG up to 5MB</p>
+                  <p className="text-xs text-muted-foreground">PDF, JPG, or PNG up to 5MB</p>
                 </div>
-                <Button type="submit" disabled={uploading || !file || !title} className="w-full bg-primary-600">
+                <Button type="submit" disabled={uploading || !file || !title} className="w-full bg-primary hover:bg-primary-hover text-primary-foreground font-semibold">
                   {uploading ? (
                     <>Uploading...</>
                   ) : (
@@ -182,22 +179,22 @@ export default function MedicalRecordsPage() {
             </CardHeader>
             <CardContent>
               {records.length === 0 ? (
-                <div className="text-center py-12 bg-slate-50 rounded-lg border border-dashed border-slate-200">
-                  <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                  <h3 className="font-semibold text-slate-900">No records found</h3>
-                  <p className="text-slate-500 text-sm mt-1">Upload your first document using the form.</p>
+                <div className="text-center py-12 bg-surface rounded-lg border border-dashed border-border">
+                  <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="font-semibold text-foreground">No records found</h3>
+                  <p className="text-muted-foreground text-sm mt-1">Upload your first document using the form.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {records.map((record) => (
-                    <div key={record.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
+                    <div key={record.id} className="flex items-center justify-between p-4 rounded-xl border border-border hover:bg-surface-elevated/40 transition-colors">
                       <div className="flex items-center gap-4">
-                        <div className="bg-primary-100 p-3 rounded-lg text-primary-700">
+                        <div className="bg-primary/15 p-3 rounded-lg text-primary">
                           <FileText className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-slate-900">{record.title}</h4>
-                          <p className="text-xs text-slate-500">
+                          <h4 className="font-semibold text-foreground">{record.title}</h4>
+                          <p className="text-xs text-muted-foreground">
                             Uploaded on {new Date(record.created_at).toLocaleDateString()}
                           </p>
                         </div>
@@ -207,14 +204,14 @@ export default function MedicalRecordsPage() {
                           href={record.file_url} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
                           title="View File"
                         >
                           <ExternalLink className="w-5 h-5" />
                         </a>
                         <button 
                           onClick={() => handleDelete(record.id, record.file_url)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
                           title="Delete File"
                         >
                           <Trash2 className="w-5 h-5" />

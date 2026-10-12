@@ -44,8 +44,8 @@ export default async function ProfilePage() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
       {/* HEADER SECTION */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
-        <div className="h-32 bg-gradient-to-tr from-slate-950 via-indigo-950 to-blue-900 absolute top-0 left-0 w-full" />
+      <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden relative">
+        <div className="h-32 bg-gradient-to-tr from-slate-900 via-teal-950 to-slate-900 border-b border-border/40 absolute top-0 left-0 w-full" />
         
         <div className="relative pt-16 px-6 pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-6 md:items-end">
           <div className="shrink-0 -mt-2">
@@ -55,10 +55,10 @@ export default async function ProfilePage() {
           <div className="flex-1">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   {profile?.full_name || "Anonymous User"}
                 </h1>
-                <p className="text-slate-500 font-medium">{profile?.role === 'admin' ? 'System Administrator' : 'Patient'}</p>
+                <p className="text-muted-foreground font-medium">{profile?.role === 'admin' ? 'System Administrator' : 'Patient'}</p>
               </div>
               <div className="shrink-0">
                 <EditProfileModal profile={profile || {}} userEmail={user.email} />
@@ -66,20 +66,20 @@ export default async function ProfilePage() {
             </div>
             
             {profile?.bio && (
-              <p className="mt-4 text-slate-600 max-w-2xl leading-relaxed">
+              <p className="mt-4 text-muted-foreground max-w-2xl leading-relaxed">
                 {profile.bio}
               </p>
             )}
             
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6 text-sm text-slate-500 font-medium">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6 text-sm text-muted-foreground font-medium">
               {profile?.address && (
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-slate-400" />
+                  <MapPin className="w-4 h-4 text-muted-foreground" />
                   {profile.address}
                 </div>
               )}
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-slate-400" />
+                <Calendar className="w-4 h-4 text-muted-foreground" />
                 Member since {joinDate}
               </div>
             </div>
@@ -96,48 +96,48 @@ export default async function ProfilePage() {
 
         {/* RIGHT COLUMN */}
         <div className="md:col-span-2 space-y-8">
-          <Card className="shadow-sm border-slate-200">
-            <CardHeader className="border-b border-slate-100 bg-slate-50/50 pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <UserIcon className="w-5 h-5 text-slate-400" />
+          <Card className="shadow-sm border-border">
+            <CardHeader className="border-b border-border bg-surface pb-4">
+              <CardTitle className="text-lg flex items-center gap-2 text-foreground">
+                <UserIcon className="w-5 h-5 text-muted-foreground" />
                 Personal Information
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="grid sm:grid-cols-2 gap-y-8 gap-x-6">
                 <div className="space-y-1">
-                  <span className="text-sm font-medium text-slate-500 flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <UserIcon className="w-4 h-4" /> Full Name
                   </span>
-                  <p className="font-semibold text-slate-900">{profile?.full_name || "—"}</p>
+                  <p className="font-semibold text-foreground">{profile?.full_name || "—"}</p>
                 </div>
                 
                 <div className="space-y-1">
-                  <span className="text-sm font-medium text-slate-500 flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Mail className="w-4 h-4" /> Email Address
                   </span>
-                  <p className="font-semibold text-slate-900">{user.email || "—"}</p>
+                  <p className="font-semibold text-foreground">{user.email || "—"}</p>
                 </div>
                 
                 <div className="space-y-1">
-                  <span className="text-sm font-medium text-slate-500 flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Phone className="w-4 h-4" /> Phone Number
                   </span>
-                  <p className="font-semibold text-slate-900">{profile?.mobile || "—"}</p>
+                  <p className="font-semibold text-foreground">{profile?.mobile || "—"}</p>
                 </div>
                 
                 <div className="space-y-1">
-                  <span className="text-sm font-medium text-slate-500 flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <MapPin className="w-4 h-4" /> Location
                   </span>
-                  <p className="font-semibold text-slate-900">{profile?.address || "—"}</p>
+                  <p className="font-semibold text-foreground">{profile?.address || "—"}</p>
                 </div>
                 
                 <div className="space-y-1">
-                  <span className="text-sm font-medium text-slate-500 flex items-center gap-2">
+                  <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Briefcase className="w-4 h-4" /> Account Type
                   </span>
-                  <p className="font-semibold text-slate-900 capitalize">{profile?.role || "Patient"}</p>
+                  <p className="font-semibold text-foreground capitalize">{profile?.role || "Patient"}</p>
                 </div>
               </div>
             </CardContent>

@@ -3,7 +3,7 @@
  */
 
 export const siteConfig = {
-  name: 'APPOINTLY',
+  name: 'SlotUrSelf',
   description: 'Enterprise healthcare booking platform connecting patients with verified specialists.',
   url: 'https://slot-yourself-7afv.vercel.app',
   ogImage: '/images/showcase/dashboard.jpg',

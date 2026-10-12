@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Calendar as CalendarIcon, Clock, Loader2, ArrowRight, ArrowLeft } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { motion } from "framer-motion"
+import { formatDoctorName } from "@/lib/utils"
 
 interface Step3Props {
   data: any
@@ -169,15 +170,15 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
   return (
     <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-8 duration-500">
       <div className="flex-1">
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Choose Date & Time</h2>
-        <p className="text-slate-500 mb-8">
-          Booking with <strong className="text-slate-700">Dr. {data.doctorName}</strong> at {data.clinicName}.
+        <h2 className="text-2xl font-bold text-foreground mb-2">Choose Date & Time</h2>
+        <p className="text-muted-foreground mb-8">
+          Booking with <strong className="text-foreground">{formatDoctorName(data.doctorName)}</strong> at {data.clinicName}.
         </p>
 
         {/* Date Selector */}
         <div className="mb-8">
-          <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center">
-            <CalendarIcon className="w-4 h-4 mr-2 text-primary-600" />
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center">
+            <CalendarIcon className="w-4 h-4 mr-2 text-primary" />
             Select Date
           </h3>
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x">
@@ -193,17 +194,17 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
                   }}
                   className={`snap-start shrink-0 flex flex-col items-center justify-center w-20 h-24 rounded-2xl border transition-all ${
                     isSelected 
-                      ? 'bg-primary-600 border-primary-600 text-white shadow-md shadow-primary-600/20' 
-                      : 'bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-primary-50'
+                      ? 'bg-primary border-primary text-primary-foreground shadow-md shadow-primary/20' 
+                      : 'bg-card border-border text-foreground hover:border-primary/50 hover:bg-surface-elevated'
                   }`}
                 >
-                  <span className={`text-xs font-medium uppercase ${isSelected ? 'text-primary-100' : 'text-slate-400'}`}>
+                  <span className={`text-xs font-medium uppercase ${isSelected ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
                     {date.toLocaleDateString('en-US', { weekday: 'short' })}
                   </span>
-                  <span className="text-2xl font-bold mt-1">
+                  <span className={`text-2xl font-bold mt-1 ${isSelected ? 'text-primary-foreground' : 'text-foreground'}`}>
                     {date.getDate()}
                   </span>
-                  <span className={`text-xs ${isSelected ? 'text-primary-100' : 'text-slate-400'}`}>
+                  <span className={`text-xs ${isSelected ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
                     {date.toLocaleDateString('en-US', { month: 'short' })}
                   </span>
                 </button>
@@ -215,14 +216,14 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
         {/* Time Selector */}
         {selectedDate && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center">
-              <Clock className="w-4 h-4 mr-2 text-primary-600" />
+            <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center">
+              <Clock className="w-4 h-4 mr-2 text-primary" />
               Available Slots
             </h3>
             
             {isLoading ? (
               <div className="flex justify-center py-8">
-                <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
               </div>
             ) : (
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
@@ -237,10 +238,10 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
                       onClick={() => handleTimeSelect(time)}
                       className={`py-3 rounded-xl border text-sm font-medium transition-all ${
                         isTaken 
-                          ? 'bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed line-through' 
+                          ? 'bg-surface border-border text-muted-foreground/40 cursor-not-allowed line-through' 
                           : isSelected
-                            ? 'bg-primary-600 border-primary-600 text-white shadow-md shadow-primary-600/20'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-primary-400 hover:text-primary-700'
+                            ? 'bg-primary border-primary text-primary-foreground shadow-md shadow-primary/20 font-semibold'
+                            : 'bg-card border-border text-foreground hover:border-primary/50 hover:bg-surface-elevated'
                       }`}
                     >
                       {formatTimeForDisplay(time)}
@@ -251,7 +252,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
             )}
             
             {error && (
-              <div className="mt-6 p-4 bg-red-50 text-red-600 rounded-lg border border-red-100 text-sm font-medium">
+              <div className="mt-6 p-4 bg-destructive/10 text-destructive rounded-lg border border-destructive/20 text-sm font-medium">
                 {error}
               </div>
             )}
@@ -259,14 +260,14 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
         )}
       </div>
 
-      <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-        <Button variant="outline" onClick={onPrev} className="font-semibold text-slate-600">
+      <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
+        <Button variant="outline" onClick={onPrev} className="font-semibold">
           <ArrowLeft className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button 
           onClick={handleHoldSlot}
           disabled={!selectedDate || !selectedTime || isHolding}
-          className="bg-slate-900 text-white hover:bg-slate-800 font-semibold px-8 h-11 relative overflow-hidden"
+          className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-8 h-11 relative overflow-hidden"
         >
           {isHolding ? (
             <>

@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Plus, ArrowLeft } from "lucide-react"
@@ -24,19 +23,19 @@ export default async function AdminClinicsPage() {
   return (
     <div className="container mx-auto p-6 md:p-8">
       <div className="mb-4">
-        <Link href="/admin" className="text-sm font-medium text-slate-500 hover:text-slate-900 flex items-center">
+        <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center">
           <ArrowLeft className="mr-1 h-4 w-4" /> Back to Admin Panel
         </Link>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0 mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Manage Clinics</h2>
-          <p className="text-slate-500">View and edit your healthcare facilities.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Manage Clinics</h2>
+          <p className="text-muted-foreground">View and edit your healthcare facilities.</p>
         </div>
         <Link
           href="/admin/clinics/new" 
-          className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-6 text-[14px] font-medium tracking-wide text-white hover:bg-slate-800 transition-colors shadow-sm"
+          className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-[14px] font-medium tracking-wide text-primary-foreground hover:bg-primary-hover transition-colors shadow-sm"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Clinic
@@ -60,16 +59,20 @@ export default async function AdminClinicsPage() {
             <TableBody>
               {clinics?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center text-slate-500 py-8">No clinics found.</TableCell>
+                  <TableCell colSpan={4} className="text-center text-muted-foreground py-8">No clinics found.</TableCell>
                 </TableRow>
               ) : (
                 clinics?.map((clinic: any) => (
                   <TableRow key={clinic.id}>
-                    <TableCell className="font-medium">{clinic.name}</TableCell>
-                    <TableCell className="text-slate-500">{clinic.address || 'N/A'}</TableCell>
-                    <TableCell className="text-slate-500">{clinic.phone || 'N/A'}</TableCell>
+                    <TableCell className="font-medium text-foreground">{clinic.name}</TableCell>
+                    <TableCell className="text-muted-foreground">{clinic.address || 'N/A'}</TableCell>
+                    <TableCell className="text-muted-foreground">{clinic.phone || 'N/A'}</TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${clinic.is_active ? 'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20' : 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/10'}`}>
+                      <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                        clinic.is_active 
+                          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/30' 
+                          : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 ring-1 ring-inset ring-rose-600/30'
+                      }`}>
                         {clinic.is_active ? 'Active' : 'Inactive'}
                       </span>
                     </TableCell>

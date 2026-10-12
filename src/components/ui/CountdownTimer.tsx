@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { Clock, BellRing, CheckCircle2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useCountdown } from "@/hooks/useCountdown"
+import { formatDoctorName } from "@/lib/utils"
 
 interface CountdownTimerProps {
   appointmentDate: string // YYYY-MM-DD
@@ -33,7 +34,7 @@ export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }:
           <div>
             <h4 className="font-bold text-lg mb-1">Appointment Starting Soon!</h4>
             <p className="text-teal-50 text-sm">
-              Your appointment {doctorName ? `with Dr. ${doctorName}` : ""} is happening {status === "happening_now" ? "right now" : "in less than 5 minutes"}. Please head to the clinic or prepare for your consultation.
+              Your appointment {doctorName ? `with ${formatDoctorName(doctorName)}` : ""} is happening {status === "happening_now" ? "right now" : "in less than 5 minutes"}. Please head to the clinic or prepare for your consultation.
             </p>
             <button 
               onClick={() => setIsNotified(false)} 
@@ -51,7 +52,7 @@ export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }:
 
   if (status === "happening_now") {
     return (
-      <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 p-4 rounded-xl flex items-center gap-3">
+      <div className="bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 p-4 rounded-xl flex items-center gap-3">
         {renderNotification()}
         <CheckCircle2 className="w-5 h-5 text-teal-600 dark:text-teal-400" />
         <span className="font-medium text-teal-800 dark:text-teal-300">Your appointment is happening right now!</span>
@@ -62,32 +63,32 @@ export function CountdownTimer({ appointmentDate, appointmentTime, doctorName }:
   if (!timeLeft) return null
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+    <div className="bg-surface border border-border rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
       {renderNotification()}
       
       <div className="flex items-center gap-2">
         <Clock className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-        <h3 className="font-semibold text-slate-900 dark:text-white">Time until appointment</h3>
+        <h3 className="font-semibold text-foreground">Time until appointment</h3>
       </div>
       
       <div className="flex gap-2 text-center">
         {timeLeft.days > 0 && (
-          <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+          <div className="bg-surface-elevated border border-border rounded-lg px-3 py-2 w-16">
             <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.days}</span>
-            <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Days</span>
+            <span className="text-[10px] uppercase font-semibold text-muted-foreground">Days</span>
           </div>
         )}
-        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+        <div className="bg-surface-elevated border border-border rounded-lg px-3 py-2 w-16">
           <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.hours.toString().padStart(2, "0")}</span>
-          <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Hrs</span>
+          <span className="text-[10px] uppercase font-semibold text-muted-foreground">Hrs</span>
         </div>
-        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+        <div className="bg-surface-elevated border border-border rounded-lg px-3 py-2 w-16">
           <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.minutes.toString().padStart(2, "0")}</span>
-          <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Min</span>
+          <span className="text-[10px] uppercase font-semibold text-muted-foreground">Min</span>
         </div>
-        <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 w-16">
+        <div className="bg-surface-elevated border border-border rounded-lg px-3 py-2 w-16">
           <span className="block text-xl font-bold text-teal-600 dark:text-teal-400">{timeLeft.seconds.toString().padStart(2, "0")}</span>
-          <span className="text-[10px] uppercase font-semibold text-slate-500 dark:text-slate-400">Sec</span>
+          <span className="text-[10px] uppercase font-semibold text-muted-foreground">Sec</span>
         </div>
       </div>
     </div>

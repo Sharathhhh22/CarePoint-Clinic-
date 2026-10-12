@@ -15,8 +15,8 @@ export default async function SettingsPage() {
     <div className="container mx-auto max-w-4xl p-6 md:p-8">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h2 className="section-title tracking-tight text-slate-900">Settings</h2>
-          <p className="text-slate-500">Configure clinic profile and system preferences.</p>
+          <h2 className="section-title tracking-tight text-foreground">Settings</h2>
+          <p className="text-muted-foreground">Configure clinic profile and system preferences.</p>
         </div>
       </div>
 
@@ -25,7 +25,7 @@ export default async function SettingsPage() {
           <form action={saveMainClinic}>
             <CardHeader>
               <div className="flex items-center space-x-2">
-                <Building2 className="h-5 w-5 text-slate-500" />
+                <Building2 className="h-5 w-5 text-muted-foreground" />
                 <CardTitle>Clinic Profile</CardTitle>
               </div>
               <CardDescription>
@@ -52,8 +52,8 @@ export default async function SettingsPage() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="border-t border-slate-100 px-6 py-4">
-              <Button type="submit">
+            <CardFooter className="border-t border-border px-6 py-4">
+              <Button type="submit" className="bg-primary hover:bg-primary-hover text-primary-foreground font-semibold">
                 <Save className="mr-2 h-4 w-4" />
                 Save Profile
               </Button>

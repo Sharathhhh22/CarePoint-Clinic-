@@ -48,7 +48,7 @@ function BookingWizardContent() {
       {currentStep < 6 && (
         <div className="mb-8">
           <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-100 rounded-full -z-10"></div>
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-border rounded-full -z-10"></div>
             <div 
               className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-teal-600 rounded-full -z-10 transition-all duration-500 ease-in-out"
               style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
@@ -64,12 +64,12 @@ function BookingWizardContent() {
                       ? 'bg-teal-600 text-white shadow-md shadow-teal-600/30' 
                       : isPassed 
                         ? 'bg-teal-600 text-white' 
-                        : 'bg-white border-2 border-slate-200 text-slate-400'
+                        : 'bg-surface border-2 border-border text-muted-foreground'
                   }`}>
                     <s.icon className="w-5 h-5" />
                   </div>
                   <span className={`text-xs font-semibold ${
-                    isActive ? 'text-slate-900' : isPassed ? 'text-teal-700' : 'text-slate-400'
+                    isActive ? 'text-foreground' : isPassed ? 'text-teal-600 dark:text-teal-400' : 'text-muted-foreground'
                   }`}>
                     {s.title}
                   </span>
@@ -81,7 +81,7 @@ function BookingWizardContent() {
       )}
 
       {/* Main Content Area */}
-      <div className="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative min-h-[500px] flex flex-col">
+      <div className="flex-1 bg-card rounded-2xl shadow-sm border border-border overflow-hidden relative min-h-[500px] flex flex-col">
         <AnimatePresence mode="wait" custom={direction} initial={false}>
           <motion.div
             key={currentStep}
@@ -140,12 +140,12 @@ function BookingWizardContent() {
 
         {/* Navigation Footer */}
         {currentStep > 1 && currentStep < 6 && (
-          <div className="p-6 border-t border-slate-100 flex items-center justify-between bg-slate-50 mt-auto">
-            <Button variant="outline" onClick={prevStep} className="font-semibold text-slate-600">
+          <div className="p-6 border-t border-border flex items-center justify-between bg-surface mt-auto">
+            <Button variant="outline" onClick={prevStep} className="font-semibold">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
-            <Button onClick={nextStep} className="bg-slate-900 text-white hover:bg-slate-800 font-semibold px-8">
+            <Button onClick={nextStep} className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-8">
               Continue
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>

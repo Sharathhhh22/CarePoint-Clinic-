@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Building2, Stethoscope, Activity, Settings, Users } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Building2, Stethoscope, Activity, Users } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
@@ -28,64 +28,64 @@ export default async function AdminDashboard() {
     <div className="container mx-auto p-6 md:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Admin Control Panel</h2>
-          <p className="text-slate-500">Manage clinics, departments, and medical staff.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Admin Control Panel</h2>
+          <p className="text-muted-foreground">Manage clinics, departments, and medical staff.</p>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Clinics Management */}
         <Link href="/admin/clinics" className="block group">
-          <Card className="transition-all hover:border-primary-500 hover:shadow-md">
+          <Card className="transition-all hover:border-primary/50 hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">Clinics</CardTitle>
-              <Building2 className="h-5 w-5 text-slate-400 group-hover:text-primary-500 transition-colors" />
+              <CardTitle className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Clinics</CardTitle>
+              <Building2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900 mb-1">{clinicsCount || 0}</div>
-              <p className="text-sm text-slate-500">Active locations</p>
+              <div className="text-3xl font-bold text-foreground mb-1">{clinicsCount || 0}</div>
+              <p className="text-sm text-muted-foreground">Active locations</p>
             </CardContent>
           </Card>
         </Link>
 
         {/* Departments Management */}
         <Link href="/admin/departments" className="block group">
-          <Card className="transition-all hover:border-primary-500 hover:shadow-md">
+          <Card className="transition-all hover:border-primary/50 hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">Departments</CardTitle>
-              <Activity className="h-5 w-5 text-slate-400 group-hover:text-primary-500 transition-colors" />
+              <CardTitle className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Departments</CardTitle>
+              <Activity className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900 mb-1">{deptsCount || 0}</div>
-              <p className="text-sm text-slate-500">Medical specialties</p>
+              <div className="text-3xl font-bold text-foreground mb-1">{deptsCount || 0}</div>
+              <p className="text-sm text-muted-foreground">Medical specialties</p>
             </CardContent>
           </Card>
         </Link>
 
         {/* Doctors Management */}
         <Link href="/admin/doctors" className="block group">
-          <Card className="transition-all hover:border-primary-500 hover:shadow-md h-full">
+          <Card className="transition-all hover:border-primary/50 hover:shadow-md h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">Doctors</CardTitle>
-              <Stethoscope className="h-5 w-5 text-slate-400 group-hover:text-primary-500 transition-colors" />
+              <CardTitle className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Doctors</CardTitle>
+              <Stethoscope className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900 mb-1">{doctorsCount || 0}</div>
-              <p className="text-sm text-slate-500">Practicing physicians</p>
+              <div className="text-3xl font-bold text-foreground mb-1">{doctorsCount || 0}</div>
+              <p className="text-sm text-muted-foreground">Practicing physicians</p>
             </CardContent>
           </Card>
         </Link>
 
         {/* Patients Management */}
         <Link href="/admin/patients" className="block group">
-          <Card className="transition-all hover:border-primary-500 hover:shadow-md h-full">
+          <Card className="transition-all hover:border-primary/50 hover:shadow-md h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">Patients</CardTitle>
-              <Users className="h-5 w-5 text-slate-400 group-hover:text-primary-500 transition-colors" />
+              <CardTitle className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Patients</CardTitle>
+              <Users className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900 mb-1">{patientsCount || 0}</div>
-              <p className="text-sm text-slate-500">Registered patients</p>
+              <div className="text-3xl font-bold text-foreground mb-1">{patientsCount || 0}</div>
+              <p className="text-sm text-muted-foreground">Registered patients</p>
             </CardContent>
           </Card>
         </Link>

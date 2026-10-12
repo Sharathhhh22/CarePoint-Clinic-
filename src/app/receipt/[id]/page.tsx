@@ -8,6 +8,7 @@ import { Building2, CalendarDays, CheckCircle2, User, Phone, Mail, MapPin, Activ
 import { Button } from "@/components/ui/button"
 import { CountdownTimer } from "@/components/ui/CountdownTimer"
 import { QRCodeSVG } from 'qrcode.react'
+import { formatDoctorName, formatAiSummary } from "@/lib/utils"
 
 export default function ReceiptPage() {
   const params = useParams()
@@ -44,10 +45,10 @@ export default function ReceiptPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center p-6 bg-slate-50">
+      <div className="flex min-h-screen items-center justify-center p-6 bg-background">
         <div className="flex flex-col items-center">
-          <CalendarDays className="h-8 w-8 animate-spin text-teal-600 mb-4" />
-          <p className="text-slate-500 font-medium">Loading appointment details...</p>
+          <CalendarDays className="h-8 w-8 animate-spin text-teal-600 dark:text-teal-400 mb-4" />
+          <p className="text-muted-foreground font-medium">Loading appointment details...</p>
         </div>
       </div>
     )
@@ -55,9 +56,9 @@ export default function ReceiptPage() {
 
   if (error || !appointment) {
     return (
-      <div className="flex min-h-screen items-center justify-center p-6 bg-slate-50">
-        <Card className="w-full max-w-md text-center p-6 shadow-sm border-gray-100">
-          <p className="text-red-500 font-medium">{error || "Appointment not found."}</p>
+      <div className="flex min-h-screen items-center justify-center p-6 bg-background">
+        <Card className="w-full max-w-md text-center p-6 shadow-sm border-border bg-card">
+          <p className="text-destructive font-medium">{error || "Appointment not found."}</p>
         </Card>
       </div>
     )
@@ -66,14 +67,14 @@ export default function ReceiptPage() {
   const handleDownloadPdf = () => { window.print() }
 
   return (
-    <div className="container mx-auto max-w-2xl p-6 md:p-8 bg-slate-50 min-h-[calc(100vh-3.5rem)]">
-      <Card className="border-t-4 border-t-teal-600 shadow-lg">
+    <div className="container mx-auto max-w-2xl p-6 md:p-8 bg-background min-h-[calc(100vh-3.5rem)]">
+      <Card className="border-t-4 border-t-teal-600 shadow-lg bg-card border-border">
         <CardHeader className="text-center pb-2">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 mb-4 border border-teal-100">
-            <CheckCircle2 className="h-8 w-8 text-teal-600" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/40 mb-4 border border-teal-200 dark:border-teal-800">
+            <CheckCircle2 className="h-8 w-8 text-teal-600 dark:text-teal-400" />
           </div>
-          <CardTitle className="text-2xl text-slate-900 font-bold">Digital Pass</CardTitle>
-          <p className="text-slate-500 text-sm mb-4">Please present this pass or QR code at the reception desk.</p>
+          <CardTitle className="text-2xl text-foreground font-bold">Digital Pass</CardTitle>
+          <p className="text-muted-foreground text-sm mb-4">Please present this pass or QR code at the reception desk.</p>
 
           <div className="my-6">
             <CountdownTimer 
@@ -83,7 +84,7 @@ export default function ReceiptPage() {
             />
           </div>
           
-          <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm inline-block mx-auto mb-6">
+          <div className="bg-white p-4 rounded-xl border border-border shadow-sm inline-block mx-auto mb-6">
             <QRCodeSVG 
               value={appointment.id} 
               size={120}
@@ -93,97 +94,99 @@ export default function ReceiptPage() {
           </div>
 
           {appointment.ticket_number && (
-            <div className="mx-auto mt-2 max-w-[250px] bg-teal-900 text-white rounded-xl py-3 text-2xl font-mono font-bold tracking-widest shadow-md">
+            <div className="mx-auto mt-2 max-w-[250px] bg-teal-900 dark:bg-teal-800 text-white rounded-xl py-3 text-2xl font-mono font-bold tracking-widest shadow-md">
               TICKET - {appointment.ticket_number.toString().padStart(3, '0')}
             </div>
           )}
         </CardHeader>
         <CardContent className="space-y-6 mt-4">
           
-          <div className="rounded-xl bg-slate-100/80 p-5 border border-slate-200/60">
-            <h3 className="font-semibold text-slate-800 mb-3 border-b border-slate-200 pb-2 flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-teal-600" /> Visit Information
+          <div className="rounded-xl bg-surface p-5 border border-border">
+            <h3 className="font-semibold text-foreground mb-3 border-b border-border pb-2 flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-teal-600 dark:text-teal-400" /> Visit Information
             </h3>
             <div className="grid grid-cols-1 gap-y-4">
               <div className="flex items-start gap-3">
-                <Building2 className="h-5 w-5 text-slate-400 mt-0.5" />
+                <Building2 className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
-                  <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Clinic</p>
-                  <p className="font-medium text-slate-900">{appointment.clinic_name || 'N/A'}</p>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Clinic</p>
+                  <p className="font-medium text-foreground">{appointment.clinic_name || 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Activity className="h-5 w-5 text-slate-400 mt-0.5" />
+                <Activity className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
-                  <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Department & Doctor</p>
-                  <p className="font-medium text-slate-900">{appointment.department_name || 'N/A'}</p>
-                  <p className="text-sm text-slate-600">Dr. {appointment.doctor_name || 'N/A'}</p>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Department & Doctor</p>
+                  <p className="font-medium text-foreground">{appointment.department_name || 'N/A'}</p>
+                  <p className="text-sm text-muted-foreground">{formatDoctorName(appointment.doctor_name || 'N/A')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <CalendarDays className="h-5 w-5 text-slate-400 mt-0.5" />
+                <CalendarDays className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
-                  <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Date & Time</p>
-                  <p className="font-medium text-slate-900">{appointment.appointment_date}</p>
-                  <p className="text-sm text-slate-600">{appointment.appointment_time}</p>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Date & Time</p>
+                  <p className="font-medium text-foreground">{appointment.appointment_date}</p>
+                  <p className="text-sm text-muted-foreground">{appointment.appointment_time}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 p-5">
-            <h3 className="font-semibold text-slate-800 mb-3 border-b border-slate-200 pb-2 flex items-center gap-2">
-              <User className="h-4 w-4 text-teal-600" /> Patient Details
+          <div className="rounded-xl bg-surface border border-border p-5">
+            <h3 className="font-semibold text-foreground mb-3 border-b border-border pb-2 flex items-center gap-2">
+              <User className="h-4 w-4 text-teal-600 dark:text-teal-400" /> Patient Details
             </h3>
             <div className="grid grid-cols-1 gap-y-3">
               <div className="flex items-center gap-3">
-                <User className="h-5 w-5 text-slate-400" />
-                <p className="font-medium text-slate-900">{appointment.patient_name || 'N/A'}</p>
+                <User className="h-5 w-5 text-muted-foreground" />
+                <p className="font-medium text-foreground">{appointment.patient_name || 'N/A'}</p>
               </div>
               {appointment.patient_mobile && (
                 <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-slate-400" />
-                  <a href={`tel:${appointment.patient_mobile}`} className="text-teal-600 hover:underline">{appointment.patient_mobile}</a>
+                  <Phone className="h-5 w-5 text-muted-foreground" />
+                  <a href={`tel:${appointment.patient_mobile}`} className="text-teal-600 dark:text-teal-400 hover:underline">{appointment.patient_mobile}</a>
                 </div>
               )}
               {appointment.patient_email && (
                 <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-slate-400" />
-                  <a href={`mailto:${appointment.patient_email}`} className="text-teal-600 hover:underline">{appointment.patient_email}</a>
+                  <Mail className="h-5 w-5 text-muted-foreground" />
+                  <a href={`mailto:${appointment.patient_email}`} className="text-teal-600 dark:text-teal-400 hover:underline">{appointment.patient_email}</a>
                 </div>
               )}
               {appointment.patient_address && (
                 <div className="flex items-start gap-3 mt-1">
-                  <MapPin className="h-5 w-5 text-slate-400 mt-0.5" />
-                  <p className="text-slate-600 text-sm">{appointment.patient_address}</p>
+                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                  <p className="text-muted-foreground text-sm">{appointment.patient_address}</p>
                 </div>
               )}
             </div>
           </div>
           
           {appointment.reason && (
-            <div className="rounded-xl border border-amber-200 p-5 bg-amber-50">
-              <p className="text-xs font-medium text-amber-700 uppercase tracking-wider mb-2">Stated Reason / Symptoms</p>
-              <p className="text-amber-900 text-sm whitespace-pre-line">{appointment.reason}</p>
+            <div className="rounded-xl border border-amber-300 dark:border-amber-700/50 p-5 bg-amber-50 dark:bg-amber-950/30">
+              <p className="text-xs font-medium text-amber-800 dark:text-amber-400 uppercase tracking-wider mb-2">Stated Reason / Symptoms</p>
+              <p className="text-amber-950 dark:text-amber-200 text-sm whitespace-pre-line">{formatAiSummary(appointment.reason)}</p>
             </div>
           )}
 
-          <div className="rounded-xl border border-slate-200 p-5">
-            <h3 className="font-semibold text-slate-800 mb-3 border-b border-slate-200 pb-2">Payment Details</h3>
+          <div className="rounded-xl bg-surface border border-border p-5">
+            <h3 className="font-semibold text-foreground mb-3 border-b border-border pb-2">Payment Details</h3>
             <div className="grid grid-cols-1 gap-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-500 font-medium">Method</span>
-                <span className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider ${
-                  appointment.payment_mode === 'ONLINE_PAYMENT' ? 'bg-teal-100 text-teal-700' : 'bg-slate-100 text-slate-700'
+                <span className="text-sm text-muted-foreground font-medium">Method</span>
+                <span className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider border ${
+                  appointment.payment_mode === 'ONLINE_PAYMENT' 
+                    ? 'bg-teal-100 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 border-teal-200 dark:border-teal-800' 
+                    : 'bg-surface-elevated text-foreground border-border'
                 }`}>
                   {appointment.payment_mode === 'ONLINE_PAYMENT' ? 'ONLINE' : 'PAY AT CLINIC'}
                 </span>
               </div>
               
               {appointment.payment_mode === 'ONLINE_PAYMENT' && (
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                  <span className="text-sm text-slate-500 font-medium">Status</span>
-                  <span className="text-sm font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <span className="text-sm text-muted-foreground font-medium">Status</span>
+                  <span className="text-sm font-medium text-amber-700 dark:text-amber-300 bg-amber-100/70 dark:bg-amber-950/50 px-2.5 py-1 rounded-md border border-amber-300 dark:border-amber-800">
                     Awaiting Verification
                   </span>
                 </div>
@@ -193,7 +196,7 @@ export default function ReceiptPage() {
 
           
           <div className="pt-6 text-center flex flex-col items-center gap-4">
-            <p className="text-xs text-slate-400 font-mono">ID: {appointment.id}</p>
+            <p className="text-xs text-muted-foreground font-mono">ID: {appointment.id}</p>
             <Button onClick={handleDownloadPdf} className="w-full max-w-xs bg-teal-600 hover:bg-teal-700 text-white h-12 text-base print:hidden rounded-xl">
               <Download className="w-4 h-4 mr-2" />
               Download Digital Pass
@@ -204,5 +207,3 @@ export default function ReceiptPage() {
     </div>
   )
 }
-
-

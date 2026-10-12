@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarDays, Clock, User, FileText, CheckCircle2, Activity, XCircle } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { CalendarDays, User, FileText, CheckCircle2, Activity, XCircle, Bot, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EmergencySettings } from "@/components/telephony/EmergencySettings"
+import { formatDoctorName } from "@/lib/utils"
+import { DoctorAiNoteModal } from "./DoctorAiNoteModal"
 
 export default function DoctorPortal() {
   const [appointments, setAppointments] = useState<any[]>([])
   const [doctorProfile, setDoctorProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [selectedApptForAi, setSelectedApptForAi] = useState<any | null>(null)
 
   const supabase = createClient()
 
@@ -41,7 +44,6 @@ export default function DoctorPortal() {
         setDoctorProfile(doctorData)
 
         // 2. Get appointments for this doctor (today and future)
-        // For now, let's just get upcoming and today's appointments
         const today = new Date().toISOString().split('T')[0]
         
         const { data: apptData, error: apptError } = await supabase
@@ -90,7 +92,7 @@ export default function DoctorPortal() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Activity className="h-8 w-8 animate-spin text-primary-600" />
+        <Activity className="h-8 w-8 animate-spin text-primary" />
       </div>
     )
   }
@@ -98,8 +100,8 @@ export default function DoctorPortal() {
   if (error) {
     return (
       <div className="p-6">
-        <Card className="border-red-200 bg-red-50">
-          <CardContent className="p-6 text-center text-red-600">
+        <Card className="border-destructive/20 bg-destructive/10">
+          <CardContent className="p-6 text-center text-destructive">
             {error}
           </CardContent>
         </Card>
@@ -110,19 +112,19 @@ export default function DoctorPortal() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Doctor Portal</h1>
-        <p className="text-slate-500 mt-2">Welcome back, Dr. {doctorProfile?.name}. Here is your schedule.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Doctor Portal</h1>
+        <p className="text-muted-foreground mt-2">Welcome back, {formatDoctorName(doctorProfile?.name)}. Here is your schedule.</p>
       </div>
 
       <EmergencySettings doctorId={doctorProfile?.id} initialEnabled={doctorProfile?.emergency_calls_enabled ?? true} />
 
       <div className="grid gap-6">
         {appointments.length === 0 ? (
-          <Card className="bg-slate-50 border-dashed">
+          <Card className="bg-surface border-dashed border-border">
             <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <CalendarDays className="h-12 w-12 text-slate-300 mb-4" />
-              <p className="text-lg font-medium text-slate-900">No appointments scheduled</p>
-              <p className="text-slate-500">You have a clear schedule right now.</p>
+              <CalendarDays className="h-12 w-12 text-muted-foreground mb-4" />
+              <p className="text-lg font-medium text-foreground">No appointments scheduled</p>
+              <p className="text-muted-foreground">You have a clear schedule right now.</p>
             </CardContent>
           </Card>
         ) : (
@@ -130,15 +132,15 @@ export default function DoctorPortal() {
             <Card key={appt.id} className={`overflow-hidden ${appt.status === 'completed' ? 'opacity-60' : ''}`}>
               <div className="flex flex-col md:flex-row">
                 {/* Time & Date Block */}
-                <div className="bg-slate-50 border-b md:border-b-0 md:border-r border-slate-100 p-6 flex md:flex-col items-center justify-between md:justify-center min-w-[200px]">
+                <div className="bg-surface border-b md:border-b-0 md:border-r border-border p-6 flex md:flex-col items-center justify-between md:justify-center min-w-[200px]">
                   <div className="text-center">
-                    <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-1">
+                    <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-1">
                       {new Date(appt.appointment_date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                     </p>
-                    <p className="text-3xl font-bold text-slate-900">{appt.appointment_time.substring(0, 5)}</p>
+                    <p className="text-3xl font-bold text-foreground">{appt.appointment_time.substring(0, 5)}</p>
                   </div>
                   {appt.ticket_number && (
-                    <div className="mt-4 px-3 py-1 bg-slate-200 text-slate-700 rounded text-xs font-mono font-bold tracking-wider">
+                    <div className="mt-4 px-3 py-1 bg-surface-elevated text-foreground border border-border rounded text-xs font-mono font-bold tracking-wider">
                       TICKET-{appt.ticket_number.toString().padStart(3, '0')}
                     </div>
                   )}
@@ -148,58 +150,85 @@ export default function DoctorPortal() {
                 <div className="p-6 flex-1">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <User className="h-5 w-5 text-slate-400" />
+                      <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
+                        <User className="h-5 w-5 text-muted-foreground" />
                         {appt.patient?.full_name || 'Unknown Patient'}
                       </h3>
                       {appt.patient?.mobile && (
-                        <p className="text-slate-500 text-sm mt-1">{appt.patient.mobile}</p>
+                        <p className="text-muted-foreground text-sm mt-1">{appt.patient.mobile}</p>
                       )}
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                      appt.status === 'completed' ? 'bg-green-100 text-green-700' :
-                      appt.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                      'bg-blue-100 text-blue-700'
+                      appt.status === 'completed' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800' :
+                      appt.status === 'cancelled' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-400 border border-rose-200 dark:border-rose-800' :
+                      'bg-teal-100 text-teal-800 dark:bg-teal-950/60 dark:text-teal-300 border border-teal-200 dark:border-teal-800'
                     }`}>
                       {appt.status}
                     </span>
                   </div>
 
                   {appt.reason && (
-                    <div className="mb-6 bg-yellow-50/50 border border-yellow-100 rounded-lg p-3">
-                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <div className="mb-6 bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-lg p-3">
+                      <p className="text-xs font-semibold text-amber-800 dark:text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1">
                         <FileText className="h-3 w-3" /> Reason / Symptoms
                       </p>
-                      <p className="text-slate-700 text-sm">{appt.reason}</p>
+                      <p className="text-foreground text-sm">{appt.reason}</p>
                     </div>
                   )}
 
                   {/* Actions */}
-                  {appt.status === 'upcoming' && (
-                    <div className="flex gap-3 mt-4 border-t border-slate-100 pt-4">
-                      <Button 
-                        onClick={() => handleStatusUpdate(appt.id, 'completed')}
-                        className="bg-green-600 hover:bg-green-700 text-white"
-                        size="sm"
-                      >
-                        <CheckCircle2 className="w-4 h-4 mr-2" /> Mark Completed
-                      </Button>
-                      <Button 
-                        onClick={() => handleStatusUpdate(appt.id, 'cancelled')}
-                        variant="outline"
-                        className="text-red-600 hover:bg-red-50 hover:text-red-700 border-red-200"
-                        size="sm"
-                      >
-                        <XCircle className="w-4 h-4 mr-2" /> Cancel
-                      </Button>
-                    </div>
-                  )}
+                  <div className="flex flex-wrap items-center gap-3 mt-4 border-t border-border pt-4">
+                    {appt.status === 'upcoming' && (
+                      <>
+                        <Button 
+                          onClick={() => handleStatusUpdate(appt.id, 'completed')}
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                          size="sm"
+                        >
+                          <CheckCircle2 className="w-4 h-4 mr-2" /> Mark Completed
+                        </Button>
+                        <Button 
+                          onClick={() => handleStatusUpdate(appt.id, 'cancelled')}
+                          variant="outline"
+                          className="text-destructive hover:bg-destructive/10 hover:text-destructive border-destructive/30"
+                          size="sm"
+                        >
+                          <XCircle className="w-4 h-4 mr-2" /> Cancel
+                        </Button>
+                      </>
+                    )}
+
+                    {/* AI Clinical Documentation Button */}
+                    <Button
+                      onClick={() => setSelectedApptForAi({
+                        id: appt.id,
+                        patientName: appt.patient?.full_name || 'Patient',
+                        reason: appt.reason,
+                        appointmentDate: appt.appointment_date,
+                        appointmentTime: appt.appointment_time
+                      })}
+                      variant="outline"
+                      size="sm"
+                      className="border-primary/40 text-primary hover:bg-primary/10 ml-auto"
+                    >
+                      <Sparkles className="w-4 h-4 mr-1.5" /> AI SOAP Notes
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
           ))
         )}
       </div>
+
+      {/* AI SOAP Note Modal */}
+      {selectedApptForAi && (
+        <DoctorAiNoteModal
+          isOpen={Boolean(selectedApptForAi)}
+          onClose={() => setSelectedApptForAi(null)}
+          appointment={selectedApptForAi}
+        />
+      )}
     </div>
   )
 }

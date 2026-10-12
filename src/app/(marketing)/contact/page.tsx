@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Mail, MapPin, Phone, CheckCircle2, Loader2, ArrowRight } from "lucide-react"
+import { Mail, MapPin, Phone, CheckCircle2, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ErrorMessage } from "@/components/ui/ErrorMessage"
 
@@ -42,62 +42,62 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
             Get in Touch
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400">
+          <p className="text-lg md:text-xl text-muted-foreground">
             Have questions about clinical integrations or booking on our platform? We are here to help.
           </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           <div className="flex-1 space-y-10">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Contact Information</h2>
-            <div className="space-y-6 text-slate-600 dark:text-slate-400">
+            <h2 className="text-2xl font-bold text-foreground">Contact Information</h2>
+            <div className="space-y-6 text-muted-foreground">
               
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Email Us</p>
+                  <p className="font-bold text-foreground">Email Us</p>
                   <p className="mt-1">
-                    <a href="mailto:support@appointly.com" className="text-teal-600 dark:text-teal-400 hover:underline">
-                      support@appointly.com
+                    <a href="mailto:support@sloturself.com" className="text-primary hover:underline">
+                      support@sloturself.com
                     </a>
                   </p>
                   <p>
-                    <a href="mailto:partnerships@appointly.com" className="text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 hover:underline">
-                      partnerships@appointly.com
+                    <a href="mailto:partnerships@sloturself.com" className="text-muted-foreground hover:text-primary hover:underline">
+                      partnerships@sloturself.com
                     </a>
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Call Us Directly</p>
+                  <p className="font-bold text-foreground">Call Us Directly</p>
                   <p className="mt-1">
-                    <a href="tel:+18007568669" className="text-teal-600 dark:text-teal-400 font-medium hover:underline">
+                    <a href="tel:+18007568669" className="text-primary font-medium hover:underline">
                       1-800-SLOT-NOW (1-800-756-8669)
                     </a>
                   </p>
-                  <p className="text-xs text-slate-500">Mon-Fri, 9am - 6pm EST</p>
+                  <p className="text-xs text-muted-foreground">Mon-Fri, 9am - 6pm EST</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Headquarters</p>
+                  <p className="font-bold text-foreground">Headquarters</p>
                   <p className="mt-1">123 Health Tech Blvd, Suite 400</p>
                   <p>San Francisco, CA 94107</p>
                 </div>
@@ -106,21 +106,21 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="flex-1 bg-white dark:bg-slate-900 p-8 md:p-10 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <div className="flex-1 bg-card p-8 md:p-10 rounded-2xl shadow-sm border border-border">
             {status === 'success' ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-12 space-y-4">
-                <div className="w-16 h-16 bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Message Sent Successfully!</h3>
-                <p className="text-slate-600 dark:text-slate-400 max-w-sm leading-relaxed">
+                <h3 className="text-2xl font-bold text-foreground">Message Sent Successfully!</h3>
+                <p className="text-muted-foreground max-w-sm leading-relaxed">
                   Thank you for reaching out, {formData.firstName}. Our medical operations team will get back to you within 24 business hours.
                 </p>
                 <div className="pt-4">
                   <Button 
                     onClick={handleReset}
                     variant="outline"
-                    className="border-slate-300 dark:border-slate-700 font-medium"
+                    className="border-border text-foreground font-medium"
                   >
                     Send Another Message
                   </Button>
@@ -138,8 +138,8 @@ export default function ContactPage() {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      First Name <span className="text-teal-600">*</span>
+                    <label className="text-sm font-medium text-foreground">
+                      First Name <span className="text-primary">*</span>
                     </label>
                     <input 
                       required 
@@ -148,25 +148,25 @@ export default function ContactPage() {
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="Jane"
-                      className="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                      className="w-full h-11 px-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" 
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Last Name</label>
+                    <label className="text-sm font-medium text-foreground">Last Name</label>
                     <input 
                       type="text" 
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Doe"
-                      className="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                      className="w-full h-11 px-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" 
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Email Address <span className="text-teal-600">*</span>
+                  <label className="text-sm font-medium text-foreground">
+                    Email Address <span className="text-primary">*</span>
                   </label>
                   <input 
                     required 
@@ -175,13 +175,13 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="jane@example.com"
-                    className="w-full h-11 px-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                    className="w-full h-11 px-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" 
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Message <span className="text-teal-600">*</span>
+                  <label className="text-sm font-medium text-foreground">
+                    Message <span className="text-primary">*</span>
                   </label>
                   <textarea 
                     required 
@@ -190,14 +190,14 @@ export default function ContactPage() {
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="How can we assist you?"
-                    className="w-full p-3.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
+                    className="w-full p-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" 
                   />
                 </div>
 
                 <Button 
-                  type="submit"
+                  type="submit" 
                   disabled={status === 'sending'} 
-                  className="w-full h-12 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition-colors shadow-sm"
+                  className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors shadow-sm"
                 >
                   {status === 'sending' ? (
                     <>

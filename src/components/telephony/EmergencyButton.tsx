@@ -20,7 +20,7 @@ export default function EmergencyButton({ doctorId, doctorName, appointmentId }:
         variant="destructive" 
         size="sm" 
         onClick={() => setIsOpen(true)}
-        className="bg-red-50 text-red-600 hover:bg-red-100 border border-red-200"
+        className="bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/30"
       >
         <PhoneCall className="w-4 h-4 mr-1" />
         Emergency

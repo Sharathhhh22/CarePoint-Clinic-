@@ -32,7 +32,7 @@ export function EditProfileModal({ profile, userEmail }: { profile: any, userEma
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 h-9 px-4 py-2">
+      <DialogTrigger className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-border bg-card hover:bg-surface-elevated text-foreground h-9 px-4 py-2 transition-colors">
         <Pencil className="w-4 h-4 mr-2" />
         Edit Profile
       </DialogTrigger>
@@ -48,8 +48,8 @@ export function EditProfileModal({ profile, userEmail }: { profile: any, userEma
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email Address <span className="text-slate-400 font-normal">(Read Only)</span></Label>
-            <Input id="email" defaultValue={userEmail} disabled className="bg-slate-50" />
+            <Label htmlFor="email">Email Address <span className="text-muted-foreground font-normal">(Read Only)</span></Label>
+            <Input id="email" defaultValue={userEmail} disabled className="bg-surface-elevated text-muted-foreground border-border" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -69,11 +69,11 @@ export function EditProfileModal({ profile, userEmail }: { profile: any, userEma
             <Textarea id="bio" name="bio" defaultValue={profile.bio} className="resize-none h-24" placeholder="Briefly describe your role or medical history..." />
           </div>
 
-          {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
+          {error && <p className="text-sm text-destructive font-medium">{error}</p>}
 
           <div className="pt-4 flex justify-end gap-3">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="bg-primary hover:bg-primary-hover text-primary-foreground">
               {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
               Save Changes
             </Button>

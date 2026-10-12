@@ -28,20 +28,20 @@ export default function HowItWorksPage() {
   ]
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen pt-32 pb-24 bg-background text-foreground">
       <div className="max-w-[800px] mx-auto px-6 md:px-12">
         <div className="text-center mb-20">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
+          <h1 className="text-5xl font-bold tracking-tight text-foreground mb-6">
             How It Works
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400">
+          <p className="text-xl text-muted-foreground">
             Booking a doctor should be as easy as booking a table at a restaurant.
           </p>
         </div>
 
         <div className="relative">
           {/* Vertical Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-slate-200 dark:bg-slate-800 -translate-x-1/2"></div>
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-border -translate-x-1/2"></div>
           
           <div className="space-y-16">
             {steps.map((step, idx) => (
@@ -54,13 +54,13 @@ export default function HowItWorksPage() {
               >
                 {/* Content Side */}
                 <div className={`w-full md:w-1/2 pl-20 md:pl-0 ${idx % 2 === 0 ? 'md:text-right md:pr-16' : 'md:pl-16'}`}>
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">{step.title}</h3>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">{step.desc}</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-3">{step.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed text-lg">{step.desc}</p>
                 </div>
 
                 {/* Center Icon */}
-                <div className="absolute left-8 md:left-1/2 top-0 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-16 h-16 bg-teal-600 rounded-full border-4 border-slate-50 dark:border-slate-950 flex items-center justify-center z-10">
-                  <step.icon className="w-7 h-7 text-white" />
+                <div className="absolute left-8 md:left-1/2 top-0 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-16 h-16 bg-primary text-primary-foreground rounded-full border-4 border-background flex items-center justify-center z-10 shadow-sm">
+                  <step.icon className="w-7 h-7" />
                 </div>
                 
                 {/* Empty Side for balancing */}
@@ -70,11 +70,11 @@ export default function HowItWorksPage() {
           </div>
         </div>
 
-        <div className="mt-32 text-center bg-slate-900 dark:bg-slate-800 p-12 rounded-3xl">
-          <h2 className="text-3xl font-bold text-white mb-6">Ready to skip the waiting room?</h2>
+        <div className="mt-32 text-center bg-card border border-border p-12 rounded-3xl shadow-sm">
+          <h2 className="text-3xl font-bold text-foreground mb-6">Ready to skip the waiting room?</h2>
           <Link 
             href="/signup" 
-            className="inline-flex items-center justify-center bg-teal-600 text-white px-10 py-4 rounded-xl text-lg font-bold transition-transform hover:bg-teal-500"
+            className="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-xl text-lg font-bold transition-all shadow-sm"
           >
             Create Your Account
           </Link>

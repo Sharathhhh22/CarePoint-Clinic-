@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MapPin, Search, Loader2, Navigation, UserCheck, Stethoscope } from "lucide-react"
+import { formatDoctorName } from "@/lib/utils"
 
 interface Step2Props {
   data: any
@@ -94,30 +95,30 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
   return (
     <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-8 duration-500">
       <div className="flex-1">
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Select a Doctor & Clinic</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Select a Doctor & Clinic</h2>
         
         {recommendedSpecialty ? (
-          <p className="text-slate-500 mb-6">
-            Showing available <strong className="text-slate-700">{recommendedSpecialty}s</strong> near you.
+          <p className="text-muted-foreground mb-6">
+            Showing available <strong className="text-foreground">{recommendedSpecialty}s</strong> near you.
           </p>
         ) : (
-          <p className="text-slate-500 mb-6">Select a doctor to book your appointment.</p>
+          <p className="text-muted-foreground mb-6">Select a doctor to book your appointment.</p>
         )}
 
         {/* Location / Search Bar */}
-        <div className="mb-8 p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <div className="mb-8 p-4 bg-surface rounded-xl border border-border">
           {locationStatus === "requesting" && (
-            <div className="flex items-center text-sm text-slate-600">
+            <div className="flex items-center text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Requesting location access...
             </div>
           )}
           
           {locationStatus === "granted" && (
             <div className="flex items-center justify-between">
-              <div className="flex items-center text-sm font-medium text-emerald-700">
+              <div className="flex items-center text-sm font-medium text-teal-600 dark:text-teal-400">
                 <Navigation className="w-4 h-4 mr-2" /> Using your current location
               </div>
-              <Button variant="ghost" size="sm" onClick={() => setLocationStatus("denied")} className="text-xs h-8">
+              <Button variant="ghost" size="sm" onClick={() => setLocationStatus("denied")} className="text-xs h-8 text-muted-foreground hover:text-foreground">
                 Search manually
               </Button>
             </div>
@@ -126,10 +127,10 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
           {locationStatus === "denied" && (
             <form onSubmit={handleManualSearch} className="flex gap-2">
               <div className="relative flex-1">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input 
                   placeholder="Enter city or zip code..." 
-                  className="pl-9 bg-white"
+                  className="pl-9 bg-input-bg border-border text-foreground placeholder:text-muted-foreground"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                 />
@@ -142,7 +143,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
         </div>
 
         {error && (
-          <div className="p-4 mb-6 bg-red-50 text-red-600 rounded-lg border border-red-100 text-sm font-medium">
+          <div className="p-4 mb-6 bg-destructive/10 text-destructive rounded-lg border border-destructive/20 text-sm font-medium">
             {error}
           </div>
         )}
@@ -150,27 +151,27 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
         {/* Clinic List */}
         <div className="space-y-6">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12 text-slate-400">
-              <Loader2 className="w-8 h-8 animate-spin mb-4 text-primary-500" />
+            <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+              <Loader2 className="w-8 h-8 animate-spin mb-4 text-primary" />
               <p>Finding the best clinics nearby...</p>
             </div>
           ) : clinics.length === 0 ? (
-            <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl">
-              <p className="text-slate-500">No clinics found matching this specialty nearby.</p>
+            <div className="text-center py-12 border-2 border-dashed border-border rounded-2xl">
+              <p className="text-muted-foreground">No clinics found matching this specialty nearby.</p>
               <Button variant="outline" className="mt-4" onClick={() => fetchClinicsBySearch("")}>
                 Show all doctors
               </Button>
             </div>
           ) : (
             clinics.map(clinic => (
-              <div key={clinic.clinic_id} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+              <div key={clinic.clinic_id} className="border border-border rounded-2xl overflow-hidden bg-card shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-surface p-4 border-b border-border flex justify-between items-center">
                   <div>
-                    <h3 className="font-bold text-slate-900">{clinic.clinic_name}</h3>
-                    <p className="text-sm text-slate-500 flex items-center mt-1">
+                    <h3 className="font-bold text-foreground">{clinic.clinic_name}</h3>
+                    <p className="text-sm text-muted-foreground flex items-center mt-1">
                       <MapPin className="w-3.5 h-3.5 mr-1" /> {clinic.clinic_address}
                       {clinic.distance_meters !== undefined && (
-                        <span className="ml-2 px-2 py-0.5 bg-slate-200/50 rounded-full text-xs font-medium">
+                        <span className="ml-2 px-2 py-0.5 bg-surface-elevated text-muted-foreground border border-border rounded-full text-xs font-medium">
                           {(clinic.distance_meters / 1000).toFixed(1)} km away
                         </span>
                       )}
@@ -178,17 +179,17 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
                   </div>
                 </div>
                 
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-border">
                   {clinic.doctors?.length > 0 ? (
                     clinic.doctors.map((doctor: any) => (
-                      <div key={doctor.id} className="p-4 flex items-center justify-between group">
+                      <div key={doctor.id} className="p-4 flex items-center justify-between group hover:bg-surface-elevated/40 transition-colors">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center text-primary-700">
+                          <div className="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center text-primary">
                             <UserCheck className="w-6 h-6" />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-slate-900">Dr. {doctor.name}</h4>
-                            <p className="text-sm text-slate-500 flex items-center mt-0.5">
+                            <h4 className="font-semibold text-foreground">{formatDoctorName(doctor.name)}</h4>
+                            <p className="text-sm text-muted-foreground flex items-center mt-0.5">
                               <Stethoscope className="w-3.5 h-3.5 mr-1" /> 
                               {doctor.specialty} • {doctor.experience_years}y exp
                             </p>
@@ -196,14 +197,14 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
                         </div>
                         <Button 
                           onClick={() => selectDoctor(clinic.clinic_id, clinic.clinic_name, doctor.id, doctor.name)}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity bg-primary-600 hover:bg-primary-700 text-white"
+                          className="opacity-90 group-hover:opacity-100 transition-opacity bg-primary hover:bg-primary-hover text-primary-foreground"
                         >
                           Select Doctor
                         </Button>
                       </div>
                     ))
                   ) : (
-                    <div className="p-4 text-sm text-slate-500 italic text-center">
+                    <div className="p-4 text-sm text-muted-foreground italic text-center">
                       No matching doctors at this location.
                     </div>
                   )}

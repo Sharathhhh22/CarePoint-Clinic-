@@ -25,14 +25,14 @@ export default function FeaturesPage() {
   ]
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen pt-32 pb-24 bg-background text-foreground">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-24">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
+          <h1 className="text-5xl font-bold tracking-tight text-foreground mb-6">
             Powerful Features for Modern Healthcare
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400">
-            We built APPOINTLY to solve the actual problems with booking medical appointments.
+          <p className="text-xl text-muted-foreground">
+            We built SlotUrSelf to solve the actual problems with booking medical appointments.
           </p>
         </div>
 
@@ -46,22 +46,22 @@ export default function FeaturesPage() {
               className={`flex flex-col md:flex-row gap-12 lg:gap-24 items-center ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
             >
               <div className="flex-1 w-full">
-                <div className="aspect-square md:aspect-video rounded-3xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-300 dark:border-slate-700">
-                  <feature.icon className="w-32 h-32 text-slate-400 dark:text-slate-600" strokeWidth={1} />
+                <div className="aspect-square md:aspect-video rounded-3xl bg-card flex items-center justify-center overflow-hidden border border-border">
+                  <feature.icon className="w-32 h-32 text-muted-foreground/60" strokeWidth={1} />
                 </div>
               </div>
               <div className="flex-1 w-full space-y-6">
-                <div className="w-16 h-16 bg-teal-600 rounded-2xl flex items-center justify-center mb-8">
-                  <feature.icon className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center mb-8 shadow-sm">
+                  <feature.icon className="w-8 h-8" />
                 </div>
-                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">{feature.title}</h2>
-                <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                <h2 className="text-3xl font-bold text-foreground">{feature.title}</h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
                   {feature.desc}
                 </p>
                 <ul className="space-y-4 pt-4">
                   {feature.bullets.map((bullet, bIdx) => (
-                    <li key={bIdx} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
-                      <CheckCircle2 className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+                    <li key={bIdx} className="flex items-center gap-3 text-foreground font-medium">
+                      <CheckCircle2 className="w-5 h-5 text-primary" />
                       {bullet}
                     </li>
                   ))}

@@ -1,9 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Calendar, Clock, Activity, AlertCircle } from "lucide-react"
+import { Users, Calendar, Clock, Activity } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import EmergencyButton from "@/components/telephony/EmergencyButton"
 import { StatusBadge } from "@/components/ui/StatusBadge"
+import { formatDoctorName } from "@/lib/utils"
 
 export const revalidate = 0
 
@@ -15,14 +16,11 @@ export default async function Dashboard() {
     redirect('/login')
   }
 
-  // Get user profile to check role (using maybeSingle to prevent crashes if trigger failed)
+  // Get user profile to check role
   const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', user.id).maybeSingle()
   const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
 
   // Fetch appointments. 
-  // If patient: fetch only their appointments.
-  // If admin/staff: fetch all appointments.
-  // We use Supabase relational queries to get nested data.
   let query = supabase
     .from('appointments')
     .select(`
@@ -32,30 +30,26 @@ export default async function Dashboard() {
       profiles(full_name)
     `)
     .order('appointment_date', { ascending: true })
-
-  // RLS handles the filtering automatically! We don't even need to add .eq('patient_id') because the DB enforces it.
   
   const { data: appointments } = await query
 
   // Stats calculation
   const totalAppointments = appointments?.length || 0
-  const now = new Date();
+  const now = new Date()
   const upcomingAppointments = appointments?.filter(a => a.status === 'confirmed' && new Date(a.appointment_date + 'T' + a.appointment_time) >= now).sort((a, b) => new Date(a.appointment_date + 'T' + a.appointment_time).getTime() - new Date(b.appointment_date + 'T' + b.appointment_time).getTime()) || []
   
-  // Calculate unique patients (only relevant for staff, but we can do it safely here)
   const uniquePatients = new Set(appointments?.map(a => (a.profiles as any)?.full_name)).size
 
-  // We fetch doctors count for stats
   const { count: doctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true }).eq('is_active', true)
 
   return (
     <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="section-title text-slate-900 dark:text-white">
+          <h2 className="section-title text-foreground">
             Welcome, {profile?.full_name || 'User'}
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
+          <p className="text-muted-foreground mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
         </div>
       </div>
       
@@ -64,42 +58,42 @@ export default async function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Total Unique Patients</CardTitle>
-              <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+              <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="card-title text-2xl text-slate-900 dark:text-white">{uniquePatients}</div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Registered in system</p>
+              <div className="card-title text-2xl text-foreground font-bold">{uniquePatients}</div>
+              <p className="text-xs text-muted-foreground">Registered in system</p>
             </CardContent>
           </Card>
         )}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">{isAdminOrStaff ? 'Total Appointments' : 'My Appointments'}</CardTitle>
-            <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+            <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="card-title text-2xl text-slate-900 dark:text-white">{totalAppointments}</div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">All time bookings</p>
+            <div className="card-title text-2xl text-foreground font-bold">{totalAppointments}</div>
+            <p className="text-xs text-muted-foreground">All time bookings</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Available Doctors</CardTitle>
-            <Activity className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+            <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="card-title text-2xl text-slate-900 dark:text-white">{doctorsCount || 0}</div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Active specialists</p>
+            <div className="card-title text-2xl text-foreground font-bold">{doctorsCount || 0}</div>
+            <p className="text-xs text-muted-foreground">Active specialists</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Upcoming Visits</CardTitle>
-            <Clock className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="card-title text-2xl text-slate-900 dark:text-white">{upcomingAppointments.length}</div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Scheduled appointments</p>
+            <div className="card-title text-2xl text-foreground font-bold">{upcomingAppointments.length}</div>
+            <p className="text-xs text-muted-foreground">Scheduled appointments</p>
           </CardContent>
         </Card>
       </div>
@@ -114,11 +108,11 @@ export default async function Dashboard() {
           </CardHeader>
           <CardContent>
             {upcomingAppointments.length === 0 ? (
-              <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+              <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed border-border bg-surface">
                 <div className="text-center">
-                  <Calendar className="mx-auto h-8 w-8 text-slate-400 dark:text-slate-500" />
-                  <h3 className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">No upcoming appointments</h3>
-                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  <Calendar className="mx-auto h-8 w-8 text-muted-foreground" />
+                  <h3 className="mt-2 text-sm font-semibold text-foreground">No upcoming appointments</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
                     You have no scheduled visits at this time.
                   </p>
                 </div>
@@ -126,15 +120,15 @@ export default async function Dashboard() {
             ) : (
               <div className="space-y-4">
                 {upcomingAppointments.slice(0, 5).map((apt: any) => (
-                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b dark:border-slate-800 pb-4 last:border-0 gap-4">
+                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-4 last:border-0 gap-4">
                     <div>
-                      {isAdminOrStaff && <p className="font-semibold text-primary-700 dark:text-primary-400">{apt.profiles?.full_name}</p>}
-                      <p className="font-medium text-slate-900 dark:text-white">Dr. {apt.doctors?.name}</p>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">{apt.clinics?.name}</p>
+                      {isAdminOrStaff && <p className="font-semibold text-primary">{apt.profiles?.full_name}</p>}
+                      <p className="font-medium text-foreground">{formatDoctorName(apt.doctors?.name)}</p>
+                      <p className="text-sm text-muted-foreground">{apt.clinics?.name}</p>
                     </div>
                     <div className="sm:text-right">
-                      <p className="font-medium text-slate-900 dark:text-white">{apt.appointment_date}</p>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">{apt.appointment_time}</p>
+                      <p className="font-medium text-foreground">{apt.appointment_date}</p>
+                      <p className="text-sm text-muted-foreground">{apt.appointment_time}</p>
                       <div className="flex gap-2 justify-end mt-1 items-center">
                         <StatusBadge status={apt.payment_mode || "pay_at_clinic"} type="payment" />
                         <StatusBadge status="upcoming" />
@@ -157,5 +151,3 @@ export default async function Dashboard() {
     </div>
   )
 }
-
-

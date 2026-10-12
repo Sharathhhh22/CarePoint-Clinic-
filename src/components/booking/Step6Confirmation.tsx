@@ -5,6 +5,7 @@ import { CheckCircle2, Calendar, MapPin, FileText, CreditCard } from "lucide-rea
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { QRCodeSVG } from 'qrcode.react'
+import { formatDoctorName } from "@/lib/utils"
 
 interface Step6Props {
   data: any
@@ -32,57 +33,59 @@ export function Step6Confirmation({ data }: Step6Props) {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", damping: 15, delay: 0.1 }}
-        className="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mb-4"
+        className="w-16 h-16 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 text-teal-600 dark:text-teal-400 rounded-full flex items-center justify-center mb-4"
       >
         <CheckCircle2 className="w-8 h-8" />
       </motion.div>
       
-      <h2 className="text-2xl font-bold text-slate-900 mb-2">Appointment Booked</h2>
-      <p className="text-slate-500 max-w-md mb-6 text-sm">
-        Your appointment with Dr. {data.doctorName} has been successfully scheduled.
+      <h2 className="text-2xl font-bold text-foreground mb-2">Appointment Booked</h2>
+      <p className="text-muted-foreground max-w-md mb-6 text-sm">
+        Your appointment with {formatDoctorName(data.doctorName)} has been successfully scheduled.
       </p>
 
       {/* QR Code Container */}
-      <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm mx-auto mb-6 flex flex-col items-center justify-center">
-        <p className="text-xs text-slate-500 mb-2 font-medium tracking-wide uppercase">Digital Check-in Pass</p>
-        <QRCodeSVG 
-          value={qrUrl} 
-          size={140}
-          level="M"
-          includeMargin={true}
-          className="mx-auto"
-        />
-        <p className="text-[10px] text-slate-400 mt-2 font-mono">Scan to view receipt on phone</p>
+      <div className="bg-card p-3 rounded-2xl border border-border shadow-sm mx-auto mb-6 flex flex-col items-center justify-center">
+        <p className="text-xs text-muted-foreground mb-2 font-medium tracking-wide uppercase">Digital Check-in Pass</p>
+        <div className="bg-white p-2 rounded-xl">
+          <QRCodeSVG 
+            value={qrUrl} 
+            size={140}
+            level="M"
+            includeMargin={true}
+            className="mx-auto"
+          />
+        </div>
+        <p className="text-[10px] text-muted-foreground mt-2 font-mono">Scan to view receipt on phone</p>
       </div>
 
-      <div className="w-full max-w-sm bg-slate-50 rounded-2xl border border-slate-200 p-5 text-left mb-8 space-y-4 shadow-sm">
+      <div className="w-full max-w-sm bg-surface rounded-2xl border border-border p-5 text-left mb-8 space-y-4 shadow-sm">
         <div className="flex items-start gap-3">
-          <Calendar className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
+          <Calendar className="w-5 h-5 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-slate-900">
+            <p className="font-semibold text-foreground">
               {data.date ? new Date(data.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) : 'N/A'}
             </p>
-            <p className="text-slate-500 text-sm mt-0.5">{formatTime(data.time)}</p>
+            <p className="text-muted-foreground text-sm mt-0.5">{formatTime(data.time)}</p>
           </div>
         </div>
         
         <div className="flex items-start gap-3">
-          <MapPin className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
+          <MapPin className="w-5 h-5 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-slate-900">{data.clinicName}</p>
-            <p className="text-slate-500 text-sm mt-0.5">Please arrive 10 minutes early.</p>
+            <p className="font-semibold text-foreground">{data.clinicName}</p>
+            <p className="text-muted-foreground text-sm mt-0.5">Please arrive 10 minutes early.</p>
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-200">
+        <div className="pt-4 border-t border-border">
           <div className="flex flex-col space-y-2 text-sm">
             <div className="flex justify-between items-center">
-              <span className="text-slate-500 flex items-center gap-1.5"><CreditCard className="w-4 h-4"/> Payment Method</span>
-              <span className="font-medium text-slate-900">{isOnlinePayment ? "Online Payment" : "Pay at Clinic"}</span>
+              <span className="text-muted-foreground flex items-center gap-1.5"><CreditCard className="w-4 h-4"/> Payment Method</span>
+              <span className="font-medium text-foreground">{isOnlinePayment ? "Online Payment" : "Pay at Clinic"}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-slate-500">Status</span>
-              <span className={`font-medium ${isOnlinePayment ? "text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md" : "text-slate-900"}`}>
+              <span className="text-muted-foreground">Status</span>
+              <span className={`font-medium ${isOnlinePayment ? "text-amber-700 dark:text-amber-300 bg-amber-100/70 dark:bg-amber-950/50 px-2 py-0.5 rounded-md border border-amber-300 dark:border-amber-800" : "text-foreground"}`}>
                 {isOnlinePayment ? "Awaiting Verification" : "Pay at clinic"}
               </span>
             </div>
@@ -90,9 +93,8 @@ export function Step6Confirmation({ data }: Step6Props) {
         </div>
       </div>
 
-      
       <div className="flex gap-3 w-full max-w-sm">
-        <Button variant="outline" className="flex-1 border-teal-200 text-teal-700 hover:bg-teal-50" asChild>
+        <Button variant="outline" className="flex-1" asChild>
           <Link href="/dashboard">Home</Link>
         </Button>
         <Button className="flex-1 bg-teal-600 text-white hover:bg-teal-700" asChild>

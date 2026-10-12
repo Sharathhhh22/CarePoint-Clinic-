@@ -37,7 +37,7 @@ export default function CancelButton({ appointmentId }: { appointmentId: string 
       size="sm" 
       onClick={handleCancel} 
       disabled={isCancelling}
-      className="text-red-600 hover:text-red-700 hover:bg-red-50 ml-2"
+      className="text-destructive hover:text-destructive hover:bg-destructive/10 ml-2"
     >
       {isCancelling ? <Loader2 className="h-4 w-4 animate-spin" /> : <XCircle className="h-4 w-4 mr-1" />}
       {isCancelling ? "" : "Cancel"}
