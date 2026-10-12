@@ -8,19 +8,38 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const outfit = Outfit({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: "APPOINTLY | Book Doctors Instantly",
-  description: "Book verified specialists and real-time appointment slots in under 60 seconds with APPOINTLY.",
+  title: {
+    default: "APPOINTLY | Book Doctors Instantly",
+    template: "%s | APPOINTLY",
+  },
+  description: "Book verified specialists and real-time appointment slots in under 60 seconds with APPOINTLY. Zero waiting rooms, real-time doctor availability.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon" }
+    ],
+    apple: "/icon",
+    shortcut: "/favicon.ico",
+  },
+  keywords: [
+    "doctor appointment",
+    "clinic booking",
+    "healthcare specialists",
+    "AI medical triage",
+    "online doctor booking",
+    "verified doctors"
+  ],
   openGraph: {
     title: "APPOINTLY | Book Doctors Instantly",
     description: "Book verified specialists and real-time appointment slots in under 60 seconds.",
-    url: "https://APPOINTLY-7afv.vercel.app",
+    url: "https://slot-yourself-7afv.vercel.app",
     siteName: "APPOINTLY",
     locale: "en_IN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "APPOINTLY",
+    title: "APPOINTLY | Book Doctors Instantly",
     description: "Book verified specialists and real-time appointment slots in under 60 seconds.",
   },
 };

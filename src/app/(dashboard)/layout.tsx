@@ -144,7 +144,7 @@ export default function DashboardLayout({
               <input 
                 type="text" 
                 placeholder="Search clinics, doctors, conditions..." 
-                className="w-full h-9 pl-9 pr-4 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-colors dark:text-white"
+                className="w-full h-9 pl-9 pr-4 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-colors dark:text-white"
               />
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function DashboardLayout({
             {!isAdmin && !isDoctor && (
               <Link 
                 href="/appointments/new"
-                className="inline-flex h-9 items-center justify-center rounded-full bg-slate-900 dark:bg-primary-600 px-4 md:px-5 text-sm font-medium text-white transition-opacity hover:opacity-90 shadow-sm whitespace-nowrap"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-teal-600 hover:bg-teal-700 px-4 md:px-5 text-sm font-medium text-white transition-colors shadow-sm whitespace-nowrap"
               >
                 Book Appointment
               </Link>

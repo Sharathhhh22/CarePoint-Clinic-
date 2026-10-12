@@ -1,7 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | APPOINTLY",
+  title: "Terms of Service",
+  description: "Read the APPOINTLY Terms of Service, medical disclaimers, and user platform guidelines.",
 }
 
 export default function TermsOfService() {

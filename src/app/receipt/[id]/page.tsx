@@ -143,13 +143,13 @@ export default function ReceiptPage() {
               {appointment.patient_mobile && (
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-slate-400" />
-                  <p className="text-slate-600">{appointment.patient_mobile}</p>
+                  <a href={`tel:${appointment.patient_mobile}`} className="text-teal-600 hover:underline">{appointment.patient_mobile}</a>
                 </div>
               )}
               {appointment.patient_email && (
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-slate-400" />
-                  <p className="text-slate-600">{appointment.patient_email}</p>
+                  <a href={`mailto:${appointment.patient_email}`} className="text-teal-600 hover:underline">{appointment.patient_email}</a>
                 </div>
               )}
               {appointment.patient_address && (
@@ -204,4 +204,5 @@ export default function ReceiptPage() {
     </div>
   )
 }
+
 
