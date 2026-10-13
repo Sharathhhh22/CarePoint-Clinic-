@@ -15,7 +15,7 @@ export default async function SettingsPage() {
     <div className="container mx-auto max-w-4xl p-6 md:p-8">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h2 className="section-title tracking-tight text-foreground">Settings</h2>
+          <h1 className="section-title tracking-tight text-foreground">Settings</h1>
           <p className="text-muted-foreground">Configure clinic profile and system preferences.</p>
         </div>
       </div>

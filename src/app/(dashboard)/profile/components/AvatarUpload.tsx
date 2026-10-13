@@ -64,7 +64,7 @@ export function AvatarUpload({ userId, initialUrl }: { userId: string, initialUr
         {avatarUrl ? (
           <Image 
             src={avatarUrl} 
-            alt="Avatar" 
+            alt="User profile photo" 
             fill 
             className="object-cover"
           />

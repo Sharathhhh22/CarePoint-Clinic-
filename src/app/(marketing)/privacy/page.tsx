@@ -1,35 +1,46 @@
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
 export const metadata: Metadata = {
   title: "Privacy Policy | SlotUrSelf",
-  description: "Learn how SlotUrSelf collects, secures, and protects patient information in compliance with privacy regulations.",
+  description: "Learn how SlotUrSelf collects, secures, and protects patient and medical data in compliance with digital healthcare privacy standards.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy | SlotUrSelf",
+    description: "Learn how SlotUrSelf collects, secures, and protects patient and medical data in compliance with digital healthcare privacy standards.",
+    url: "/privacy",
+  },
 }
 
 export default function PrivacyPolicy() {
   return (
-    <div className="container mx-auto max-w-3xl py-24 px-6 text-foreground">
-      <h1 className="text-4xl font-bold mb-8 text-foreground">Privacy Policy</h1>
-      <p className="text-muted-foreground mb-8">Last updated: {new Date().toLocaleDateString()}</p>
+    <div className="container mx-auto max-w-3xl pt-28 md:pt-36 pb-24 px-6 text-foreground">
+      <Breadcrumbs items={[{ label: "Privacy Policy" }]} className="mb-8" />
+
+      <h1 className="text-4xl font-bold mb-4 text-foreground">Privacy Policy</h1>
+      <p className="text-muted-foreground mb-8 text-sm">Last updated: October 12, 2026</p>
       
       <div className="prose prose-slate dark:prose-invert max-w-none space-y-6 text-foreground/90">
         <section>
           <h2 className="text-2xl font-semibold text-foreground mb-4">1. Data Protection</h2>
           <p>
-            Your privacy is important to us. This policy outlines how we collect, use, and protect your personal and medical data in accordance with modern digital data privacy standards.
+            Your privacy is critically important to us. This policy outlines how SlotUrSelf collects, processes, and protects your personal and medical information in accordance with modern digital health data privacy standards.
           </p>
         </section>
         
         <section>
           <h2 className="text-2xl font-semibold text-foreground mb-4">2. Information Collection</h2>
           <p>
-            We collect information you provide when you register an account, book an appointment, or fill out a health questionnaire on our platform. This includes your name, contact information, and reason for visit.
+            We collect information you provide directly when creating an account, scheduling an appointment, or submitting a health questionnaire. This includes your name, contact information, appointment preferences, and reason for visit.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold text-foreground mb-4">3. Data Sharing</h2>
           <p>
-            We share your data exclusively with the medical professionals and clinics you choose to book appointments with. We do not sell your data to third parties.
+            We share your data exclusively with the verified medical professionals and clinics you explicitly choose to book consultations with. We never sell, lease, or monetize your healthcare data to third-party advertisers.
           </p>
         </section>
       </div>

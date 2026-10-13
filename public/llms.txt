@@ -1,0 +1,42 @@
+# SlotUrSelf
+
+> SlotUrSelf is an enterprise healthcare appointment platform that enables real-time, verified clinical booking with zero wait times.
+
+## Overview
+SlotUrSelf connects patients directly to verified healthcare providers across partner hospital networks and independent clinics. The platform features atomic slot-locking to eliminate double-booking, AI-assisted preliminary symptom triage, and location-based specialist routing.
+
+## Core Capabilities
+- **Real-Time Booking Engine**: Master clinical calendar integration providing instant slot locks.
+- **Verified Medical Professionals**: All medical practitioners undergo credential and medical licensing checks.
+- **Specialist Routing & AI Triage**: Structured symptom analysis mapping clinical presentation to appropriate medical departments.
+- **Digital Passes**: QR-coded tickets and countdown arrival passes to bypass physical clinic queues.
+- **Emergency Helpline**: National Medical Emergency routing (108).
+
+## Main Routes
+- Homepage: https://sloturself.com/
+- Features: https://sloturself.com/features
+- How It Works: https://sloturself.com/how-it-works
+- Medical Departments: https://sloturself.com/departments
+- AI Symptom Guide: https://sloturself.com/assistant
+- About Us: https://sloturself.com/about
+- Careers: https://sloturself.com/careers
+- Contact Support: https://sloturself.com/contact
+- Patient Login: https://sloturself.com/login
+- Account Registration: https://sloturself.com/signup
+- Privacy Policy: https://sloturself.com/privacy
+- Terms of Service: https://sloturself.com/terms
+
+## Medical Specialties Supported
+- Cardiology (Heart, Cardiovascular, Hypertension)
+- Neurology (Brain, Migraines, Neuropathy)
+- Orthopedics (Bone, Joints, Spine, Sports Injuries)
+- Ophthalmology (Eye Care, Cataracts, Vision Correction)
+- Dentistry (Oral Health, Preventive & Restorative Care)
+- General Practice (Primary Care, Family Medicine, Preventive Health)
+
+## Contact Information
+- Support: support@sloturself.com
+- Partnerships: partnerships@sloturself.com
+- Phone: 1-800-SLOT-NOW (1-800-756-8669)
+- Emergency Service: 108
+- Headquarters: 123 Health Tech Blvd, Suite 400, San Francisco, CA 94107

@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
     <div className="container mx-auto p-6 md:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">Admin Control Panel</h2>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Admin Control Panel</h1>
           <p className="text-muted-foreground">Manage clinics, departments, and medical staff.</p>
         </div>
       </div>

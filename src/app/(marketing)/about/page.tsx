@@ -1,10 +1,20 @@
 import Link from "next/link"
 import { Building2, ShieldCheck, Clock, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
+import type { Metadata } from "next"
 
-export const metadata = {
-  title: "About Us",
+export const metadata: Metadata = {
+  title: "About Us | SlotUrSelf",
   description: "Learn how SlotUrSelf is modernizing healthcare access by eliminating the waiting room through real-time verified clinical scheduling.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Us | SlotUrSelf",
+    description: "Learn how SlotUrSelf is modernizing healthcare access by eliminating the waiting room through real-time verified clinical scheduling.",
+    url: "/about",
+  },
 }
 
 export default function AboutPage() {
@@ -29,6 +39,8 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
       <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+        <Breadcrumbs items={[{ label: "About Us" }]} className="mb-8" />
+
         <div className="text-center mb-16 md:mb-20">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
             About SlotUrSelf

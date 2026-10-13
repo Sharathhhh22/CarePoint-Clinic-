@@ -46,9 +46,9 @@ export default async function Dashboard() {
     <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="section-title text-foreground">
+          <h1 className="section-title text-foreground">
             Welcome, {profile?.full_name || 'User'}
-          </h2>
+          </h1>
           <p className="text-muted-foreground mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
         </div>
       </div>

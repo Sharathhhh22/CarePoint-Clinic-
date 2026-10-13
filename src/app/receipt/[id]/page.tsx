@@ -73,7 +73,7 @@ export default function ReceiptPage() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/40 mb-4 border border-teal-200 dark:border-teal-800">
             <CheckCircle2 className="h-8 w-8 text-teal-600 dark:text-teal-400" />
           </div>
-          <CardTitle className="text-2xl text-foreground font-bold">Digital Pass</CardTitle>
+          <h1 className="text-2xl text-foreground font-bold">Digital Pass</h1>
           <p className="text-muted-foreground text-sm mb-4">Please present this pass or QR code at the reception desk.</p>
 
           <div className="my-6">

@@ -1,9 +1,19 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight, Briefcase, MapPin, Clock } from "lucide-react"
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
-export const metadata = {
-  title: "Careers",
-  description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and patient scheduling.",
+export const metadata: Metadata = {
+  title: "Careers | SlotUrSelf",
+  description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
+  alternates: {
+    canonical: "/careers",
+  },
+  openGraph: {
+    title: "Careers | SlotUrSelf",
+    description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
+    url: "/careers",
+  },
 }
 
 export default function CareersPage() {
@@ -17,6 +27,8 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
       <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+        <Breadcrumbs items={[{ label: "Careers" }]} className="mb-8" />
+
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
           <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-md text-xs font-bold tracking-wide uppercase mb-6">
             We are hiring
@@ -55,8 +67,8 @@ export default function CareersPage() {
         </div>
 
         <div className="mt-16 text-center p-8 md:p-10 bg-card rounded-2xl border border-border">
-          <h3 className="text-xl font-bold text-foreground mb-2">Don't see an exact fit?</h3>
-          <p className="text-muted-foreground mb-4 text-sm">We're always looking for talented engineers and healthcare leaders.</p>
+          <h3 className="text-xl font-bold text-foreground mb-2">Don&apos;t see an exact fit?</h3>
+          <p className="text-muted-foreground mb-4 text-sm">We&apos;re always looking for talented engineers and healthcare leaders.</p>
           <a href="mailto:careers@sloturself.com" className="text-primary font-semibold hover:underline text-sm">
             careers@sloturself.com
           </a>

@@ -30,7 +30,7 @@ export default async function AdminDepartmentsPage() {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">Manage Departments</h2>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Manage Departments</h1>
           <p className="text-muted-foreground mt-1">View and edit your medical specialties.</p>
         </div>
         <Link

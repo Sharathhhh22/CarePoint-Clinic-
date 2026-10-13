@@ -43,7 +43,7 @@ export default async function AppointmentsPage() {
     <div className="container mx-auto p-6 md:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
         <div>
-          <h2 className="section-title text-foreground">Appointments History</h2>
+          <h1 className="section-title text-foreground">Appointments History</h1>
           <p className="text-muted-foreground">
             {isAdminOrStaff ? "Manage all clinic appointments." : "View your past and upcoming appointments."}
           </p>
