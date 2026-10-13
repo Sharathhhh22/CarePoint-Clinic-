@@ -85,7 +85,7 @@ export default function AssistantPage() {
         <div className="mb-10 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3.5">
           <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
           <div className="text-xs md:text-sm text-amber-900 dark:text-amber-200 leading-relaxed">
-            <strong>Important Medical Disclaimer:</strong> This tool provides preliminary clinical navigation, not a definitive medical diagnosis. If you are experiencing chest pain, acute shortness of breath, severe bleeding, or sudden paralysis, dial emergency services (911 / 112) immediately.
+            <strong>Important Medical Disclaimer:</strong> This tool provides preliminary clinical navigation, not a definitive medical diagnosis. If you are experiencing chest pain, acute shortness of breath, severe bleeding, or sudden paralysis, dial emergency services (108) immediately.
           </div>
         </div>
 

@@ -80,7 +80,7 @@ export function Step1Concern({ data, updateData, onNext }: Step1Props) {
                 
                 {isEmergency && (
                   <div className="mt-4 p-4 bg-destructive/15 text-destructive rounded-lg font-medium border border-destructive/30">
-                    If this is a life-threatening emergency, please call your national emergency number immediately (e.g. 911 or 112).
+                    If this is a life-threatening emergency, please call medical emergency services immediately (108).
                   </div>
                 )}
 

@@ -80,7 +80,7 @@ export function EmergencyCallModal({ isOpen, onClose, doctorId, doctorName, appo
         </DialogHeader>
 
         <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-lg font-medium">
-          If this is a life-threatening emergency, call your national emergency number (e.g. 911 or 112) now.
+          If this is a life-threatening emergency, call medical emergency (108) now.
         </div>
 
         {status === 'idle' || status === 'error' ? (
@@ -144,7 +144,7 @@ export function EmergencyCallModal({ isOpen, onClose, doctorId, doctorName, appo
               <p className="text-sm font-semibold text-foreground">Fallback Options:</p>
               
               <Button asChild className="w-full bg-destructive hover:bg-destructive/90 text-destructive-foreground h-11">
-                <a href="tel:911">Call National Emergency (911)</a>
+                <a href="tel:108">Call Medical Emergency (108)</a>
               </Button>
               
               <Button onClick={handleNotifyClinic} variant="outline" className="w-full h-11">

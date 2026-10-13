@@ -58,14 +58,14 @@ export class LLMService {
       return {
         id: `msg-${Date.now()}`,
         role: 'assistant',
-        content: "⚠️ **URGENT MEDICAL ALERT**: Your message indicates potential medical emergency symptoms. Please call local emergency services immediately (911 / 112) or go to the nearest emergency room. SlotUrSelf is not an emergency response service.",
+        content: "⚠️ **URGENT MEDICAL ALERT**: Your message indicates potential medical emergency symptoms. Please call local emergency services immediately (108) or go to the nearest emergency room. SlotUrSelf is not an emergency response service.",
         timestamp: new Date().toISOString(),
         metadata: {
           urgency: 'emergency',
           recommendedDepartment: 'Emergency Medicine',
           recommendedSpecialist: 'Emergency Physician',
           suggestedActions: [
-            { label: 'Call 911 / Emergency', action: 'emergency' },
+            { label: 'Call 108 / Emergency', action: 'emergency' },
             { label: 'Find Nearest Emergency Room', action: 'query', payload: 'emergency clinics' }
           ]
         }
@@ -237,7 +237,7 @@ export class LLMService {
         recommendedDepartment: 'Emergency Department',
         recommendedSpecialist: 'Emergency Medicine',
         followUpQuestions: ['Are you currently alone?', 'Can you access immediate emergency services?'],
-        patientGuidance: 'Please call emergency services (911/112) or seek emergency room care immediately.'
+        patientGuidance: 'Please call emergency medical services (108) or seek emergency room care immediately.'
       }
     }
 

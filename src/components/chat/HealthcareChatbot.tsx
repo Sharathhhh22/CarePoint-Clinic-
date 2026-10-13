@@ -159,7 +159,7 @@ export function HealthcareChatbot() {
             {/* Emergency Notice Banner */}
             <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center gap-2 text-[11px] text-amber-700 dark:text-amber-300">
               <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
-              <span>For urgent medical crises, dial 911 / 112 immediately.</span>
+              <span>For urgent medical crises, dial 108 immediately.</span>
             </div>
 
             {/* Messages Body */}
