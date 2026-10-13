@@ -1,49 +1,60 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent } from "@/components/ui/card"
-import { CalendarDays, User, FileText, CheckCircle2, Activity, XCircle, Bot, Sparkles } from "lucide-react"
+import { CalendarDays, User, FileText, CheckCircle2, Activity, XCircle, Sparkles, Settings, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { EmergencySettings } from "@/components/telephony/EmergencySettings"
 import { formatDoctorName } from "@/lib/utils"
 import { DoctorAiNoteModal } from "./DoctorAiNoteModal"
+import { DoctorOnboardingForm } from "@/components/doctor/DoctorOnboardingForm"
+import { DoctorApplicationStatus } from "@/components/doctor/DoctorApplicationStatus"
 
 export default function DoctorPortal() {
   const [appointments, setAppointments] = useState<any[]>([])
   const [doctorProfile, setDoctorProfile] = useState<any>(null)
+  const [clinics, setClinics] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [isEditing, setIsEditing] = useState(false)
   const [selectedApptForAi, setSelectedApptForAi] = useState<any | null>(null)
 
   const supabase = createClient()
 
-  useEffect(() => {
-    async function fetchDoctorData() {
-      try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) {
-          setError("Not authenticated")
-          setLoading(false)
-          return
-        }
+  const fetchDoctorData = useCallback(async () => {
+    setLoading(true)
+    setError("")
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        setError("Not authenticated. Please log in.")
+        setLoading(false)
+        return
+      }
 
-        // 1. Get the doctor record linked to this user
-        const { data: doctorData, error: doctorError } = await supabase
-          .from('doctors')
-          .select('*')
-          .eq('profile_id', user.id)
-          .maybeSingle()
+      // Fetch active clinics for dropdown
+      const { data: clinicsData } = await supabase
+        .from('clinics')
+        .select('id, name, address')
+        .eq('is_active', true)
+      setClinics(clinicsData || [])
 
-        if (doctorError || !doctorData) {
-          setError("Doctor profile not found. Please contact administration to link your account.")
-          setLoading(false)
-          return
-        }
+      // 1. Get the doctor record linked to this user
+      const { data: doctorData, error: doctorError } = await supabase
+        .from('doctors')
+        .select('*')
+        .eq('profile_id', user.id)
+        .maybeSingle()
 
-        setDoctorProfile(doctorData)
+      if (doctorError) {
+        console.warn("Doctor fetch error:", doctorError)
+      }
 
-        // 2. Get appointments for this doctor (today and future)
+      setDoctorProfile(doctorData || null)
+
+      // 2. If approved, load appointments for this doctor (today and future)
+      if (doctorData && doctorData.status === 'approved') {
         const today = new Date().toISOString().split('T')[0]
         
         const { data: apptData, error: apptError } = await supabase
@@ -58,18 +69,19 @@ export default function DoctorPortal() {
           .order('appointment_time', { ascending: true })
 
         if (apptError) throw apptError
-
         setAppointments(apptData || [])
-      } catch (err: any) {
-        console.error("Error fetching doctor data:", err)
-        setError("Failed to load appointments.")
-      } finally {
-        setLoading(false)
       }
+    } catch (err: any) {
+      console.error("Error fetching doctor portal data:", err)
+      setError("Failed to load doctor portal data.")
+    } finally {
+      setLoading(false)
     }
+  }, [supabase])
 
+  useEffect(() => {
     fetchDoctorData()
-  }, [])
+  }, [fetchDoctorData])
 
   const handleStatusUpdate = async (id: string, newStatus: string) => {
     try {
@@ -109,11 +121,67 @@ export default function DoctorPortal() {
     )
   }
 
+  // 1. If no doctor record exists OR user is in draft state OR explicitly editing
+  if (!doctorProfile || doctorProfile.status === 'draft' || isEditing) {
+    return (
+      <div className="space-y-6">
+        {isEditing && (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setIsEditing(false)} 
+            className="mb-2 text-xs"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Back to Schedule
+          </Button>
+        )}
+        <DoctorOnboardingForm 
+          initialDoctor={doctorProfile}
+          clinics={clinics}
+          onSuccess={() => {
+            setIsEditing(false)
+            fetchDoctorData()
+          }}
+        />
+      </div>
+    )
+  }
+
+  // 2. If status is pending, rejected, or suspended
+  if (doctorProfile.status !== 'approved') {
+    return (
+      <DoctorApplicationStatus 
+        doctor={doctorProfile} 
+        onEdit={() => setIsEditing(true)} 
+      />
+    )
+  }
+
+  // 3. Approved Doctor Dashboard
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Doctor Portal</h1>
-        <p className="text-muted-foreground mt-2">Welcome back, {formatDoctorName(doctorProfile?.name)}. Here is your schedule.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Doctor Portal</h1>
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              ✓ Verified Practicing Doctor
+            </span>
+          </div>
+          <p className="text-muted-foreground mt-1">
+            Welcome back, {formatDoctorName(doctorProfile?.name)}. Here is your consultation schedule.
+          </p>
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsEditing(true)}
+          className="self-start sm:self-auto font-medium"
+        >
+          <Settings className="w-4 h-4 mr-2" />
+          Edit Profile & Availability
+        </Button>
       </div>
 
       <EmergencySettings doctorId={doctorProfile?.id} initialEnabled={doctorProfile?.emergency_calls_enabled ?? true} />

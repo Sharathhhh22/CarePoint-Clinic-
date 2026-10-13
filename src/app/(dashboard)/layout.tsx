@@ -46,6 +46,12 @@ export default function DashboardLayout({
         }
         if (data?.role === 'doctor') {
           setIsDoctor(true)
+        } else {
+          // Check if user has an associated doctor application
+          const { data: doc } = await supabase.from('doctors').select('id').eq('profile_id', user.id).maybeSingle()
+          if (doc) {
+            setIsDoctor(true)
+          }
         }
       }
     }
@@ -62,7 +68,7 @@ export default function DashboardLayout({
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/appointments", label: "Appointments", icon: CalendarCheck },
     { href: "/records", label: "Medical Records", icon: User },
-    ...(isDoctor ? [{ href: "/doctor", label: "Doctor Portal", icon: Stethoscope }] : []),
+    { href: "/doctor", label: isDoctor ? "Doctor Portal" : "Doctor Portal", icon: Stethoscope },
     ...(isAdmin ? [{ href: "/admin", label: "Admin Panel", icon: Settings }] : []),
     { href: "/profile", label: "Profile", icon: User },
     { href: "/settings", label: "Settings", icon: Settings },

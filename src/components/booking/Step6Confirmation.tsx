@@ -93,11 +93,26 @@ export function Step6Confirmation({ data }: Step6Props) {
         </div>
       </div>
 
+      {/* Google Calendar Link */}
+      {data.date && data.time && (
+        <div className="mb-6 w-full max-w-sm">
+          <a
+            href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Doctor Appointment with ${formatDoctorName(data.doctorName)}`)}&dates=${data.date.replace(/-/g, '')}T${data.time.replace(/:/g, '').substring(0, 4)}00/${data.date.replace(/-/g, '')}T${(parseInt(data.time.substring(0, 2), 10) + 1).toString().padStart(2, '0')}${data.time.substring(3, 5)}00&details=${encodeURIComponent(`Clinical consultation with ${formatDoctorName(data.doctorName)} at ${data.clinicName}. Please bring your photo ID and arrive 10 minutes prior.`)}&location=${encodeURIComponent(data.clinicName)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-2 h-10 rounded-xl border border-border bg-card hover:bg-surface-elevated text-xs font-semibold text-foreground transition-colors shadow-xs"
+          >
+            <Calendar className="w-3.5 h-3.5 text-primary" />
+            Add to Google Calendar
+          </a>
+        </div>
+      )}
+
       <div className="flex gap-3 w-full max-w-sm">
         <Button variant="outline" className="flex-1" asChild>
-          <Link href="/dashboard">Home</Link>
+          <Link href="/dashboard">Dashboard</Link>
         </Button>
-        <Button className="flex-1 bg-teal-600 text-white hover:bg-teal-700" asChild>
+        <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary-hover font-semibold" asChild>
           <Link href={`/receipt/${data.appointmentId}`}>
             <FileText className="w-4 h-4 mr-2" />
             Full Receipt

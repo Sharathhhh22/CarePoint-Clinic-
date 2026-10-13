@@ -21,7 +21,8 @@ export default async function AdminDashboard() {
   // Fetch counts
   const { count: clinicsCount } = await supabase.from('clinics').select('*', { count: 'exact', head: true })
   const { count: deptsCount } = await supabase.from('departments').select('*', { count: 'exact', head: true })
-  const { count: doctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true })
+  const { count: doctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true }).eq('is_active', true)
+  const { count: pendingDoctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true }).eq('status', 'pending')
   const { count: patientsCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).not('role', 'in', '("admin", "staff")')
 
   return (
@@ -64,14 +65,21 @@ export default async function AdminDashboard() {
 
         {/* Doctors Management */}
         <Link href="/admin/doctors" className="block group">
-          <Card className="transition-all hover:border-primary/50 hover:shadow-md h-full">
+          <Card className="transition-all hover:border-primary/50 hover:shadow-md h-full relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">Doctors</CardTitle>
               <Stethoscope className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-foreground mb-1">{doctorsCount || 0}</div>
-              <p className="text-sm text-muted-foreground">Practicing physicians</p>
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <p className="text-sm text-muted-foreground">Practicing physicians</p>
+                {(pendingDoctorsCount || 0) > 0 && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30">
+                    {pendingDoctorsCount} pending review
+                  </span>
+                )}
+              </div>
             </CardContent>
           </Card>
         </Link>

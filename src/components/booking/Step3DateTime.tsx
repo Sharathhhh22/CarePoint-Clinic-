@@ -18,12 +18,34 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
   const [selectedDate, setSelectedDate] = useState<string | null>(data.date || null)
   const [selectedTime, setSelectedTime] = useState<string | null>(data.time || null)
   const [takenSlots, setTakenSlots] = useState<string[]>([])
+  const [availabilityList, setAvailabilityList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isHolding, setIsHolding] = useState(false)
   const [error, setError] = useState("")
 
   const supabase = createClient()
   const doctorId = data.doctorId
+
+  // Fetch doctor custom availability schedule if configured
+  useEffect(() => {
+    if (!doctorId) return
+    async function loadAvailability() {
+      try {
+        const { data: avail } = await supabase
+          .from('doctor_availability')
+          .select('*')
+          .eq('doctor_id', doctorId)
+          .eq('is_active', true)
+
+        if (avail && avail.length > 0) {
+          setAvailabilityList(avail)
+        }
+      } catch (e) {
+        console.warn("Could not load custom availability:", e)
+      }
+    }
+    loadAvailability()
+  }, [doctorId, supabase])
 
   // Generate next 14 days
   const dates = useMemo(() => {
@@ -32,23 +54,47 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
     for (let i = 0; i < 14; i++) {
       const d = new Date(today)
       d.setDate(today.getDate() + i)
-      // Skip Sundays (0)
-      if (d.getDay() !== 0) {
+      // Skip Sundays (0) if doctor doesn't have custom Sunday availability
+      if (d.getDay() !== 0 || availabilityList.some(a => a.day_of_week === 0)) {
         arr.push(d)
       }
     }
     return arr
-  }, [])
+  }, [availabilityList])
 
-  // Generate 9 AM to 5 PM slots (30 mins)
+  // Generate slots dynamically based on doctor's schedule or standard 9-5 clinic hours
   const timeSlots = useMemo(() => {
+    if (!selectedDate) return []
+    
+    // Parse selected date day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    // Make sure we parse in local date context to avoid UTC shifts
+    const [y, m, d] = selectedDate.split('-').map(Number)
+    const dayOfWeek = new Date(y, m - 1, d).getDay()
+
+    if (availabilityList.length > 0) {
+      const schedule = availabilityList.find(a => a.day_of_week === dayOfWeek)
+      if (!schedule) {
+        // Doctor does not work on this day
+        return []
+      }
+      const startHour = parseInt(schedule.start_time.split(':')[0], 10)
+      const endHour = parseInt(schedule.end_time.split(':')[0], 10)
+      const slots = []
+      for (let h = startHour; h < endHour; h++) {
+        slots.push(`${h.toString().padStart(2, '0')}:00:00`)
+        slots.push(`${h.toString().padStart(2, '0')}:30:00`)
+      }
+      return slots
+    }
+
+    // Default standard clinic hours: 9 AM to 5 PM (30 min increments)
     const slots = []
     for (let h = 9; h < 17; h++) {
       slots.push(`${h.toString().padStart(2, '0')}:00:00`)
       slots.push(`${h.toString().padStart(2, '0')}:30:00`)
     }
     return slots
-  }, [])
+  }, [selectedDate, availabilityList])
 
   // Format helper
   const formatDateForDB = (d: Date) => d.toISOString().split('T')[0]
@@ -230,6 +276,12 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
             {isLoading ? (
               <div className="flex justify-center py-8">
                 <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : timeSlots.length === 0 ? (
+              <div className="text-center py-8 border border-dashed border-border rounded-xl p-4 bg-surface/50">
+                <Clock className="w-8 h-8 text-muted-foreground mx-auto mb-2 opacity-50" />
+                <p className="text-sm font-medium text-foreground">No clinic slots on this date</p>
+                <p className="text-xs text-muted-foreground mt-1">The physician does not have scheduled hours on this day. Please pick another date above.</p>
               </div>
             ) : (
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">

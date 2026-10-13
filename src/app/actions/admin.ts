@@ -110,3 +110,98 @@ export async function saveMainClinic(formData: FormData) {
   revalidatePath('/settings')
   redirect('/settings?success=1')
 }
+
+// ==============================
+// DOCTOR APPLICATION REVIEW & AUDIT
+// ==============================
+export async function reviewDoctorApplication(
+  doctorId: string,
+  decision: 'approved' | 'rejected' | 'suspended' | 'reactivated',
+  reason?: string
+) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { error: "Authentication required" }
+  }
+
+  // Verify Admin / Staff Privileges
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile || (profile.role !== 'admin' && profile.role !== 'staff')) {
+    return { error: "Access denied. Only administrators can review doctor applications." }
+  }
+
+  try {
+    let newStatus: string
+    let newIsActive: boolean
+
+    switch (decision) {
+      case 'approved':
+      case 'reactivated':
+        newStatus = 'approved'
+        newIsActive = true
+        break
+      case 'rejected':
+        newStatus = 'rejected'
+        newIsActive = false
+        break
+      case 'suspended':
+        newStatus = 'suspended'
+        newIsActive = false
+        break
+      default:
+        return { error: "Invalid review decision" }
+    }
+
+    // 1. Update doctor record with review outcome
+    const { error: updateError } = await supabase
+      .from('doctors')
+      .update({
+        status: newStatus,
+        is_active: newIsActive,
+        admin_reviewer_id: user.id,
+        reviewed_at: new Date().toISOString(),
+        rejection_reason: decision === 'rejected' ? (reason || 'Credentials could not be verified.') : null,
+      })
+      .eq('id', doctorId)
+
+    if (updateError) {
+      console.error("Failed to update doctor review status:", updateError)
+      return { error: updateError.message }
+    }
+
+    // 2. Insert into verification review history audit log
+    const { error: historyError } = await supabase
+      .from('doctor_verification_history')
+      .insert([
+        {
+          doctor_id: doctorId,
+          reviewer_id: user.id,
+          decision,
+          reason: reason || null,
+          reviewed_at: new Date().toISOString(),
+          metadata: {
+            reviewer_role: profile.role,
+            timestamp: new Date().toISOString(),
+          },
+        },
+      ])
+
+    if (historyError) {
+      console.warn("Could not write to verification audit log:", historyError)
+    }
+
+    revalidatePath('/admin/doctors')
+    revalidatePath('/doctor')
+    return { success: true }
+  } catch (err: any) {
+    console.error("Error reviewing doctor application:", err)
+    return { error: err.message || "Failed to process review." }
+  }
+}

@@ -195,12 +195,25 @@ export default function ReceiptPage() {
           </div>
 
           
-          <div className="pt-6 text-center flex flex-col items-center gap-4">
+          <div className="pt-6 text-center flex flex-col items-center gap-3 print:hidden">
             <p className="text-xs text-muted-foreground font-mono">ID: {appointment.id}</p>
-            <Button onClick={handleDownloadPdf} className="w-full max-w-xs bg-teal-600 hover:bg-teal-700 text-white h-12 text-base print:hidden rounded-xl">
-              <Download className="w-4 h-4 mr-2" />
-              Download Digital Pass
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
+              <Button onClick={handleDownloadPdf} className="flex-1 bg-teal-600 hover:bg-teal-700 text-white h-11 text-sm rounded-xl">
+                <Download className="w-4 h-4 mr-2" />
+                Print / Save Pass
+              </Button>
+              {appointment.appointment_date && appointment.appointment_time && (
+                <a
+                  href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Doctor Appointment with ${formatDoctorName(appointment.doctor_name)}`)}&dates=${appointment.appointment_date.replace(/-/g, '')}T${appointment.appointment_time.replace(/:/g, '').substring(0, 4)}00/${appointment.appointment_date.replace(/-/g, '')}T${(parseInt(appointment.appointment_time.substring(0, 2), 10) + 1).toString().padStart(2, '0')}${appointment.appointment_time.substring(3, 5)}00&details=${encodeURIComponent(`Appointment at ${appointment.clinic_name}. Please present your digital check-in pass at the reception.`)}&location=${encodeURIComponent(appointment.clinic_name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-xl border border-border bg-card hover:bg-surface-elevated text-xs font-semibold text-foreground transition-colors shadow-xs"
+                >
+                  <CalendarDays className="w-4 h-4 text-primary" />
+                  Google Calendar
+                </a>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -108,11 +108,14 @@ export function Step2Clinic({ data, updateData, onNext, onPrev }: Step2Props) {
     fetchClinicsBySearch(searchQuery)
   }
 
-  const selectDoctor = (clinicId: string, clinicName: string, doctorId: string, doctorName: string) => {
+  const selectDoctor = (clinicId: string, clinicName: string, doctorId: string, doctorName: string, consultationFee?: number) => {
     updateData("clinicId", clinicId)
     updateData("clinicName", clinicName)
     updateData("doctorId", doctorId)
     updateData("doctorName", doctorName)
+    if (consultationFee != null) {
+      updateData("consultationFee", consultationFee)
+    }
     onNext()
   }
 
@@ -214,22 +217,45 @@ export function Step2Clinic({ data, updateData, onNext, onPrev }: Step2Props) {
                   <div className="divide-y divide-border">
                     {clinic.doctors?.length > 0 ? (
                       clinic.doctors.map((doctor: any) => (
-                        <div key={doctor.id} className="p-4 flex items-center justify-between group hover:bg-surface-elevated/40 transition-colors">
-                          <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center text-primary">
-                              <UserCheck className="w-6 h-6" />
-                            </div>
+                        <div key={doctor.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group hover:bg-surface-elevated/40 transition-colors">
+                          <div className="flex items-start sm:items-center gap-4">
+                            {doctor.photo_url ? (
+                              <img 
+                                src={doctor.photo_url} 
+                                alt={doctor.name} 
+                                className="w-12 h-12 rounded-full object-cover border border-border shadow-xs" 
+                              />
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center text-primary shrink-0">
+                                <UserCheck className="w-6 h-6" />
+                              </div>
+                            )}
                             <div>
-                              <h4 className="font-semibold text-foreground">{formatDoctorName(doctor.name)}</h4>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h4 className="font-semibold text-foreground">{formatDoctorName(doctor.name)}</h4>
+                                {doctor.qualifications && (
+                                  <span className="text-xs text-muted-foreground font-mono bg-surface-elevated px-1.5 py-0.5 rounded border border-border">
+                                    {doctor.qualifications}
+                                  </span>
+                                )}
+                                <span className="inline-flex items-center text-[11px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                                  ✓ Verified
+                                </span>
+                              </div>
                               <p className="text-sm text-muted-foreground flex items-center mt-0.5">
-                                <Stethoscope className="w-3.5 h-3.5 mr-1" /> 
-                                {doctor.specialty} • {doctor.experience_years ? `${doctor.experience_years}y exp` : 'Experienced'}
+                                <Stethoscope className="w-3.5 h-3.5 mr-1 text-primary/70 shrink-0" /> 
+                                {doctor.specialty} • {doctor.experience_years ? `${doctor.experience_years}y experience` : 'Experienced'}
                               </p>
+                              {doctor.consultation_fee != null && (
+                                <p className="text-xs text-muted-foreground mt-1 font-medium">
+                                  Consultation Fee: <span className="text-foreground font-semibold">₹{doctor.consultation_fee}</span>
+                                </p>
+                              )}
                             </div>
                           </div>
                           <Button 
-                            onClick={() => selectDoctor(clinicId, clinicName, doctor.id, doctor.name)}
-                            className="opacity-90 group-hover:opacity-100 transition-opacity bg-primary hover:bg-primary-hover text-primary-foreground font-semibold"
+                            onClick={() => selectDoctor(clinicId, clinicName, doctor.id, doctor.name, doctor.consultation_fee)}
+                            className="opacity-90 group-hover:opacity-100 transition-opacity bg-primary hover:bg-primary-hover text-primary-foreground font-semibold shrink-0"
                           >
                             Select Doctor
                           </Button>

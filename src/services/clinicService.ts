@@ -124,12 +124,12 @@ export class ClinicService {
         return []
       }
 
-      // Fetch active doctors for these clinics
-      // Note: Only query columns that exist in the database (do not select consultation_fee)
+      // Fetch approved active doctors for these clinics
       const { data: doctorsData, error: docsError } = await supabase
         .from('doctors')
-        .select('id, name, specialty, experience_years, clinic_id')
+        .select('id, name, specialty, experience_years, consultation_fee, currency, photo_url, qualifications, medical_registration_no, status, clinic_id')
         .eq('is_active', true)
+        .eq('status', 'approved')
         .in('clinic_id', clinicIds)
 
       if (docsError) {
