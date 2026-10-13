@@ -104,6 +104,7 @@ function BookingWizardContent() {
                 data={state} 
                 updateData={handleUpdate} 
                 onNext={nextStep} 
+                onPrev={prevStep}
               />
             )}
             {currentStep === 3 && (
@@ -137,20 +138,6 @@ function BookingWizardContent() {
             )}
           </motion.div>
         </AnimatePresence>
-
-        {/* Navigation Footer */}
-        {currentStep > 1 && currentStep < 6 && (
-          <div className="p-6 border-t border-border flex items-center justify-between bg-surface mt-auto">
-            <Button variant="outline" onClick={prevStep} className="font-semibold">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-            <Button onClick={nextStep} className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-8">
-              Continue
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   )

@@ -114,7 +114,11 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
   }
 
   const handleHoldSlot = async () => {
-    if (!selectedDate || !selectedTime || !doctorId) return
+    const clinicId = data.clinicId || data.clinic_id
+    if (!selectedDate || !selectedTime || !doctorId || !clinicId) {
+      setError("Please ensure clinic and doctor are selected. Click Back to reselect if needed.")
+      return
+    }
     
     setIsHolding(true)
     setError("")
@@ -131,8 +135,8 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          clinicId: data.clinicId,
-          doctorId: doctorId,
+          clinicId,
+          doctorId,
           date: selectedDate,
           time: selectedTime
         })
@@ -145,6 +149,8 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
       }
 
       // Success! Update global state and move to next step
+      updateData("clinicId", clinicId)
+      updateData("doctorId", doctorId)
       updateData("date", selectedDate)
       updateData("time", selectedTime)
       updateData("appointmentId", result.appointmentId)

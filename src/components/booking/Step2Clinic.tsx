@@ -3,16 +3,17 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MapPin, Search, Loader2, Navigation, UserCheck, Stethoscope } from "lucide-react"
+import { MapPin, Search, Loader2, Navigation, UserCheck, Stethoscope, ArrowLeft } from "lucide-react"
 import { formatDoctorName } from "@/lib/utils"
 
 interface Step2Props {
   data: any
   updateData: (key: string, value: any) => void
   onNext: () => void
+  onPrev?: () => void
 }
 
-export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
+export function Step2Clinic({ data, updateData, onNext, onPrev }: Step2Props) {
   const [clinics, setClinics] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
@@ -41,11 +42,12 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
         setLocationStatus("granted")
         fetchClinicsByCoords(position.coords.latitude, position.coords.longitude)
       },
-      (error) => {
-        console.warn("Geolocation error:", error)
+      (geoError) => {
+        console.warn("Geolocation denied or unavailable:", geoError.message)
         setLocationStatus("denied")
         fetchClinicsBySearch("")
-      }
+      },
+      { timeout: 8000 }
     )
   }
 
@@ -53,12 +55,15 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
     setIsLoading(true)
     setError("")
     try {
-      const res = await fetch(`/api/clinics/nearby?lat=${lat}&lon=${lon}&specialty=${encodeURIComponent(recommendedSpecialty)}`)
+      const url = recommendedSpecialty
+        ? `/api/clinics/nearby?lat=${lat}&lon=${lon}&specialty=${encodeURIComponent(recommendedSpecialty)}`
+        : `/api/clinics/nearby?lat=${lat}&lon=${lon}`
+      const res = await fetch(url)
       const result = await res.json()
       if (!res.ok) throw new Error(result.error)
-      setClinics(result.clinics)
+      setClinics(result.clinics || [])
     } catch (err: any) {
-      setError(err.message)
+      setError(err.message || "Could not retrieve nearby clinics.")
     } finally {
       setIsLoading(false)
     }
@@ -68,12 +73,31 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
     setIsLoading(true)
     setError("")
     try {
-      const res = await fetch(`/api/clinics/nearby?search=${encodeURIComponent(query)}&specialty=${encodeURIComponent(recommendedSpecialty)}`)
+      const params = new URLSearchParams()
+      if (query.trim()) params.set("search", query.trim())
+      if (recommendedSpecialty) params.set("specialty", recommendedSpecialty)
+
+      const res = await fetch(`/api/clinics/nearby?${params.toString()}`)
       const result = await res.json()
       if (!res.ok) throw new Error(result.error)
-      setClinics(result.clinics)
+      setClinics(result.clinics || [])
     } catch (err: any) {
-      setError(err.message)
+      setError(err.message || "Failed to search clinics.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const showAllDoctors = async () => {
+    setIsLoading(true)
+    setError("")
+    try {
+      const res = await fetch(`/api/clinics/nearby`)
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.error)
+      setClinics(result.clinics || [])
+    } catch (err: any) {
+      setError(err.message || "Failed to load doctors.")
     } finally {
       setIsLoading(false)
     }
@@ -99,7 +123,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
         
         {recommendedSpecialty ? (
           <p className="text-muted-foreground mb-6">
-            Showing available <strong className="text-foreground">{recommendedSpecialty}s</strong> near you.
+            Showing available <strong className="text-foreground">{recommendedSpecialty}</strong> specialists near you.
           </p>
         ) : (
           <p className="text-muted-foreground mb-6">Select a doctor to book your appointment.</p>
@@ -109,7 +133,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
         <div className="mb-8 p-4 bg-surface rounded-xl border border-border">
           {locationStatus === "requesting" && (
             <div className="flex items-center text-sm text-muted-foreground">
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Requesting location access...
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Detecting your location...
             </div>
           )}
           
@@ -129,7 +153,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
               <div className="relative flex-1">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Enter city or zip code..." 
+                  placeholder="Enter clinic name, city, or address..." 
                   className="pl-9 bg-input-bg border-border text-foreground placeholder:text-muted-foreground"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
@@ -153,67 +177,84 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
               <Loader2 className="w-8 h-8 animate-spin mb-4 text-primary" />
-              <p>Finding the best clinics nearby...</p>
+              <p>Finding available specialists...</p>
             </div>
           ) : clinics.length === 0 ? (
-            <div className="text-center py-12 border-2 border-dashed border-border rounded-2xl">
-              <p className="text-muted-foreground">No clinics found matching this specialty nearby.</p>
-              <Button variant="outline" className="mt-4" onClick={() => fetchClinicsBySearch("")}>
+            <div className="text-center py-12 border-2 border-dashed border-border rounded-2xl p-6">
+              <p className="text-muted-foreground">No clinics found matching this specific specialty nearby.</p>
+              <Button variant="outline" className="mt-4" onClick={showAllDoctors}>
                 Show all doctors
               </Button>
             </div>
           ) : (
-            clinics.map(clinic => (
-              <div key={clinic.clinic_id} className="border border-border rounded-2xl overflow-hidden bg-card shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-surface p-4 border-b border-border flex justify-between items-center">
-                  <div>
-                    <h3 className="font-bold text-foreground">{clinic.clinic_name}</h3>
-                    <p className="text-sm text-muted-foreground flex items-center mt-1">
-                      <MapPin className="w-3.5 h-3.5 mr-1" /> {clinic.clinic_address}
-                      {clinic.distance_meters !== undefined && (
-                        <span className="ml-2 px-2 py-0.5 bg-surface-elevated text-muted-foreground border border-border rounded-full text-xs font-medium">
-                          {(clinic.distance_meters / 1000).toFixed(1)} km away
-                        </span>
-                      )}
-                    </p>
+            clinics.map(clinic => {
+              const clinicId = clinic.clinic_id || clinic.id
+              const clinicName = clinic.clinic_name || clinic.name
+              const clinicAddress = clinic.clinic_address || clinic.address
+              const distance = clinic.distance_km != null 
+                ? `${clinic.distance_km} km away` 
+                : (clinic.distance_meters != null ? `${(clinic.distance_meters / 1000).toFixed(1)} km away` : undefined)
+
+              return (
+                <div key={clinicId} className="border border-border rounded-2xl overflow-hidden bg-card shadow-sm hover:shadow-md transition-shadow">
+                  <div className="bg-surface p-4 border-b border-border flex justify-between items-center">
+                    <div>
+                      <h3 className="font-bold text-foreground">{clinicName}</h3>
+                      <p className="text-sm text-muted-foreground flex items-center mt-1">
+                        <MapPin className="w-3.5 h-3.5 mr-1" /> {clinicAddress}
+                        {distance && (
+                          <span className="ml-2 px-2 py-0.5 bg-surface-elevated text-muted-foreground border border-border rounded-full text-xs font-medium">
+                            {distance}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="divide-y divide-border">
+                    {clinic.doctors?.length > 0 ? (
+                      clinic.doctors.map((doctor: any) => (
+                        <div key={doctor.id} className="p-4 flex items-center justify-between group hover:bg-surface-elevated/40 transition-colors">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center text-primary">
+                              <UserCheck className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-foreground">{formatDoctorName(doctor.name)}</h4>
+                              <p className="text-sm text-muted-foreground flex items-center mt-0.5">
+                                <Stethoscope className="w-3.5 h-3.5 mr-1" /> 
+                                {doctor.specialty} • {doctor.experience_years ? `${doctor.experience_years}y exp` : 'Experienced'}
+                              </p>
+                            </div>
+                          </div>
+                          <Button 
+                            onClick={() => selectDoctor(clinicId, clinicName, doctor.id, doctor.name)}
+                            className="opacity-90 group-hover:opacity-100 transition-opacity bg-primary hover:bg-primary-hover text-primary-foreground font-semibold"
+                          >
+                            Select Doctor
+                          </Button>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-4 text-sm text-muted-foreground italic text-center">
+                        No doctors currently available at this location.
+                      </div>
+                    )}
                   </div>
                 </div>
-                
-                <div className="divide-y divide-border">
-                  {clinic.doctors?.length > 0 ? (
-                    clinic.doctors.map((doctor: any) => (
-                      <div key={doctor.id} className="p-4 flex items-center justify-between group hover:bg-surface-elevated/40 transition-colors">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center text-primary">
-                            <UserCheck className="w-6 h-6" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-foreground">{formatDoctorName(doctor.name)}</h4>
-                            <p className="text-sm text-muted-foreground flex items-center mt-0.5">
-                              <Stethoscope className="w-3.5 h-3.5 mr-1" /> 
-                              {doctor.specialty} • {doctor.experience_years}y exp
-                            </p>
-                          </div>
-                        </div>
-                        <Button 
-                          onClick={() => selectDoctor(clinic.clinic_id, clinic.clinic_name, doctor.id, doctor.name)}
-                          className="opacity-90 group-hover:opacity-100 transition-opacity bg-primary hover:bg-primary-hover text-primary-foreground"
-                        >
-                          Select Doctor
-                        </Button>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="p-4 text-sm text-muted-foreground italic text-center">
-                      No matching doctors at this location.
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
+              )
+            })
           )}
         </div>
       </div>
+
+      {onPrev && (
+        <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
+          <Button variant="outline" onClick={onPrev} className="font-semibold">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Back
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

@@ -65,6 +65,13 @@ export function Step4Details({ data, updateData, onNext, onPrev }: Step4Props) {
     updateData("weight", weight)
     updateData("guardianName", guardianName)
     updateData("age", age)
+    updateData("details", {
+      dob,
+      height,
+      weight,
+      guardianName,
+      consent: true,
+    })
     
     onNext()
   }

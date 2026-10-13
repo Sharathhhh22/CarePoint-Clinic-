@@ -17,30 +17,49 @@ interface Step5Props {
 export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
   const [shareData, setShareData] = useState(true)
   const [paymentMethod, setPaymentMethod] = useState<"ONLINE_PAYMENT" | "PAY_AT_CLINIC">("ONLINE_PAYMENT")
+  const [localDob, setLocalDob] = useState(data.dob || data.details?.dob || "")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const getPayload = () => ({
-    appointmentId: data.appointmentId,
-    dob: data.dob,
-    height: data.height,
-    weight: data.weight,
-    guardianName: data.guardianName,
-    shareData,
-    concern: shareData ? data.concern : null,
-    aiSummary: shareData ? data.aiAnalysis?.plain_language_summary : null,
-    paymentMethod
-  })
+  const getPayload = () => {
+    const appointmentId = data.appointmentId || ""
+    const dob = localDob || data.dob || data.details?.dob || ""
+    return {
+      appointmentId,
+      dob,
+      height: data.height || data.details?.height || null,
+      weight: data.weight || data.details?.weight || null,
+      guardianName: data.guardianName || data.details?.guardianName || null,
+      shareData,
+      concern: shareData ? data.concern : null,
+      aiSummary: shareData ? data.aiAnalysis?.plain_language_summary : null,
+      paymentMethod
+    }
+  }
 
   const handleConfirm = async () => {
     setIsLoading(true)
     setError("")
 
+    const payload = getPayload()
+
+    if (!payload.appointmentId) {
+      setError("No slot reservation was found. Please click Back to select your appointment time slot.")
+      setIsLoading(false)
+      return
+    }
+
+    if (!payload.dob) {
+      setError("Date of birth is required to confirm your booking. Please confirm your date of birth.")
+      setIsLoading(false)
+      return
+    }
+
     try {
       const res = await fetch('/api/appointments/confirm', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(getPayload())
+        body: JSON.stringify(payload)
       })
 
       const result = await res.json()
@@ -235,6 +254,39 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
           )}
         </div>
 
+        {/* Missing Slot Warning */}
+        {!data.appointmentId && (
+          <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-sm">
+            <div>
+              <p className="font-semibold text-foreground">No time slot reserved</p>
+              <p className="text-xs text-muted-foreground">Please return to Step 3 to select and hold your preferred slot.</p>
+            </div>
+            <Button size="sm" variant="outline" onClick={onPrev} className="font-semibold">
+              Select Slot
+            </Button>
+          </div>
+        )}
+
+        {/* Date of Birth fallback confirmation if omitted */}
+        {(!data.dob && !data.details?.dob) && (
+          <div className="bg-surface rounded-xl p-4 border border-border space-y-2">
+            <label htmlFor="step5-dob" className="text-sm font-semibold text-foreground flex items-center gap-1.5">
+              Confirm Date of Birth <span className="text-primary">*</span>
+            </label>
+            <input
+              id="step5-dob"
+              type="date"
+              value={localDob}
+              onChange={(e) => {
+                setLocalDob(e.target.value)
+                updateData("dob", e.target.value)
+              }}
+              className="w-full max-w-xs h-10 px-3 rounded-lg border border-border bg-input-bg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <p className="text-xs text-muted-foreground">Required for patient verification at the clinic.</p>
+          </div>
+        )}
+
         {/* Data Sharing Toggle */}
         <div className="bg-surface rounded-xl p-4 border border-border">
           <div className="flex items-center justify-between">
@@ -258,7 +310,7 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
         </div>
 
         {error && (
-          <div className="bg-destructive/10 text-destructive p-4 rounded-lg text-sm border border-destructive/20">
+          <div className="bg-destructive/10 text-destructive p-4 rounded-lg text-sm border border-destructive/20 font-medium">
             {error}
           </div>
         )}

@@ -92,7 +92,7 @@ export class AppointmentService {
       })
       .eq('id', appointmentId)
       .eq('patient_id', userId)
-      .eq('status', 'held')
+      .in('status', ['held', 'confirmed'])
 
     if (updateError) {
       throw new ApiError('Database error updating appointment: ' + updateError.message, 400, 'UPDATE_FAILED')
