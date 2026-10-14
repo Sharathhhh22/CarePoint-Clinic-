@@ -85,7 +85,7 @@ export default function AboutPage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
-            <Button asChild variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-medium h-11 px-6">
+            <Button asChild className="border-2 border-white/80 hover:border-white bg-white/10 hover:bg-white active:bg-white text-white hover:text-slate-900 active:text-slate-900 font-semibold h-11 px-6 transition-all duration-200 shadow-sm">
               <Link href="/departments">
                 Browse Specialists
               </Link>
