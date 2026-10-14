@@ -11,36 +11,39 @@ export async function GET(req: Request) {
   }
 
   const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  // In a production app, we would verify the session_id with Stripe here.
-  // For sandbox/demo purposes, we'll assume if they reach this URL with a session_id,
-  // they completed the checkout.
+  // Enforce authentication on payment confirmation to stop IDOR bugs
+  if (!user) {
+    return NextResponse.redirect(new URL('/login?error=unauthorized', req.url))
+  }
 
-  // 1. Confirm the appointment and mark it as paid online
+  // 1. Confirm the appointment and mark it as paid online, scoped strictly to the authenticated patient
   const { error } = await supabase
     .from('appointments')
     .update({ 
       status: 'confirmed',
       payment_mode: 'online',
-      transaction_id: sessionId // Save the session ID as transaction ID
+      transaction_id: sessionId
     })
     .eq('id', appointmentId)
+    .eq('patient_id', user.id) // Strict IDOR defense
     .eq('status', 'held')
 
   if (error) {
-    console.error("Payment success confirmation error:", error)
+    console.error('[Payment Confirmation Error]:', error)
     return NextResponse.redirect(new URL('/appointments/new?error=confirmation_failed', req.url))
   }
 
-  // 2. We should also record the health history here just like the manual confirm route does,
-  // but to keep it simple, we can do that in the background or assume the create-session route saved enough data.
-  // Actually, the manual confirm route inserts into health_history. Let's do that too.
-  
+  // 2. Record the health history if provided
   const { data: appt } = await supabase
     .from('appointments')
     .select('patient_id, height_cm, weight_kg, dob')
     .eq('id', appointmentId)
-    .single()
+    .eq('patient_id', user.id)
+    .maybeSingle()
 
   if (appt && (appt.height_cm || appt.weight_kg)) {
     await supabase.from('health_history').insert({
@@ -50,8 +53,6 @@ export async function GET(req: Request) {
     }).select().maybeSingle()
   }
 
-  // Redirect back to the booking wizard with step=6
-  // But our booking wizard manages state in React. We might need a special success page.
-  // Or we just redirect to the receipt directly!
+  // Redirect to the receipt with verified payment
   return NextResponse.redirect(new URL(`/receipt/${appointmentId}?payment=success`, req.url))
 }

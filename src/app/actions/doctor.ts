@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server"
 import { revalidatePath } from "next/cache"
+import { sanitizeText } from "@/lib/security/sanitize"
 
 export interface SaveDoctorProfileInput {
   name: string
@@ -35,21 +36,19 @@ export async function saveDoctorProfile(input: SaveDoctorProfileInput) {
     return { error: "You must be signed in to submit a doctor profile." }
   }
 
-  const {
-    name,
-    specialty,
-    qualifications,
-    medicalRegistrationNo,
-    registrationAuthority,
-    experienceYears,
-    consultationFee,
-    clinicId,
-    bio,
-    photoUrl,
-    verificationDocUrl,
-    submitForReview,
-    schedule,
-  } = input
+  const name = sanitizeText(input.name)
+  const specialty = sanitizeText(input.specialty)
+  const qualifications = sanitizeText(input.qualifications)
+  const medicalRegistrationNo = sanitizeText(input.medicalRegistrationNo)
+  const registrationAuthority = sanitizeText(input.registrationAuthority)
+  const experienceYears = Number(input.experienceYears) || 0
+  const consultationFee = Number(input.consultationFee) || 500
+  const clinicId = input.clinicId
+  const bio = input.bio ? sanitizeText(input.bio) : undefined
+  const photoUrl = input.photoUrl ? sanitizeText(input.photoUrl) : undefined
+  const verificationDocUrl = input.verificationDocUrl ? sanitizeText(input.verificationDocUrl) : undefined
+  const submitForReview = Boolean(input.submitForReview)
+  const schedule = input.schedule
 
   if (!name.trim()) return { error: "Doctor name is required." }
   if (!specialty.trim()) return { error: "Specialty is required." }

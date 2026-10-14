@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server"
 import { revalidatePath } from "next/cache"
+import { sanitizeText } from "@/lib/security/sanitize"
 
 export async function updateProfile(formData: FormData) {
   const supabase = await createClient()
@@ -9,12 +10,13 @@ export async function updateProfile(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error("Unauthorized")
 
-  const full_name = formData.get("full_name") as string
-  const mobile = formData.get("mobile") as string
-  const address = formData.get("address") as string
-  const bio = formData.get("bio") as string
+  // Sanitize user inputs to prevent XSS / script injection
+  const full_name = sanitizeText(formData.get("full_name"))
+  const mobile = sanitizeText(formData.get("mobile"))
+  const address = sanitizeText(formData.get("address"))
+  const bio = sanitizeText(formData.get("bio"))
   
-  // Update profiles table
+  // Update profiles table strictly for the authenticated user (prevent IDOR)
   const { error } = await supabase
     .from('profiles')
     .update({ 
@@ -37,15 +39,22 @@ export async function updateProfile(formData: FormData) {
 export async function updatePassword(formData: FormData) {
   const supabase = await createClient()
   
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error("Unauthorized")
+
   const password = formData.get("password") as string
   const confirmPassword = formData.get("confirmPassword") as string
+
+  if (!password || !confirmPassword) {
+    return { error: "Please provide both password fields." }
+  }
 
   if (password !== confirmPassword) {
     return { error: "Passwords do not match." }
   }
   
-  if (password.length < 6) {
-    return { error: "Password must be at least 6 characters." }
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters for account security." }
   }
 
   const { error } = await supabase.auth.updateUser({ password })

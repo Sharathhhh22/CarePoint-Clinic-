@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FileText, Upload, Trash2, ExternalLink, Activity } from "lucide-react"
+import { validateFileUpload } from "@/lib/security/fileValidation"
+import { sanitizeText } from "@/lib/security/sanitize"
 
 function generateStorageFileName(userId: string, originalName: string) {
   const sanitizedName = originalName.replace(/[^a-zA-Z0-9.-]/g, '_')
@@ -54,11 +56,19 @@ export default function MedicalRecordsPage() {
     e.preventDefault()
     if (!file || !title || !user) return
 
+    // Validate file upload types, size (5MB), and MIME security
+    const validation = validateFileUpload(file)
+    if (!validation.valid) {
+      setError(validation.error || "Invalid file.")
+      return
+    }
+
     setUploading(true)
     setError("")
 
     try {
-      const fileName = generateStorageFileName(user.id, file.name)
+      const cleanTitle = sanitizeText(title)
+      const fileName = generateStorageFileName(user.id, validation.cleanFileName || file.name)
 
       // 1. Upload to Storage
       const { error: uploadError } = await supabase.storage

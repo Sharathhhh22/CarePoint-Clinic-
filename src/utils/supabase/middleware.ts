@@ -50,6 +50,20 @@ export async function updateSession(request: NextRequest) {
       url.pathname = '/dashboard'
       return NextResponse.redirect(url)
     }
+
+    // Hide admin pages properly: non-admins cannot access /admin
+    if (path.startsWith('/admin')) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (!profile || (profile.role !== 'admin' && profile.role !== 'staff')) {
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+    }
   } else {
     // Unauthenticated user
     if (isProtectedRoute || (!isPublicRoute && path !== '/appointments/new' && !path.startsWith('/api') && path !== '/departments' && path !== '/showcase')) {

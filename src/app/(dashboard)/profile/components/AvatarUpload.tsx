@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client"
 import { Camera, Loader2, User as UserIcon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { validateFileUpload } from "@/lib/security/fileValidation"
 
 export function AvatarUpload({ userId, initialUrl }: { userId: string, initialUrl?: string }) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(initialUrl || null)
@@ -15,14 +16,21 @@ export function AvatarUpload({ userId, initialUrl }: { userId: string, initialUr
 
   async function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
     try {
-      setUploading(true)
-
       if (!event.target.files || event.target.files.length === 0) {
         throw new Error('You must select an image to upload.')
       }
 
       const file = event.target.files[0]
-      const fileExt = file.name.split('.').pop()
+
+      // Security check: validate size and image MIME type
+      const validation = validateFileUpload(file)
+      if (!validation.valid || file.type === 'application/pdf') {
+        throw new Error(validation.error || 'Please upload a valid image file (JPEG, PNG, or WEBP under 5MB).')
+      }
+
+      setUploading(true)
+
+      const fileExt = validation.cleanFileName?.split('.').pop() || file.name.split('.').pop() || 'jpg'
       const filePath = `${userId}/avatar.${fileExt}`
 
       // Upload to storage
