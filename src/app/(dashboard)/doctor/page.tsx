@@ -23,8 +23,6 @@ export default function DoctorPortal() {
   const supabase = createClient()
 
   const fetchDoctorData = useCallback(async () => {
-    setLoading(true)
-    setError("")
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
@@ -140,6 +138,7 @@ export default function DoctorPortal() {
           clinics={clinics}
           onSuccess={() => {
             setIsEditing(false)
+            setLoading(true)
             fetchDoctorData()
           }}
         />

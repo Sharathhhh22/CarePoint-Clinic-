@@ -25,22 +25,23 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const [user, setUser] = React.useState<any>(null)
-  const [mounted, setMounted] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
+
   const supabase = createClient()
 
   React.useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  React.useEffect(() => {
     async function getUser() {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+      const { data: { user: currentUser } } = await supabase.auth.getUser()
+      setUser(currentUser)
     }
     getUser()
-  }, [])
+  }, [supabase])
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -51,7 +52,9 @@ export function Navbar() {
   }, [])
 
   React.useEffect(() => {
-    setIsMobileMenuOpen(false)
+    React.startTransition(() => {
+      setIsMobileMenuOpen(false)
+    })
   }, [pathname])
 
   const handleSearchSubmit = (e: React.FormEvent) => {

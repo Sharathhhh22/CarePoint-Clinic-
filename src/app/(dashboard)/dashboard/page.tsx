@@ -21,7 +21,7 @@ export default async function Dashboard() {
   const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
 
   // Fetch appointments. 
-  let query = supabase
+  const query = supabase
     .from('appointments')
     .select(`
       id, appointment_date, appointment_time, status, payment_mode, transaction_id, doctor_id,

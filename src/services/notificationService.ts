@@ -31,10 +31,10 @@ export class NotificationService {
 
     try {
       const resend = new Resend(env.resend.apiKey)
-      const { data, error } = await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: env.resend.fromEmail,
         to: [payload.toEmail],
-        subject: 'Appointment Confirmed - APPOINTLY',
+        subject: 'Appointment Confirmed - SlotUrSelf',
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;">
             <div style="background-color: #0f172a; padding: 24px; text-align: center;">
@@ -56,7 +56,7 @@ export class NotificationService {
               </p>
             </div>
             <div style="background-color: #f8fafc; padding: 16px; text-align: center; border-top: 1px solid #eaeaea;">
-              <p style="margin: 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} APPOINTLY. All rights reserved.</p>
+              <p style="margin: 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} SlotUrSelf. All rights reserved.</p>
             </div>
           </div>
         `

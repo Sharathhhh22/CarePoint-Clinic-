@@ -8,6 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FileText, Upload, Trash2, ExternalLink, Activity } from "lucide-react"
 
+function generateStorageFileName(userId: string, originalName: string) {
+  const sanitizedName = originalName.replace(/[^a-zA-Z0-9.-]/g, '_')
+  return `${userId}/${Date.now()}-${sanitizedName}`
+}
+
 export default function MedicalRecordsPage() {
   const [records, setRecords] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -18,10 +23,6 @@ export default function MedicalRecordsPage() {
   const [error, setError] = useState("")
 
   const supabase = createClient()
-
-  useEffect(() => {
-    fetchRecords()
-  }, [])
 
   async function fetchRecords() {
     try {
@@ -45,6 +46,10 @@ export default function MedicalRecordsPage() {
     }
   }
 
+  useEffect(() => {
+    fetchRecords()
+  }, [])
+
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault()
     if (!file || !title || !user) return
@@ -53,11 +58,10 @@ export default function MedicalRecordsPage() {
     setError("")
 
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${user.id}/${Math.random()}.${fileExt}`
+      const fileName = generateStorageFileName(user.id, file.name)
 
       // 1. Upload to Storage
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('medical_records')
         .upload(fileName, file)
 

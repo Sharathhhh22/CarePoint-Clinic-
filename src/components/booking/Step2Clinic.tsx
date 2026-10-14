@@ -22,35 +22,6 @@ export function Step2Clinic({ data, updateData, onNext, onPrev }: Step2Props) {
 
   const recommendedSpecialty = data.aiAnalysis?.recommended_specialization || ""
 
-  // Initial load: try to get location
-  useEffect(() => {
-    if (locationStatus === "idle") {
-      requestLocation()
-    }
-  }, [locationStatus])
-
-  const requestLocation = () => {
-    setLocationStatus("requesting")
-    if (!navigator.geolocation) {
-      setLocationStatus("denied")
-      fetchClinicsBySearch("")
-      return
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocationStatus("granted")
-        fetchClinicsByCoords(position.coords.latitude, position.coords.longitude)
-      },
-      (geoError) => {
-        console.warn("Geolocation denied or unavailable:", geoError.message)
-        setLocationStatus("denied")
-        fetchClinicsBySearch("")
-      },
-      { timeout: 8000 }
-    )
-  }
-
   const fetchClinicsByCoords = async (lat: number, lon: number) => {
     setIsLoading(true)
     setError("")
@@ -87,6 +58,35 @@ export function Step2Clinic({ data, updateData, onNext, onPrev }: Step2Props) {
       setIsLoading(false)
     }
   }
+
+  const requestLocation = () => {
+    setLocationStatus("requesting")
+    if (!navigator.geolocation) {
+      setLocationStatus("denied")
+      fetchClinicsBySearch("")
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocationStatus("granted")
+        fetchClinicsByCoords(position.coords.latitude, position.coords.longitude)
+      },
+      (geoError) => {
+        console.warn("Geolocation denied or unavailable:", geoError.message)
+        setLocationStatus("denied")
+        fetchClinicsBySearch("")
+      },
+      { timeout: 8000 }
+    )
+  }
+
+  // Initial load: try to get location
+  useEffect(() => {
+    if (locationStatus === "idle") {
+      requestLocation()
+    }
+  }, [locationStatus])
 
   const showAllDoctors = async () => {
     setIsLoading(true)

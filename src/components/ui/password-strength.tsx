@@ -112,8 +112,8 @@ export function usePasswordStrength(
 
   useEffect(() => {
     if (state.announcement === "") {
-      setSettled("");
-      return;
+      const id = setTimeout(() => setSettled(""), 0);
+      return () => clearTimeout(id);
     }
     const id = setTimeout(() => setSettled(state.announcement), announceDelay);
     return () => clearTimeout(id);

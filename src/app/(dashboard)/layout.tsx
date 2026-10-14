@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useSyncExternalStore } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { 
@@ -18,6 +18,8 @@ import {
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
 
+const emptySubscribe = () => () => {}
+
 export default function DashboardLayout({
   children,
 }: {
@@ -26,15 +28,11 @@ export default function DashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [isDoctor, setIsDoctor] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     async function checkRole() {

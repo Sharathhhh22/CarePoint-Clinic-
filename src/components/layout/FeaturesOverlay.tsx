@@ -1,25 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useSyncExternalStore } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp } from "lucide-react"
 import { HealthcareChatbot } from "@/components/chat/HealthcareChatbot"
+
+const emptySubscribe = () => () => {}
 
 export function FeaturesOverlay() {
   const [showScroll, setShowScroll] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [showCookie, setShowCookie] = useState(false)
-  const [isClient, setIsClient] = useState(false)
+  const isClient = useSyncExternalStore(emptySubscribe, () => true, () => false)
 
   useEffect(() => {
-    setIsClient(true)
     // Check cookie consent safely
     try {
       if (!localStorage.getItem("cookieConsent")) {
         const timer = setTimeout(() => setShowCookie(true), 2000)
         return () => clearTimeout(timer)
       }
-    } catch (e) {
+    } catch {
       // Storage access blocked or restricted
     }
   }, [])
@@ -49,7 +50,7 @@ export function FeaturesOverlay() {
   const acceptCookies = () => {
     try {
       localStorage.setItem("cookieConsent", "true")
-    } catch (e) {}
+    } catch {}
     setShowCookie(false)
   }
 

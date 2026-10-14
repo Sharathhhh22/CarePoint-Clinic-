@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     // 1. Rate-limit and authorize: Verify patient has an appointment with this doctor.
     // For simplicity, we just check if they have ANY confirmed appointment with this doctor.
     // A stricter check could enforce an active/upcoming appointment today.
-    let appointmentQuery = supabase
+    const appointmentQuery = supabase
       .from('appointments')
       .select('id, status')
       .eq('patient_id', user.id)

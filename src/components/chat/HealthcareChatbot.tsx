@@ -2,17 +2,25 @@
 
 import React, { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MessageSquare, X, Send, Bot, User, ArrowRight, Loader2, Sparkles, ShieldAlert } from "lucide-react"
+import { MessageSquare, X, Send, Bot, User, ArrowRight, Loader2, ShieldAlert } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ChatMessage } from "@/services/llm/types"
+
+function createMsgId(prefix: string): string {
+  return `${prefix}-${Date.now()}`
+}
+
+function createTimestamp(): string {
+  return new Date().toISOString()
+}
 
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: "welcome-1",
     role: "assistant",
     content: "Hello! I am the SlotUrSelf Healthcare Assistant. Describe your symptoms or ask about clinical specialists, and I will guide you to the right department.",
-    timestamp: new Date().toISOString(),
+    timestamp: "2026-01-01T00:00:00.000Z",
     metadata: {
       suggestedActions: [
         { label: "Book an Appointment", action: "book" },
@@ -51,10 +59,10 @@ export function HealthcareChatbot() {
     if (!text || isLoading) return
 
     const userMessage: ChatMessage = {
-      id: `usr-${Date.now()}`,
+      id: createMsgId("usr"),
       role: "user",
       content: text,
-      timestamp: new Date().toISOString()
+      timestamp: createTimestamp()
     }
 
     const updatedMessages = [...messages, userMessage]
@@ -81,10 +89,10 @@ export function HealthcareChatbot() {
     } catch (err) {
       console.error("Chatbot request failed:", err)
       const fallbackMsg: ChatMessage = {
-        id: `err-${Date.now()}`,
+        id: createMsgId("err"),
         role: "assistant",
         content: "I am having trouble connecting to our clinical knowledge base right now. You can browse all verified medical departments directly or book a general consultation.",
-        timestamp: new Date().toISOString(),
+        timestamp: createTimestamp(),
         metadata: {
           suggestedActions: [
             { label: "Browse Medical Departments", action: "department" },

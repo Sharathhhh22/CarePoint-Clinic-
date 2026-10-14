@@ -48,7 +48,7 @@ export interface DoctorVerificationHistory {
   decision: 'approved' | 'rejected' | 'suspended' | 'reactivated'
   reason?: string | null
   reviewed_at: string
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
   reviewer?: {
     id: string
     full_name?: string | null
