@@ -24,8 +24,8 @@ export function Step6Confirmation({ data }: Step6Props) {
   const isOnlinePayment = data.paymentMethod === "ONLINE_PAYMENT"
 
   const qrUrl = typeof window !== 'undefined' 
-    ? `${window.location.origin}/receipt/${data.appointmentId}` 
-    : `https://sloturself.com/receipt/${data.appointmentId}`
+    ? `${window.location.origin}/receipt/${data.appointmentId}?scanned=true` 
+    : `https://sloturself.com/receipt/${data.appointmentId}?scanned=true`
 
   return (
     <div className="flex flex-col items-center justify-center py-10 text-center animate-in zoom-in-95 duration-500">

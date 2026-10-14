@@ -15,8 +15,18 @@ export default function ReceiptPage() {
   const [appointment, setAppointment] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isScanned, setIsScanned] = useState(false)
   
   const supabase = createClient()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search)
+      if (sp.get('scanned') === 'true') {
+        setIsScanned(true)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     async function fetchAppointment() {
@@ -74,7 +84,11 @@ export default function ReceiptPage() {
             <CheckCircle2 className="h-8 w-8 text-teal-600 dark:text-teal-400" />
           </div>
           <h1 className="text-2xl text-foreground font-bold">Digital Pass</h1>
-          <p className="text-muted-foreground text-sm mb-4">Please present this pass or QR code at the reception desk.</p>
+          <p className="text-muted-foreground text-sm mb-4">
+            {isScanned 
+              ? "Your digital pass is active on this device. Please present your ticket number at the reception desk." 
+              : "Please present this pass or ticket number at the reception desk."}
+          </p>
 
           <div className="my-6">
             <CountdownTimer 
@@ -84,14 +98,19 @@ export default function ReceiptPage() {
             />
           </div>
           
-          <div className="bg-white p-4 rounded-xl border border-border shadow-sm inline-block mx-auto mb-6">
-            <QRCodeSVG 
-              value={appointment.id} 
-              size={120}
-              level="M"
-              includeMargin={true}
-            />
-          </div>
+          {/* QR Code Container: Only shown on desktop/laptop devices so patients can scan to their phone.
+              Hidden completely on mobile devices and whenever scanned from another device */}
+          {!isScanned && (
+            <div className="hidden md:flex flex-col items-center justify-center bg-white p-4 rounded-xl border border-border shadow-sm mx-auto mb-6">
+              <QRCodeSVG 
+                value={typeof window !== 'undefined' ? `${window.location.origin}/receipt/${appointment.id}?scanned=true` : `https://sloturself.com/receipt/${appointment.id}?scanned=true`} 
+                size={120}
+                level="M"
+                includeMargin={true}
+              />
+              <p className="text-[10px] text-muted-foreground mt-2 font-mono">Scan with your mobile to take this pass</p>
+            </div>
+          )}
 
           {appointment.ticket_number && (
             <div className="mx-auto mt-2 max-w-[250px] bg-teal-900 dark:bg-teal-800 text-white rounded-xl py-3 text-2xl font-mono font-bold tracking-widest shadow-md">
