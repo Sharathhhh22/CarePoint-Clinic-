@@ -85,6 +85,7 @@ export function SignupClient() {
             <Label htmlFor="reg-name" className="text-foreground">Full Name</Label>
             <Input 
               id="reg-name" 
+              autoComplete="name"
               placeholder="Jane Doe" 
               required 
               value={regName} 
@@ -98,6 +99,8 @@ export function SignupClient() {
             <Input 
               id="reg-email" 
               type="email" 
+              inputMode="email"
+              autoComplete="email"
               placeholder="name@example.com" 
               required 
               value={regEmail} 
@@ -108,22 +111,23 @@ export function SignupClient() {
 
           <div className="space-y-1.5">
             <Label htmlFor="reg-password" className="text-foreground">Password</Label>
-            <div className="relative">
+            <div className="relative flex items-center">
               <Input 
                 id="reg-password" 
                 type={showRegPassword ? "text" : "password"} 
+                autoComplete="new-password"
                 required 
                 value={regPassword} 
                 onChange={e => setRegPassword(e.target.value)} 
-                className="h-11 pr-10"
+                className="h-11 pr-12"
               />
               <button 
                 type="button" 
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setShowRegPassword(!showRegPassword)}
                 aria-label={showRegPassword ? "Hide password" : "Show password"}
               >
-                {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showRegPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -133,6 +137,7 @@ export function SignupClient() {
             <Input 
               id="reg-confirm-password" 
               type={showRegPassword ? "text" : "password"} 
+              autoComplete="new-password"
               required 
               value={regConfirmPassword} 
               onChange={e => setRegConfirmPassword(e.target.value)} 
@@ -141,14 +146,14 @@ export function SignupClient() {
             <p className="text-xs text-muted-foreground">Minimum 6 characters.</p>
           </div>
 
-          <div className="flex items-start space-x-2 pt-2">
+          <div className="flex items-start space-x-3 pt-2">
             <input 
               type="checkbox" 
               id="terms" 
               required 
-              className="mt-1 h-4 w-4 shrink-0 rounded border-border text-primary focus:ring-primary" 
+              className="mt-1 h-5 w-5 shrink-0 rounded border-border text-primary focus:ring-primary cursor-pointer" 
             />
-            <label htmlFor="terms" className="text-xs text-muted-foreground leading-normal">
+            <label htmlFor="terms" className="text-xs text-muted-foreground leading-normal cursor-pointer select-none">
               I agree to the <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link> and <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
             </label>
           </div>

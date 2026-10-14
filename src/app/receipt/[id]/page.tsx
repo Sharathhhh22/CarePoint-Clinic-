@@ -77,7 +77,7 @@ export default function ReceiptPage() {
   const handleDownloadPdf = () => { window.print() }
 
   return (
-    <div className="container mx-auto max-w-2xl p-6 md:p-8 bg-background min-h-[calc(100vh-3.5rem)]">
+    <div className="container mx-auto max-w-2xl p-4 sm:p-6 md:p-8 bg-background min-h-[calc(100dvh-3.5rem)]">
       <Card className="border-t-4 border-t-teal-600 shadow-lg bg-card border-border">
         <CardHeader className="text-center pb-2">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/40 mb-4 border border-teal-200 dark:border-teal-800">

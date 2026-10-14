@@ -47,18 +47,18 @@ export default async function ProfilePage() {
       <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden relative">
         <div className="h-32 bg-gradient-to-tr from-slate-900 via-teal-950 to-slate-900 border-b border-border/40 absolute top-0 left-0 w-full" />
         
-        <div className="relative pt-16 px-6 pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-6 md:items-end">
+        <div className="relative pt-16 px-4 sm:px-6 pb-6 sm:pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-6 md:items-end">
           <div className="shrink-0 -mt-2">
             <AvatarUpload userId={user.id} initialUrl={profile?.avatar_url} />
           </div>
           
-          <div className="flex-1">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground truncate">
                   {profile?.full_name || "Anonymous User"}
                 </h1>
-                <p className="text-muted-foreground font-medium">{profile?.role === 'admin' ? 'System Administrator' : 'Patient'}</p>
+                <p className="text-muted-foreground font-medium text-sm">{profile?.role === 'admin' ? 'System Administrator' : 'Patient'}</p>
               </div>
               <div className="shrink-0">
                 <EditProfileModal profile={profile || {}} userEmail={user.email} />

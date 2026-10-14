@@ -192,6 +192,8 @@
     max-width: 100vw;
     overflow-x: hidden;
     position: relative;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
@@ -205,6 +207,24 @@
     font-weight: var(--font-weight-regular);
     letter-spacing: -0.01em;
     line-height: 1.6;
+    min-height: 100dvh;
+  }
+
+  /* Prevent automatic iOS zoom on form inputs while maintaining full accessibility */
+  @media screen and (max-width: 640px) {
+    input:not([type="checkbox"]):not([type="radio"]), 
+    select, 
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Touch-friendly interactive targets */
+  button, 
+  [role="button"],
+  input[type="submit"],
+  input[type="button"] {
+    touch-action: manipulation;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -284,6 +304,26 @@
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Safe Area Insets for Mobile / Notches */
+.pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top, 0px));
+}
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+.pl-safe {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+}
+.pr-safe {
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+.min-h-dvh {
+  min-height: 100dvh;
+}
+.h-dvh {
+  height: 100dvh;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   body, header, nav, main, aside, footer {

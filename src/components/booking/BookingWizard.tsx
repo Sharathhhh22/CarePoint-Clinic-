@@ -43,11 +43,34 @@ function BookingWizardContent() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto min-h-[600px] flex flex-col">
+    <div className="max-w-4xl mx-auto min-h-[500px] flex flex-col w-full">
       {/* Progress Indicator */}
       {currentStep < 6 && (
-        <div className="mb-8">
-          <div className="flex items-center justify-between relative">
+        <div className="mb-6 sm:mb-8">
+          {/* Mobile compact progress bar */}
+          <div className="sm:hidden space-y-2 px-1">
+            <div className="flex items-center justify-between text-xs font-semibold">
+              <span className="text-primary flex items-center gap-1.5">
+                {(() => {
+                  const CurrentIcon = steps[currentStep - 1]?.icon || Activity
+                  return <CurrentIcon className="w-4 h-4 text-primary" />
+                })()}
+                Step {currentStep} of {steps.length}
+              </span>
+              <span className="text-foreground font-bold">
+                {steps[currentStep - 1]?.title}
+              </span>
+            </div>
+            <div className="w-full h-2 bg-border rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary transition-all duration-300 ease-out rounded-full"
+                style={{ width: `${(currentStep / steps.length) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Tablet & Desktop full circle steps */}
+          <div className="hidden sm:flex items-center justify-between relative px-2">
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-border rounded-full -z-10"></div>
             <div 
               className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-teal-600 rounded-full -z-10 transition-all duration-500 ease-in-out"
@@ -90,7 +113,7 @@ function BookingWizardContent() {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="flex-1 p-6 md:p-10 flex flex-col"
+            className="flex-1 p-4 sm:p-6 md:p-10 flex flex-col"
           >
             {currentStep === 1 && (
               <Step1Concern 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Outfit } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,17 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/config/site";
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-sans' });
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B1220" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

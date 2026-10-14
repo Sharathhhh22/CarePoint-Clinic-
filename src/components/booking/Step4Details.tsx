@@ -88,56 +88,61 @@ export function Step4Details({ data, updateData, onNext, onPrev }: Step4Props) {
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="dob">Date of Birth *</Label>
+            <Label htmlFor="dob" className="text-foreground font-medium">Date of Birth *</Label>
             <Input 
               id="dob" 
               type="date" 
               value={dob}
               onChange={(e) => setDob(e.target.value)}
-              className="max-w-xs"
+              className="w-full max-w-md h-11"
             />
           </div>
 
           {age !== null && age < 18 && (
-            <div className="space-y-2 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-800">
+            <div className="space-y-2 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800">
               <Label htmlFor="guardian" className="text-amber-900 dark:text-amber-300 font-semibold">Guardian Name *</Label>
               <p className="text-xs text-amber-700 dark:text-amber-400 mb-2">Required for patients under 18.</p>
               <Input 
                 id="guardian" 
                 placeholder="Full Name" 
+                autoComplete="name"
                 value={guardianName}
                 onChange={(e) => setGuardianName(e.target.value)}
-                className="max-w-md border-amber-300 dark:border-amber-700 focus-visible:ring-amber-500"
+                className="w-full max-w-md h-11 border-amber-300 dark:border-amber-700 focus-visible:ring-amber-500"
               />
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4 max-w-md">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 max-w-md">
             <div className="space-y-2">
-              <Label htmlFor="height">Height (cm) <span className="text-muted-foreground text-xs font-normal ml-1">Optional</span></Label>
+              <Label htmlFor="height" className="text-foreground text-xs sm:text-sm font-medium">Height (cm) <span className="text-muted-foreground text-xs font-normal">Optional</span></Label>
               <Input 
                 id="height" 
                 type="number" 
+                inputMode="numeric"
                 placeholder="e.g. 175" 
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="weight">Weight (kg) <span className="text-muted-foreground text-xs font-normal ml-1">Optional</span></Label>
+              <Label htmlFor="weight" className="text-foreground text-xs sm:text-sm font-medium">Weight (kg) <span className="text-muted-foreground text-xs font-normal">Optional</span></Label>
               <Input 
                 id="weight" 
                 type="number" 
+                inputMode="numeric"
                 placeholder="e.g. 70" 
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
+                className="h-11"
               />
             </div>
           </div>
 
-          <div className="p-4 bg-surface rounded-lg border border-border flex items-start gap-3 mt-4">
+          <div className="p-4 bg-surface rounded-xl border border-border flex items-start gap-3 mt-4">
             <ClipboardList className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
               These details will be securely saved to your health history. The AI summary of your concern will be attached to this appointment. You can review exactly what is shared in the next step.
             </p>
           </div>
@@ -150,13 +155,13 @@ export function Step4Details({ data, updateData, onNext, onPrev }: Step4Props) {
         </div>
       </div>
 
-      <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
-        <Button variant="outline" onClick={onPrev} className="font-semibold">
+      <div className="mt-8 pt-6 border-t border-border flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <Button variant="outline" onClick={onPrev} className="font-semibold min-h-[44px] w-full sm:w-auto">
           <ArrowLeft className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button 
           onClick={handleNext}
-          className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-8 h-11"
+          className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-8 min-h-[44px] w-full sm:w-auto"
         >
           Review & Confirm
           <ArrowRight className="w-4 h-4 ml-2" />

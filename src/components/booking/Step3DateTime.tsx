@@ -284,7 +284,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
                 <p className="text-xs text-muted-foreground mt-1">The physician does not have scheduled hours on this day. Please pick another date above.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2.5 sm:gap-3">
                 {timeSlots.map((time, i) => {
                   const isTaken = takenSlots.includes(time)
                   const isSelected = selectedTime === time
@@ -294,12 +294,12 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
                       key={i}
                       disabled={isTaken || isHolding}
                       onClick={() => handleTimeSelect(time)}
-                      className={`py-3 rounded-xl border text-sm font-medium transition-all ${
+                      className={`min-h-[44px] py-2.5 px-3 rounded-xl border text-sm font-medium transition-all flex items-center justify-center ${
                         isTaken 
                           ? 'bg-surface border-border text-muted-foreground/40 cursor-not-allowed line-through' 
                           : isSelected
                             ? 'bg-primary border-primary text-primary-foreground shadow-md shadow-primary/20 font-semibold'
-                            : 'bg-card border-border text-foreground hover:border-primary/50 hover:bg-surface-elevated'
+                            : 'bg-card border-border text-foreground hover:border-primary/50 hover:bg-surface-elevated active:scale-[0.98]'
                       }`}
                     >
                       {formatTimeForDisplay(time)}
@@ -318,14 +318,14 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
         )}
       </div>
 
-      <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
-        <Button variant="outline" onClick={onPrev} className="font-semibold">
+      <div className="mt-8 pt-6 border-t border-border flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <Button variant="outline" onClick={onPrev} className="font-semibold min-h-[44px] w-full sm:w-auto">
           <ArrowLeft className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button 
           onClick={handleHoldSlot}
           disabled={!selectedDate || !selectedTime || isHolding}
-          className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-8 h-11 relative overflow-hidden"
+          className="bg-primary text-primary-foreground hover:bg-primary-hover font-semibold px-6 sm:px-8 min-h-[44px] w-full sm:w-auto relative overflow-hidden"
         >
           {isHolding ? (
             <>

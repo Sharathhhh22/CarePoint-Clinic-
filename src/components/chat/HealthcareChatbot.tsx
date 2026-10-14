@@ -106,10 +106,22 @@ export function HealthcareChatbot() {
     }
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false)
+      }
+    }
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown)
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [isOpen])
+
   return (
     <>
-      {/* Floating Toggle Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      {/* Floating Toggle Button (elevated above mobile bottom nav on small screens) */}
+      <div className="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-40">
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close clinical assistant" : "Open clinical assistant"}
@@ -129,18 +141,21 @@ export function HealthcareChatbot() {
         </button>
       </div>
 
-      {/* Chat Window Dialog */}
+      {/* Chat Window Dialog - Fullscreen on mobile, floating card on desktop */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[420px] max-h-[620px] h-[80vh] flex flex-col bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Clinical AI Assistant"
+            className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-6 z-[60] w-full sm:w-[420px] h-[100dvh] sm:h-[80vh] sm:max-h-[620px] flex flex-col bg-card sm:border sm:border-border sm:rounded-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 bg-surface border-b border-border">
+            <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 bg-surface border-b border-border pt-[calc(0.75rem+env(safe-area-inset-top,0px))] sm:pt-4">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
                   <Bot className="w-5 h-5" />
@@ -274,7 +289,7 @@ export function HealthcareChatbot() {
             )}
 
             {/* Input Bar */}
-            <div className="p-3 bg-surface border-t border-border">
+            <div className="p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] bg-surface border-t border-border">
               <form
                 onSubmit={(e) => {
                   e.preventDefault()
@@ -287,16 +302,17 @@ export function HealthcareChatbot() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Describe your health concern..."
-                  className="flex-1 h-10 px-3.5 rounded-lg border border-border bg-input-bg text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="flex-1 h-11 px-3.5 rounded-xl border border-border bg-input-bg text-foreground placeholder:text-muted-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary shadow-xs"
                   disabled={isLoading}
                 />
                 <Button
                   type="submit"
                   size="sm"
                   disabled={isLoading || !inputValue.trim()}
-                  className="h-10 px-3.5 bg-primary hover:bg-primary-hover text-primary-foreground"
+                  className="h-11 w-11 px-0 flex items-center justify-center rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground shrink-0 shadow-xs"
+                  aria-label="Send message"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-5 h-5" />
                 </Button>
               </form>
             </div>

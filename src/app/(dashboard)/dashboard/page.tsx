@@ -53,7 +53,7 @@ export default async function Dashboard() {
         </div>
       </div>
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {isAdminOrStaff && (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -98,8 +98,8 @@ export default async function Dashboard() {
         </Card>
       </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-7">
+      <div className="mt-8 grid gap-4 grid-cols-1">
+        <Card className="col-span-1">
           <CardHeader>
             <CardTitle>Upcoming Appointments</CardTitle>
             <CardDescription>
@@ -108,11 +108,11 @@ export default async function Dashboard() {
           </CardHeader>
           <CardContent>
             {upcomingAppointments.length === 0 ? (
-              <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed border-border bg-surface">
-                <div className="text-center">
+              <div className="flex h-[240px] items-center justify-center rounded-xl border border-dashed border-border bg-surface">
+                <div className="text-center p-4">
                   <Calendar className="mx-auto h-8 w-8 text-muted-foreground" />
                   <h3 className="mt-2 text-sm font-semibold text-foreground">No upcoming appointments</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     You have no scheduled visits at this time.
                   </p>
                 </div>
@@ -120,16 +120,16 @@ export default async function Dashboard() {
             ) : (
               <div className="space-y-4">
                 {upcomingAppointments.slice(0, 5).map((apt: any) => (
-                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-4 last:border-0 gap-4">
+                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-4 last:border-0 gap-3">
                     <div>
                       {isAdminOrStaff && <p className="font-semibold text-primary">{apt.profiles?.full_name}</p>}
                       <p className="font-medium text-foreground">{formatDoctorName(apt.doctors?.name)}</p>
                       <p className="text-sm text-muted-foreground">{apt.clinics?.name}</p>
                     </div>
                     <div className="sm:text-right">
-                      <p className="font-medium text-foreground">{apt.appointment_date}</p>
-                      <p className="text-sm text-muted-foreground">{apt.appointment_time}</p>
-                      <div className="flex gap-2 justify-end mt-1 items-center">
+                      <p className="font-medium text-foreground text-sm">{apt.appointment_date}</p>
+                      <p className="text-xs text-muted-foreground">{apt.appointment_time}</p>
+                      <div className="flex flex-wrap gap-2 justify-start sm:justify-end mt-2 items-center">
                         <StatusBadge status={apt.payment_mode || "pay_at_clinic"} type="payment" />
                         <StatusBadge status="upcoming" />
                         {!isAdminOrStaff && (

@@ -72,6 +72,8 @@ export function LoginClient() {
             <Input 
               id="login-email" 
               type="email" 
+              inputMode="email"
+              autoComplete="email"
               placeholder="name@example.com" 
               required 
               value={loginEmail} 
@@ -83,26 +85,27 @@ export function LoginClient() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="login-password" className="text-foreground font-medium">Password</Label>
-              <Link href="/forgot-password" className="text-xs text-primary hover:underline font-medium">
+              <Link href="/forgot-password" className="text-xs text-primary hover:underline font-medium min-h-[32px] flex items-center">
                 Forgot password?
               </Link>
             </div>
-            <div className="relative">
+            <div className="relative flex items-center">
               <Input 
                 id="login-password" 
                 type={showLoginPassword ? "text" : "password"} 
+                autoComplete="current-password"
                 required 
                 value={loginPassword} 
                 onChange={e => setLoginPassword(e.target.value)} 
-                className="h-11 pr-10 bg-input-bg border-border text-foreground placeholder:text-muted-foreground"
+                className="h-11 pr-12 bg-input-bg border-border text-foreground placeholder:text-muted-foreground"
               />
               <button 
                 type="button" 
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setShowLoginPassword(!showLoginPassword)}
                 aria-label={showLoginPassword ? "Hide password" : "Show password"}
               >
-                {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showLoginPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>

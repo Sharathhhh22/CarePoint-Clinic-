@@ -162,10 +162,10 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
 
       {/* Tabs & Search Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2 border-b sm:border-b-0 border-border pb-2 sm:pb-0">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:pb-0 w-full sm:w-auto">
           <button
             onClick={() => setActiveTab('pending')}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 whitespace-nowrap min-h-[44px] ${
               activeTab === 'pending' 
                 ? 'bg-primary text-primary-foreground shadow-xs' 
                 : 'text-muted-foreground hover:text-foreground hover:bg-surface-elevated'
@@ -180,7 +180,7 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
           </button>
           <button
             onClick={() => setActiveTab('approved')}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap min-h-[44px] ${
               activeTab === 'approved' 
                 ? 'bg-primary text-primary-foreground shadow-xs' 
                 : 'text-muted-foreground hover:text-foreground hover:bg-surface-elevated'
@@ -190,7 +190,7 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
           </button>
           <button
             onClick={() => setActiveTab('rejected')}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap min-h-[44px] ${
               activeTab === 'rejected' 
                 ? 'bg-primary text-primary-foreground shadow-xs' 
                 : 'text-muted-foreground hover:text-foreground hover:bg-surface-elevated'
@@ -206,14 +206,14 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
             placeholder="Search by name, reg #, or specialty..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-9 text-xs"
+            className="pl-9 h-11 sm:h-9 text-sm sm:text-xs"
           />
         </div>
       </div>
 
       {/* Doctor Table */}
       <Card>
-        <CardContent className="p-0">
+        <CardContent className="p-0 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
