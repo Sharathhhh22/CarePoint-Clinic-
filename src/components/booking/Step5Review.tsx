@@ -129,6 +129,12 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
               <p className="text-muted-foreground mb-1">Time</p>
               <p className="font-medium text-foreground">{formatTime(data.time)}</p>
             </div>
+            {data.consultationFee != null && (
+              <div>
+                <p className="text-muted-foreground mb-1">Consultation Fee</p>
+                <p className="font-medium text-foreground">₹{data.consultationFee}</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -204,7 +210,7 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
 
               <div className="space-y-1">
                 <p className="text-sm font-medium text-muted-foreground">Scan with any supported UPI app</p>
-                <p className="text-lg font-bold text-teal-600 dark:text-teal-400">Amount to Pay: ₹500</p>
+                <p className="text-lg font-bold text-teal-600 dark:text-teal-400">Amount to Pay: ₹{data.consultationFee ?? 500}</p>
               </div>
 
               <div className="w-full pt-4 space-y-3">

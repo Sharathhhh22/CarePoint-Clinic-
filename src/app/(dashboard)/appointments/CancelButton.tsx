@@ -17,7 +17,7 @@ export default function CancelButton({ appointmentId }: { appointmentId: string 
     setIsCancelling(true)
     try {
       const { error } = await supabase
-        .from('appointments_v2')
+        .from('appointments')
         .update({ status: 'cancelled' })
         .eq('id', appointmentId)
 
