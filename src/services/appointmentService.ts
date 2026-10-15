@@ -1,6 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js'
 import { Appointment, HoldSlotRequest, ConfirmAppointmentRequest } from '@/types/appointment'
 import { ApiError } from '@/lib/api/errorHandler'
+import { sanitizeText } from '@/lib/security/sanitize'
 
 export class AppointmentService {
   /**
@@ -76,7 +77,12 @@ export class AppointmentService {
       throw new ApiError('Missing appointment ID or date of birth', 400, 'VALIDATION_ERROR')
     }
 
-    // 1. Update appointment to confirmed
+    // 1. Sanitize user-provided text inputs to prevent stored XSS
+    const cleanGuardianName = guardianName ? sanitizeText(guardianName) : null
+    const cleanConcern = concern ? sanitizeText(concern) : null
+    const cleanAiSummary = aiSummary ? sanitizeText(aiSummary) : null
+
+    // 2. Update appointment to confirmed
     const { error: updateError } = await supabase
       .from('appointments')
       .update({
@@ -84,11 +90,11 @@ export class AppointmentService {
         dob,
         height_cm: height || null,
         weight_kg: weight || null,
-        patient_name: guardianName || null,
+        patient_name: cleanGuardianName,
         consent_given: shareData,
         payment_mode: paymentMethod || 'PAY_AT_CLINIC',
-        reason: shareData ? concern : null,
-        ...(shareData && aiSummary ? { reason: `Concern: ${concern}\nAI Summary: ${aiSummary}` } : {}),
+        reason: shareData ? cleanConcern : null,
+        ...(shareData && cleanAiSummary ? { reason: `Concern: ${cleanConcern}\nAI Summary: ${cleanAiSummary}` } : {}),
       })
       .eq('id', appointmentId)
       .eq('patient_id', userId)

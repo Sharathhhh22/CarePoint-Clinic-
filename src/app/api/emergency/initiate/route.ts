@@ -1,8 +1,20 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { TwilioProvider } from '@/lib/telephony/twilio'
+import { checkRateLimit, getClientIp } from '@/lib/security/rateLimit'
+import { sanitizeText } from '@/lib/security/sanitize'
 
 export async function POST(req: Request) {
+  // 1. Rate limiting (max 5 emergency initiation requests per 5 minutes per IP)
+  const ip = getClientIp(req)
+  const rateLimit = checkRateLimit(`emergency_${ip}`, { limit: 5, windowMs: 5 * 60 * 1000 })
+  if (!rateLimit.success) {
+    return NextResponse.json(
+      { error: 'Too many emergency requests. Please wait a few minutes or call 112 directly if in immediate danger.' },
+      { status: 429, headers: { 'Retry-After': String(rateLimit.reset) } }
+    )
+  }
+
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -11,7 +23,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { doctorId, appointmentId, reason } = await req.json()
+    const body = await req.json()
+    const doctorId = sanitizeText(body?.doctorId)
+    const appointmentId = body?.appointmentId ? sanitizeText(body.appointmentId) : null
+    const reason = sanitizeText(body?.reason)
 
     if (!doctorId || !reason) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })

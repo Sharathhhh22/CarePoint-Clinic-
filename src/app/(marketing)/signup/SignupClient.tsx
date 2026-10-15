@@ -29,8 +29,8 @@ export function SignupClient() {
     setIsLoading(true)
     setErrorMsg("")
     
-    if (regPassword.length < 6) {
-      setErrorMsg("Password must be at least 6 characters long.")
+    if (regPassword.length < 8) {
+      setErrorMsg("Password must be at least 8 characters long for account security.")
       setIsLoading(false)
       return
     }
