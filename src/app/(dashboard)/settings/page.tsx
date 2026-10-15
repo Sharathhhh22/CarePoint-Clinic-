@@ -12,7 +12,7 @@ export default async function SettingsPage() {
   const clinic = clinics?.[0] || {}
 
   return (
-    <div className="container mx-auto max-w-4xl p-6 md:p-8">
+    <div className="max-w-4xl space-y-6">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="section-title tracking-tight text-foreground">Settings</h1>

@@ -17,6 +17,7 @@ import {
   Bone,
   Smile
 } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   const router = useRouter()
@@ -46,7 +47,7 @@ export default function Home() {
         
         {/* HERO SECTION - Crisp, High-Contrast, Instant Rendering */}
         <section className="bg-background pt-12 pb-16 sm:pt-20 sm:pb-24 border-b border-border">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 flex flex-col items-center text-center">
+          <div className="site-container flex flex-col items-center text-center">
             
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4 max-w-4xl leading-[1.15]">
               Skip the waiting room. <br />
@@ -72,13 +73,14 @@ export default function Home() {
                     className="w-full bg-transparent text-foreground placeholder:text-muted-foreground text-base focus:outline-hidden"
                   />
                 </div>
-                <button
+                <Button
                   type="submit"
-                  className="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold rounded-xl text-sm transition-colors shrink-0 flex items-center justify-center gap-2"
+                  size="default"
+                  className="w-full sm:w-auto shrink-0 font-semibold"
                 >
                   Find Doctors
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                  <ArrowRight className="w-4 h-4 ml-1" />
+                </Button>
               </div>
             </form>
 
@@ -106,7 +108,7 @@ export default function Home() {
 
         {/* SPECIALTIES DIRECTORY */}
         <section className="py-14 sm:py-20 bg-surface border-b border-border">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12">
+          <div className="site-container">
             <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 gap-4">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
@@ -131,9 +133,9 @@ export default function Home() {
                   <Link
                     key={spec.name}
                     href={`/departments?specialty=${encodeURIComponent(spec.name)}`}
-                    className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors flex flex-col items-center text-center group"
+                    className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors flex flex-col items-center text-center group h-full justify-between"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2.5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2.5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors shrink-0">
                       <IconComponent className="w-5 h-5" />
                     </div>
                     <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -151,7 +153,7 @@ export default function Home() {
 
         {/* HOW PATIENT VISITS WORK */}
         <section className="py-14 sm:py-20 bg-background">
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12">
+          <div className="site-container">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-3">
                 How SlotUrSelf Works
@@ -163,57 +165,61 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
-              <div className="p-6 rounded-2xl bg-card border border-border space-y-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base">
-                  1
+              <div className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between h-full space-y-3">
+                <div className="space-y-3">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base shrink-0">
+                    1
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground">Select Doctor & Time</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Browse doctors by specialty, qualification, and distance. Check real calendar availability for today or upcoming days.
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-foreground">Select Doctor & Time</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Browse doctors by specialty, qualification, and distance. Check real calendar availability for today or upcoming days.
-                </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-card border border-border space-y-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base">
-                  2
+              <div className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between h-full space-y-3">
+                <div className="space-y-3">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base shrink-0">
+                    2
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground">10-Minute Slot Hold</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    When you pick a slot, it is reserved exclusively for 10 minutes so no one else can take it while you complete your details.
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-foreground">10-Minute Slot Hold</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  When you pick a slot, it is reserved exclusively for 10 minutes so no one else can take it while you complete your details.
-                </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-card border border-border space-y-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base">
-                  3
+              <div className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between h-full space-y-3">
+                <div className="space-y-3">
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base shrink-0">
+                    3
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground">Instant Queue Pass</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Receive your confirmed token number and digital clinic pass immediately on screen. Arrive 10 minutes before your slot to check in smoothly.
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-foreground">Instant Queue Pass</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Receive your confirmed token number and digital clinic pass immediately on screen. Arrive 10 minutes before your slot to check in smoothly.
-                </p>
               </div>
 
             </div>
 
             {/* CALL TO ACTION */}
-            <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-surface border border-border flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="mt-12 p-8 sm:p-10 rounded-2xl bg-surface border border-border flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-foreground">Need to see a doctor today?</h3>
                 <p className="text-sm sm:text-base text-muted-foreground mt-1">Book directly without phone calls or unexpected wait times.</p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <Link
-                  href="/appointments/new"
-                  className="px-6 py-3 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold rounded-xl text-sm transition-colors text-center"
-                >
-                  Book Appointment
-                </Link>
-                <Link
-                  href="/signup"
-                  className="px-6 py-3 bg-card hover:bg-surface-elevated text-foreground font-semibold rounded-xl text-sm border border-border transition-colors text-center"
-                >
-                  Create Account
-                </Link>
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
+                <Button asChild className="w-full sm:w-auto font-semibold">
+                  <Link href="/appointments/new">
+                    Book Appointment
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full sm:w-auto font-semibold">
+                  <Link href="/signup">
+                    Create Account
+                  </Link>
+                </Button>
               </div>
             </div>
 

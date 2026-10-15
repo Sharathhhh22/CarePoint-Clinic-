@@ -89,22 +89,22 @@ export function Navbar() {
   return (
     <>
       <header className={navClasses}>
-        <div className="mx-auto flex h-[72px] md:h-[84px] max-w-[1440px] items-center justify-between px-6 md:px-12">
+        <div className="site-container flex h-[72px] md:h-[80px] items-center justify-between">
           
-          {/* Left Brand + Divider + Navigation Links with generous spacing */}
-          <div className="flex items-center gap-6 xl:gap-8 min-w-0">
+          {/* Left Brand + Divider + Navigation Links */}
+          <div className="flex items-center gap-4 xl:gap-6 min-w-0">
             <Link href="/" className="flex items-center gap-2.5 group shrink-0">
               <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
                 <Activity className="w-4 h-4" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
+              <span className="text-lg xl:text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
                 SlotUrSelf
               </span>
             </Link>
 
             <div className="hidden lg:block h-5 w-px bg-border/80 shrink-0" aria-hidden="true" />
 
-            <nav className="hidden lg:flex items-center gap-5 xl:gap-6 shrink-0">
+            <nav className="hidden lg:flex items-center gap-3.5 xl:gap-5 shrink-0">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
                 
@@ -112,10 +112,10 @@ export function Navbar() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`text-sm font-medium tracking-wide transition-colors ${
+                    className={`text-sm tracking-wide transition-colors ${
                       isActive 
                         ? "text-primary font-semibold" 
-                        : "text-muted-foreground hover:text-foreground"
+                        : "text-muted-foreground hover:text-foreground font-medium"
                     }`}
                     aria-current={isActive ? "page" : undefined}
                   >
@@ -126,20 +126,20 @@ export function Navbar() {
             </nav>
           </div>
 
-          <div className="hidden lg:flex items-center gap-4 shrink-0">
+          <div className="hidden lg:flex items-center gap-2.5 xl:gap-3 shrink-0">
             <form onSubmit={handleSearchSubmit} className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
               <input 
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search specialists..." 
-                className="h-9 w-44 lg:w-52 bg-input-bg border border-border rounded-md pl-8 pr-3 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-foreground placeholder:text-muted-foreground shadow-sm"
+                className="h-9 w-32 xl:w-44 bg-input-bg border border-border rounded-lg pl-8 pr-2.5 text-xs xl:text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-foreground placeholder:text-muted-foreground shadow-xs"
               />
             </form>
             
             <button 
-              className="text-muted-foreground hover:text-foreground transition-colors w-9 h-9 flex items-center justify-center rounded-md hover:bg-surface-elevated" 
+              className="text-muted-foreground hover:text-foreground transition-colors w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-elevated" 
               aria-label="Toggle Dark Mode" 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
@@ -149,22 +149,22 @@ export function Navbar() {
             {user ? (
               <Link 
                 href="/dashboard"
-                className="inline-flex h-9 items-center justify-center rounded-md bg-primary hover:bg-primary-hover px-4 text-sm font-medium text-primary-foreground shadow-sm transition-colors"
+                className="inline-flex h-9 items-center justify-center rounded-lg bg-primary hover:bg-primary-hover px-3.5 text-sm font-medium text-primary-foreground shadow-xs transition-colors"
               >
-                <User className="w-3.5 h-3.5 mr-2" />
+                <User className="w-3.5 h-3.5 mr-1.5" />
                 Dashboard
               </Link>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link 
                   href="/login"
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground px-2 py-1"
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground px-2.5 py-1.5"
                 >
                   Log In
                 </Link>
                 <Link 
                   href="/signup"
-                  className="inline-flex h-9 items-center justify-center rounded-md bg-primary hover:bg-primary-hover px-4 text-sm font-medium text-primary-foreground transition-colors shadow-sm"
+                  className="inline-flex h-9 items-center justify-center rounded-lg bg-primary hover:bg-primary-hover px-3.5 text-sm font-medium text-primary-foreground transition-colors shadow-xs"
                 >
                   Create Account
                 </Link>

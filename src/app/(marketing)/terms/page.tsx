@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function TermsOfService() {
   return (
-    <div className="container mx-auto max-w-4xl pt-28 md:pt-36 pb-24 px-6 text-foreground">
+    <div className="container mx-auto max-w-4xl pt-28 md:pt-36 pb-24 px-4 sm:px-6 text-foreground">
       <Breadcrumbs items={[{ label: "Terms of Service" }]} className="mb-8" />
 
       <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 text-foreground">Terms of Service</h1>

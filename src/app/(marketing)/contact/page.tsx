@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <div className="site-container">
         <Breadcrumbs items={[{ label: "Contact Us" }]} className="mb-8" />
 
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">

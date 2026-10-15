@@ -61,7 +61,7 @@ export default function ReceiptPage() {
     return (
       <div className="flex min-h-screen items-center justify-center p-6 bg-background">
         <div className="flex flex-col items-center">
-          <CalendarDays className="h-8 w-8 animate-spin text-teal-600 dark:text-teal-400 mb-4" />
+          <CalendarDays className="h-8 w-8 animate-spin text-primary mb-4" />
           <p className="text-muted-foreground font-medium">Loading appointment details...</p>
         </div>
       </div>
@@ -82,10 +82,10 @@ export default function ReceiptPage() {
 
   return (
     <div className="container mx-auto max-w-2xl p-4 sm:p-6 md:p-8 bg-background min-h-[calc(100dvh-3.5rem)]">
-      <Card className="border-t-4 border-t-teal-600 shadow-lg bg-card border-border">
+      <Card className="border-t-4 border-t-primary shadow-lg bg-card border-border">
         <CardHeader className="text-center pb-2">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 dark:bg-teal-950/40 mb-4 border border-teal-200 dark:border-teal-800">
-            <CheckCircle2 className="h-8 w-8 text-teal-600 dark:text-teal-400" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4 border border-primary/20">
+            <CheckCircle2 className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-2xl text-foreground font-bold">Digital Pass</h1>
           <p className="text-muted-foreground text-sm mb-4">
@@ -117,7 +117,7 @@ export default function ReceiptPage() {
           )}
 
           {appointment.ticket_number && (
-            <div className="mx-auto mt-2 max-w-[250px] bg-teal-900 dark:bg-teal-800 text-white rounded-xl py-3 text-2xl font-mono font-bold tracking-widest shadow-md">
+            <div className="mx-auto mt-2 max-w-[250px] bg-primary text-primary-foreground rounded-xl py-3 text-2xl font-mono font-bold tracking-widest shadow-md">
               TICKET - {appointment.ticket_number.toString().padStart(3, '0')}
             </div>
           )}
@@ -138,7 +138,7 @@ export default function ReceiptPage() {
           
           <div className="rounded-xl bg-surface p-5 border border-border">
             <h3 className="font-semibold text-foreground mb-3 border-b border-border pb-2 flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-teal-600 dark:text-teal-400" /> Visit Information
+              <CalendarDays className="h-4 w-4 text-primary" /> Visit Information
             </h3>
             <div className="grid grid-cols-1 gap-y-4">
               <div className="flex items-start gap-3">
@@ -169,7 +169,7 @@ export default function ReceiptPage() {
 
           <div className="rounded-xl bg-surface border border-border p-5">
             <h3 className="font-semibold text-foreground mb-3 border-b border-border pb-2 flex items-center gap-2">
-              <User className="h-4 w-4 text-teal-600 dark:text-teal-400" /> Patient Details
+              <User className="h-4 w-4 text-primary" /> Patient Details
             </h3>
             <div className="grid grid-cols-1 gap-y-3">
               <div className="flex items-center gap-3">
@@ -179,13 +179,13 @@ export default function ReceiptPage() {
               {appointment.patient_mobile && (
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-muted-foreground" />
-                  <a href={`tel:${appointment.patient_mobile}`} className="text-teal-600 dark:text-teal-400 hover:underline">{appointment.patient_mobile}</a>
+                  <a href={`tel:${appointment.patient_mobile}`} className="text-primary hover:underline">{appointment.patient_mobile}</a>
                 </div>
               )}
               {appointment.patient_email && (
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-muted-foreground" />
-                  <a href={`mailto:${appointment.patient_email}`} className="text-teal-600 dark:text-teal-400 hover:underline">{appointment.patient_email}</a>
+                  <a href={`mailto:${appointment.patient_email}`} className="text-primary hover:underline">{appointment.patient_email}</a>
                 </div>
               )}
               {appointment.patient_address && (
@@ -233,7 +233,7 @@ export default function ReceiptPage() {
           <div className="pt-6 text-center flex flex-col items-center gap-3 print:hidden">
             <p className="text-xs text-muted-foreground font-mono">ID: {appointment.id}</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-lg">
-              <Button onClick={handleDownloadPdf} className="bg-teal-600 hover:bg-teal-700 text-white h-11 text-xs font-semibold rounded-xl">
+              <Button onClick={handleDownloadPdf} className="bg-primary hover:bg-primary-hover text-primary-foreground h-11 text-xs font-semibold rounded-xl">
                 <Download className="w-4 h-4 mr-1.5" />
                 Print / Save Pass
               </Button>

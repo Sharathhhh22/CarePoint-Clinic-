@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function HowItWorksPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
-      <div className="max-w-[800px] mx-auto px-6 md:px-12">
+      <div className="site-container">
         <Breadcrumbs items={[{ label: "How It Works" }]} className="mb-8" />
 
         <div className="text-center mb-20">

@@ -26,7 +26,7 @@ export default function CareersPage() {
 
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
-      <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+      <div className="site-container">
         <Breadcrumbs items={[{ label: "Careers" }]} className="mb-8" />
 
         <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
@@ -59,7 +59,7 @@ export default function CareersPage() {
                 </div>
               </div>
               
-              <Link href="/contact" className="inline-flex items-center justify-center bg-muted hover:bg-primary hover:text-primary-foreground text-foreground px-5 py-2.5 rounded-lg font-semibold transition-colors shrink-0 text-sm">
+              <Link href="/contact" className="inline-flex items-center justify-center min-h-[44px] bg-muted hover:bg-primary hover:text-primary-foreground text-foreground px-5 py-2.5 rounded-lg font-semibold transition-colors shrink-0 text-sm">
                 Apply Now <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </div>

@@ -21,21 +21,21 @@ export default async function AdminClinicsPage() {
   const { data: clinics } = await supabase.from('clinics').select('*').order('name', { ascending: true })
 
   return (
-    <div className="container mx-auto p-6 md:p-8">
-      <div className="mb-4">
-        <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center">
+    <div className="space-y-6">
+      <div>
+        <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-foreground inline-flex items-center">
           <ArrowLeft className="mr-1 h-4 w-4" /> Back to Admin Panel
         </Link>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Manage Clinics</h1>
-          <p className="text-muted-foreground">View and edit your healthcare facilities.</p>
+          <p className="text-muted-foreground mt-1">View and edit your healthcare facilities.</p>
         </div>
         <Link
           href="/admin/clinics/new" 
-          className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-[14px] font-medium tracking-wide text-primary-foreground hover:bg-primary-hover transition-colors shadow-sm"
+          className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold tracking-wide text-primary-foreground hover:bg-primary-hover transition-colors shadow-sm"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Clinic

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function AssistantPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
-      <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+      <div className="site-container">
         <Breadcrumbs items={[{ label: "AI Symptom Guide" }]} className="mb-8" />
 
         {/* Page Header */}

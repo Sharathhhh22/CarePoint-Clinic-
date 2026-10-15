@@ -34,17 +34,17 @@ export default async function AdminDoctorApplicationsPage() {
     .select("id, name, address")
 
   return (
-    <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
-      <div className="mb-4">
+    <div className="space-y-6">
+      <div>
         <Link 
           href="/admin/dashboard" 
-          className="text-[13px] font-medium tracking-wide text-muted-foreground hover:text-foreground flex items-center"
+          className="text-sm font-medium text-muted-foreground hover:text-foreground inline-flex items-center"
         >
           <ArrowLeft className="mr-1 h-3.5 w-3.5" /> Back to Admin Dashboard
         </Link>
       </div>
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Doctor Verification & Applications

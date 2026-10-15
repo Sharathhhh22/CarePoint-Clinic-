@@ -73,7 +73,7 @@ function BookingWizardContent() {
           <div className="hidden sm:flex items-center justify-between relative px-2">
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-border rounded-full -z-10"></div>
             <div 
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-teal-600 rounded-full -z-10 transition-all duration-500 ease-in-out"
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-primary rounded-full -z-10 transition-all duration-500 ease-in-out"
               style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
             ></div>
             
@@ -84,15 +84,15 @@ function BookingWizardContent() {
                 <div key={s.id} className="flex flex-col items-center gap-2">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
                     isActive 
-                      ? 'bg-teal-600 text-white shadow-md shadow-teal-600/30' 
+                      ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30' 
                       : isPassed 
-                        ? 'bg-teal-600 text-white' 
+                        ? 'bg-primary text-primary-foreground' 
                         : 'bg-surface border-2 border-border text-muted-foreground'
                   }`}>
                     <s.icon className="w-5 h-5" />
                   </div>
                   <span className={`text-xs font-semibold ${
-                    isActive ? 'text-foreground' : isPassed ? 'text-teal-600 dark:text-teal-400' : 'text-muted-foreground'
+                    isActive ? 'text-foreground' : isPassed ? 'text-primary' : 'text-muted-foreground'
                   }`}>
                     {s.title}
                   </span>

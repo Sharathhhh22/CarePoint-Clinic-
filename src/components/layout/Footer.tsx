@@ -1,15 +1,18 @@
 import Link from "next/link"
-import { Mail, Phone } from "lucide-react"
+import { Mail, Phone, Activity } from "lucide-react"
 
 export function Footer() {
   return (
     <footer className="bg-surface text-muted-foreground py-12 md:py-16 border-t border-border">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
+      <div className="site-container">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           
-          <div className="md:col-span-1">
-            <Link href="/" className="inline-block group mb-4">
-              <h2 className="text-xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+          <div className="sm:col-span-2 md:col-span-1">
+            <Link href="/" className="inline-flex items-center gap-2.5 group mb-4">
+              <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
+                <Activity className="w-3.5 h-3.5" />
+              </div>
+              <h2 className="text-lg font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
                 SlotUrSelf
               </h2>
             </Link>

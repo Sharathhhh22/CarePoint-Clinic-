@@ -188,6 +188,10 @@
 }
 
 @layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+
   html, body {
     max-width: 100vw;
     overflow-x: hidden;
@@ -201,6 +205,7 @@
   }
 
   body {
+    margin: 0;
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-primary);
@@ -208,6 +213,12 @@
     letter-spacing: -0.01em;
     line-height: 1.6;
     min-height: 100dvh;
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
 
   /* Prevent automatic iOS zoom on form inputs while maintaining full accessibility */
@@ -229,6 +240,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-primary);
+    overflow-wrap: break-word;
   }
 
   * {
@@ -253,6 +265,38 @@
 }
 
 @layer components {
+  /* Unified Reusable Page Container (1200px max width with aligned responsive padding) */
+  .site-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem; /* 16px mobile */
+  }
+
+  @media (min-width: 640px) {
+    .site-container {
+      padding-inline: 1.5rem; /* 24px tablet */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .site-container {
+      padding-inline: 2rem; /* 32px desktop */
+    }
+  }
+
+  /* Cards in grid layouts stretch equally with button anchoring at bottom */
+  .card-grid-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .card-grid-footer {
+    margin-top: auto;
+  }
   .hero-title {
     font-weight: var(--font-weight-extrabold) !important;
     letter-spacing: -0.045em !important;

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function DepartmentsPage() {
   return (
     <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <div className="site-container">
         <Breadcrumbs items={[{ label: "Departments" }]} className="mb-8" />
 
         <div className="text-center max-w-3xl mx-auto mb-12">

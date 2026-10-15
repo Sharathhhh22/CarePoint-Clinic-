@@ -14,7 +14,8 @@ import {
   CalendarCheck,
   Sun,
   Moon,
-  Users
+  Users,
+  Activity
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
@@ -145,8 +146,11 @@ export default function DashboardLayout({
         }`}
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-border shrink-0">
-          <Link href="/dashboard" className="flex items-center space-x-2" onClick={() => setIsSidebarOpen(false)}>
-            <span className="text-xl font-bold tracking-tight text-foreground">
+          <Link href="/dashboard" className="flex items-center gap-2.5 group" onClick={() => setIsSidebarOpen(false)}>
+            <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
+              <Activity className="w-3.5 h-3.5" />
+            </div>
+            <span className="text-lg font-bold tracking-tight text-foreground">
               SlotUrSelf
             </span>
           </Link>
@@ -210,8 +214,11 @@ export default function DashboardLayout({
                 className="w-full h-10 pl-9 pr-4 rounded-lg border border-border bg-input-bg text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
               />
             </div>
-            <Link href="/dashboard" className="sm:hidden font-bold text-foreground text-lg truncate">
-              SlotUrSelf
+            <Link href="/dashboard" className="sm:hidden font-bold text-foreground text-base truncate flex items-center gap-2">
+              <div className="w-6 h-6 rounded-md bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shrink-0">
+                <Activity className="w-3.5 h-3.5" />
+              </div>
+              <span>SlotUrSelf</span>
             </Link>
           </div>
 
@@ -227,7 +234,7 @@ export default function DashboardLayout({
             {!isAdmin && !isDoctor && (
               <Link 
                 href="/appointments/new"
-                className="hidden sm:inline-flex min-h-[40px] items-center justify-center rounded-xl bg-primary hover:bg-primary-hover px-4 md:px-5 text-sm font-semibold text-primary-foreground transition-all shadow-sm active:scale-[0.99] whitespace-nowrap"
+                className="hidden sm:inline-flex min-h-[44px] items-center justify-center rounded-xl bg-primary hover:bg-primary-hover px-4 md:px-5 text-sm font-semibold text-primary-foreground transition-all shadow-sm active:scale-[0.99] whitespace-nowrap"
               >
                 Book Appointment
               </Link>
@@ -236,7 +243,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Content body with responsive padding and mobile bottom-bar buffer */}
-        <main className="flex-1 p-4 sm:p-6 md:p-8 pb-24 lg:pb-8 max-w-full">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 pb-24 lg:pb-8 w-full max-w-7xl mx-auto">
           {children}
         </main>
 

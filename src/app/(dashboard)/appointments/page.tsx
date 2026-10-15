@@ -40,7 +40,7 @@ export default async function AppointmentsPage() {
   const past = appointments?.filter(a => !(['confirmed', 'held'].includes(a.status) && new Date(a.appointment_date + 'T' + a.appointment_time) >= now)) || []
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
+    <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="section-title text-foreground text-2xl sm:text-3xl font-bold">Appointments History</h1>

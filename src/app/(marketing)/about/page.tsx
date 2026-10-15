@@ -39,7 +39,7 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen pt-24 md:pt-32 pb-24 bg-background text-foreground">
-      <div className="max-w-[1000px] mx-auto px-6 md:px-12">
+      <div className="site-container">
         <Breadcrumbs items={[{ label: "About Us" }]} className="mb-8" />
 
         <div className="max-w-3xl mb-12">
@@ -54,13 +54,15 @@ export default function AboutPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           {commitments.map((item, i) => (
-            <div key={i} className="p-6 rounded-2xl bg-card border border-border space-y-2">
-              <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>Standard #{i + 1}</span>
+            <div key={i} className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between h-full space-y-2">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <span>Standard #{i + 1}</span>
+                </div>
+                <h2 className="text-lg font-bold text-foreground">{item.title}</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
-              <h2 className="text-lg font-bold text-foreground">{item.title}</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>

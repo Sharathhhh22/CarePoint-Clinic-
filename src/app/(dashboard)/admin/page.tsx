@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
   const { count: patientsCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).not('role', 'in', '("admin", "staff")')
 
   return (
-    <div className="container mx-auto p-6 md:p-8">
+    <div className="space-y-6">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Admin Control Panel</h1>

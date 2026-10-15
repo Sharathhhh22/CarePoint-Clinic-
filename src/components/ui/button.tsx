@@ -15,17 +15,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         className={cn(
-          "btn-text inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+          "btn-text inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 select-none",
           {
-            "bg-teal-600 hover:bg-teal-700 text-white shadow-sm": variant === "default",
-            "border border-border bg-card text-foreground hover:bg-surface-elevated hover:text-foreground shadow-sm": variant === "outline",
+            "bg-primary hover:bg-primary-hover text-primary-foreground shadow-sm": variant === "default",
+            "border border-border bg-card text-foreground hover:bg-surface-elevated hover:text-foreground shadow-xs": variant === "outline",
             "text-foreground hover:bg-surface-elevated hover:text-foreground": variant === "ghost",
-            "text-teal-600 dark:text-teal-400 underline-offset-4 hover:underline": variant === "link",
-            "bg-rose-600 hover:bg-rose-700 text-white shadow-sm": variant === "destructive",
-            "h-10 px-4 py-2": size === "default",
-            "h-8 rounded-md px-3 text-xs": size === "sm",
-            "h-11 rounded-lg px-8 text-base": size === "lg",
-            "h-10 w-10": size === "icon",
+            "text-primary underline-offset-4 hover:underline": variant === "link",
+            "bg-destructive hover:bg-destructive/90 text-destructive-foreground shadow-sm": variant === "destructive",
+            "min-h-[44px] px-5 py-2.5 text-sm": size === "default",
+            "min-h-[36px] h-9 px-3 text-xs gap-1.5": size === "sm",
+            "min-h-[48px] h-12 px-7 text-base gap-2.5": size === "lg",
+            "min-h-[44px] min-w-[44px] h-11 w-11 p-0": size === "icon",
           },
           className
         )}
