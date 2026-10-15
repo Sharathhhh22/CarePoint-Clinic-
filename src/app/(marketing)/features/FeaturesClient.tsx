@@ -1,63 +1,126 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { CalendarClock, ShieldCheck, HeartPulse, CheckCircle2 } from "lucide-react"
+import { CalendarClock, ShieldCheck, HeartPulse, CheckCircle2, Clock, Check } from "lucide-react"
 
 export function FeaturesClient() {
   const features = [
     { 
       icon: CalendarClock, 
-      title: "Real-time Booking Engine", 
-      desc: "Our platform connects directly to clinics' master calendars. When you see a slot, it is actually available. Book it and it is instantly secured.",
-      bullets: ["No double bookings", "Instant confirmation", "24/7 access"]
+      title: "Atomic Real-Time Slot Locking", 
+      desc: "Our platform connects directly to clinics' scheduling databases. When you select a slot, it is locked atomically in PostgreSQL for 10 minutes, eliminating double-bookings and race conditions.",
+      bullets: ["Zero double bookings", "Live 10-minute hold countdown", "Instant appointment confirmation"],
+      preview: (
+        <div className="p-6 bg-card rounded-2xl border border-border space-y-4 shadow-xs">
+          <div className="flex items-center justify-between pb-3 border-b border-border">
+            <span className="text-sm font-semibold text-foreground">Available Time Slots</span>
+            <span className="text-xs bg-primary/10 text-primary px-2.5 py-1 rounded-full font-medium flex items-center gap-1">
+              <Clock className="w-3 h-3" /> 09:48 Remaining
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="p-2.5 rounded-lg border border-border bg-surface text-muted-foreground text-center">
+              09:30 AM • Taken
+            </div>
+            <div className="p-2.5 rounded-lg border-2 border-primary bg-primary/10 text-primary font-bold text-center">
+              10:00 AM • Selected
+            </div>
+            <div className="p-2.5 rounded-lg border border-border bg-card text-foreground text-center font-medium">
+              10:30 AM • Available
+            </div>
+            <div className="p-2.5 rounded-lg border border-border bg-card text-foreground text-center font-medium">
+              11:00 AM • Available
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Status: Slot reserved exclusively for patient session.
+          </p>
+        </div>
+      )
     },
     { 
       icon: ShieldCheck, 
-      title: "Verified Medical Professionals", 
-      desc: "We don't let just anyone onto the platform. Every doctor undergoes a rigorous background check and credential verification process.",
-      bullets: ["License verification", "Peer reviews", "Continuous monitoring"]
+      title: "Verified Practitioner Credentials", 
+      desc: "Doctors on SlotUrSelf undergo verification of medical council registration numbers, medical degrees, and clinic affiliations before their profiles can receive bookings.",
+      bullets: ["State Medical Council ID checks", "Affiliated clinic verification", "Transparent consultation fees"],
+      preview: (
+        <div className="p-6 bg-card rounded-2xl border border-border space-y-4 shadow-xs">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-primary text-primary-foreground font-bold text-lg flex items-center justify-center shrink-0">
+              Dr
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-sm text-foreground">Dr. Sarah Jenkins</span>
+                <span className="inline-flex items-center gap-0.5 text-[11px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-2 py-0.5 rounded-full">
+                  <Check className="w-3 h-3" /> Verified
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">MBBS, MD • General Medicine</p>
+              <p className="text-xs text-muted-foreground">Reg No: MCI-2018-84920</p>
+            </div>
+          </div>
+          <div className="pt-3 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
+            <span>Experience: 11 years</span>
+            <span className="font-semibold text-foreground">Fee: ₹500</span>
+          </div>
+        </div>
+      )
     },
     { 
       icon: HeartPulse, 
-      title: "Intelligent Specialist Matching", 
-      desc: "Not sure who you need to see? Our intelligent routing system helps you find the exact right specialist for your specific symptoms or condition.",
-      bullets: ["Symptom analysis", "Proximity search", "Availability filtering"]
+      title: "Clinical Intake & Department Routing", 
+      desc: "Unsure which physician to consult? Our symptom analysis reviews patient concerns and maps them to the appropriate medical department without replacing professional diagnosis.",
+      bullets: ["Intelligent symptom analysis", "Specialty classification", "Immediate emergency escalation"],
+      preview: (
+        <div className="p-6 bg-card rounded-2xl border border-border space-y-3 shadow-xs">
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Patient Intake Triaged
+          </div>
+          <div className="p-3 bg-surface rounded-xl border border-border text-xs text-foreground italic">
+            &ldquo;Sharp pain in lower right abdomen that started 4 hours ago.&rdquo;
+          </div>
+          <div className="p-3 bg-primary/10 rounded-xl border border-primary/20 space-y-1">
+            <div className="text-xs font-bold text-primary">Recommended: General Surgery / Gastroenterology</div>
+            <p className="text-[11px] text-muted-foreground">
+              Prioritized clinical intake with immediate doctor notification.
+            </p>
+          </div>
+        </div>
+      )
     }
   ]
 
   return (
-    <div className="space-y-32">
+    <div className="space-y-24">
       {features.map((feature, idx) => (
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+        <div 
           key={idx}
-          className={`flex flex-col md:flex-row gap-12 lg:gap-24 items-center ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
+          className={`flex flex-col md:flex-row gap-8 lg:gap-16 items-center ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
         >
-          <div className="flex-1 w-full">
-            <div className="aspect-square md:aspect-video rounded-3xl bg-card flex items-center justify-center overflow-hidden border border-border">
-              <feature.icon className="w-32 h-32 text-muted-foreground/60" strokeWidth={1} />
-            </div>
+          {/* Functional UI Preview */}
+          <div className="flex-1 w-full max-w-lg">
+            {feature.preview}
           </div>
-          <div className="flex-1 w-full space-y-6">
-            <div className="w-16 h-16 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center mb-8 shadow-sm">
-              <feature.icon className="w-8 h-8" />
+
+          {/* Feature Description */}
+          <div className="flex-1 w-full space-y-4">
+            <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+              <feature.icon className="w-6 h-6" />
             </div>
-            <h2 className="text-3xl font-bold text-foreground">{feature.title}</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">{feature.title}</h2>
+            <p className="text-base text-muted-foreground leading-relaxed">
               {feature.desc}
             </p>
-            <ul className="space-y-4 pt-4">
+            <ul className="space-y-2.5 pt-2">
               {feature.bullets.map((bullet, bIdx) => (
-                <li key={bIdx} className="flex items-center gap-3 text-foreground font-medium">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                <li key={bIdx} className="flex items-center gap-2.5 text-sm text-foreground font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                   {bullet}
                 </li>
               ))}
             </ul>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   )

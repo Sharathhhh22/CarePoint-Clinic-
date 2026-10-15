@@ -88,7 +88,7 @@
 
   --text-primary: #F1F5F9;
   --text-secondary: #CBD5E1;
-  --text-muted: #94A3B8;
+  --text-muted: #9CB0CB;
   --text-on-primary: #ffffff;
 
   --primary: #14b8a6;
@@ -100,7 +100,7 @@
   --secondary: #16213A;
   --secondary-foreground: #F1F5F9;
   --muted: #16213A;
-  --muted-foreground: #94A3B8;
+  --muted-foreground: #9CB0CB;
 
   --success: #22c55e;
   --warning: #f59e0b;
@@ -112,7 +112,7 @@
   --input: #26334F;
   --input-bg: #111A2E;
   --input-border: #26334F;
-  --input-placeholder: #64748b;
+  --input-placeholder: #94A3B8;
   --ring: #14b8a6;
 
   --chart-1: #14b8a6;

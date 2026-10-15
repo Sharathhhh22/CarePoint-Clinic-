@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Building2, ShieldCheck, Clock, ArrowRight } from "lucide-react"
+import { Building2, ShieldCheck, Clock, ArrowRight, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import type { Metadata } from "next"
@@ -18,76 +18,71 @@ export const metadata: Metadata = {
 }
 
 export default function AboutPage() {
-  const values = [
+  const commitments = [
     {
-      icon: ShieldCheck,
-      title: "Verified Practitioners Only",
-      desc: "Every clinic and physician on our platform undergoes strict medical licensing verification and credential reviews."
+      title: "Medical Licensing Verification",
+      desc: "Every clinic and physician on our platform is cross-checked against State and National Medical Council registers before profiles are made bookable."
     },
     {
-      icon: Clock,
-      title: "Real-Time Slot Locking",
-      desc: "Slots sync directly with clinical scheduling systems. When you lock a slot, it is reserved atomically to eliminate double-bookings."
+      title: "Atomic Slot Holding",
+      desc: "Slots synchronize directly with clinic schedules. Selecting a slot locks it for 10 minutes, eliminating duplicate bookings and awkward waiting room reschedules."
     },
     {
-      icon: Building2,
-      title: "Zero Waiting Rooms",
-      desc: "Digital passes and live countdown notifications ensure you arrive precisely when your physician is ready to consult."
+      title: "Zero Waiting Counter Lines",
+      desc: "Digital passes and real-time token numbers mean you arrive 10 minutes before your consultation and proceed directly to your doctor."
+    },
+    {
+      title: "Strict Patient Data Privacy",
+      desc: "Your medical documents, prescriptions, and intake details are encrypted with Row-Level Security in PostgreSQL, accessible only to you and your attending doctor."
     }
   ]
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
+    <div className="min-h-screen pt-24 md:pt-32 pb-24 bg-background text-foreground">
       <div className="max-w-[1000px] mx-auto px-6 md:px-12">
         <Breadcrumbs items={[{ label: "About Us" }]} className="mb-8" />
 
-        <div className="text-center mb-16 md:mb-20">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
-            About SlotUrSelf
+        <div className="max-w-3xl mb-12">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground mb-4">
+            Direct clinic appointments. <br />
+            Zero waiting rooms.
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            We are on a mission to eliminate the traditional medical waiting room through real-time, verified clinical scheduling.
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            SlotUrSelf was built to replace unconfirmed phone calls, ambiguous doctor schedules, and crowded waiting rooms with verified, real-time medical scheduling.
           </p>
         </div>
 
-        <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground mb-16 leading-relaxed">
-          <p className="mb-6">
-            The traditional process of booking a medical visit is frustrating. It involves repetitive phone calls, unconfirmed schedules, and showing up at a clinic only to wait an hour in a crowded room.
-          </p>
-          <p>
-            SlotUrSelf connects patients directly to verified healthcare providers. Through intelligent symptom analysis, spatial clinic matching, and atomic slot holds, patients receive seamless access to the care they need without delays.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
-          {values.map((v, i) => (
-            <div key={i} className="bg-card p-8 rounded-2xl border border-border flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
-                  <v.icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-bold text-foreground mb-3">{v.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          {commitments.map((item, i) => (
+            <div key={i} className="p-6 rounded-2xl bg-card border border-border space-y-2">
+              <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Standard #{i + 1}</span>
               </div>
+              <h2 className="text-lg font-bold text-foreground">{item.title}</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="bg-primary text-primary-foreground rounded-2xl p-10 md:p-12 text-center shadow-sm">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to experience frictionless care?</h2>
-          <p className="text-primary-foreground/90 text-base md:text-lg mb-8 max-w-xl mx-auto">
-            Find the right clinical specialist near you and book your consultation in seconds.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-background text-foreground hover:bg-muted font-semibold h-11 px-6 shadow-sm">
+        {/* CTA Card */}
+        <div className="bg-surface rounded-2xl border border-border p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">Ready to consult a doctor?</h2>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">
+              Find verified clinics near you and reserve your time slot in seconds.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
+            <Button asChild className="bg-primary hover:bg-primary-hover text-primary-foreground font-semibold h-11 px-6 rounded-xl">
               <Link href="/appointments/new">
-                Book an Appointment
-                <ArrowRight className="w-4 h-4 ml-2" />
+                Book Appointment
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
             </Button>
-            <Button asChild className="border-2 border-white/80 hover:border-white bg-white/10 hover:bg-white active:bg-white text-white hover:text-slate-900 active:text-slate-900 font-semibold h-11 px-6 transition-all duration-200 shadow-sm">
+            <Button asChild variant="outline" className="border-border text-foreground hover:bg-surface-elevated font-semibold h-11 px-6 rounded-xl">
               <Link href="/departments">
-                Browse Specialists
+                View Clinics
               </Link>
             </Button>
           </div>

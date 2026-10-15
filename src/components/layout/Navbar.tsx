@@ -83,11 +83,7 @@ export function Navbar() {
     }
   }
 
-  const navClasses = `sticky top-0 z-50 w-full transition-all duration-300 ${
-    isScrolled || isMobileMenuOpen 
-      ? "bg-surface/95 backdrop-blur-md border-b border-border shadow-sm" 
-      : "bg-transparent border-b border-transparent"
-  }`
+  const navClasses = "sticky top-0 z-50 w-full bg-surface border-b border-border shadow-xs"
 
   return (
     <>
@@ -95,7 +91,7 @@ export function Navbar() {
         <div className="mx-auto flex h-[72px] md:h-[84px] max-w-[1400px] items-center justify-between px-6 md:px-12">
           
           <Link href="/" className="flex items-center group">
-            <span className="text-xl font-bold tracking-tight text-foreground transition-opacity duration-200 group-hover:opacity-80">
+            <span className="text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
               SlotUrSelf
             </span>
           </Link>
@@ -199,7 +195,7 @@ export function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="md:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-xs"
+              className="md:hidden fixed inset-0 z-40 bg-black/60"
               aria-hidden="true"
             />
             <motion.div
