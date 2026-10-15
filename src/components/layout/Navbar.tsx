@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, User, Search, Moon, Sun } from "lucide-react"
+import { Menu, X, User, Search, Moon, Sun, Activity } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
 
@@ -89,36 +89,44 @@ export function Navbar() {
   return (
     <>
       <header className={navClasses}>
-        <div className="mx-auto flex h-[72px] md:h-[84px] max-w-[1400px] items-center justify-between px-6 md:px-12">
+        <div className="mx-auto flex h-[72px] md:h-[84px] max-w-[1440px] items-center justify-between px-6 md:px-12">
           
-          <Link href="/" className="flex items-center group">
-            <span className="text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
-              SlotUrSelf
-            </span>
-          </Link>
+          {/* Left Brand + Divider + Navigation Links with generous spacing */}
+          <div className="flex items-center gap-6 xl:gap-8 min-w-0">
+            <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
+                <Activity className="w-4 h-4" />
+              </div>
+              <span className="text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
+                SlotUrSelf
+              </span>
+            </Link>
 
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
-              
-              return (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className={`text-sm font-medium tracking-wide transition-colors ${
-                    isActive 
-                      ? "text-primary font-semibold" 
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {link.label}
-                </Link>
-              )
-            })}
-          </nav>
+            <div className="hidden lg:block h-5 w-px bg-border/80 shrink-0" aria-hidden="true" />
 
-          <div className="hidden lg:flex items-center gap-4">
+            <nav className="hidden lg:flex items-center gap-5 xl:gap-6 shrink-0">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                
+                return (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className={`text-sm font-medium tracking-wide transition-colors ${
+                      isActive 
+                        ? "text-primary font-semibold" 
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              })}
+            </nav>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-4 shrink-0">
             <form onSubmit={handleSearchSubmit} className="relative">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input 
