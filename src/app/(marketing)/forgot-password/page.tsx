@@ -18,25 +18,25 @@ export const metadata: Metadata = {
 
 export default function ForgotPasswordPage() {
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-background text-foreground flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
+    <div className="container mx-auto flex min-h-[80vh] flex-col items-center justify-center px-4 py-16 sm:px-6">
+      <div className="w-full max-w-md space-y-6">
         <Link 
           href="/login" 
-          className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors"
+          className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-1.5" />
           Back to Login
         </Link>
 
-        <h1 className="text-3xl font-bold tracking-tight text-foreground text-center">
-          Reset Password
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground text-center">
-          Enter your email address and we will send you a secure link to reset your account password.
-        </p>
-      </div>
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Reset Password
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Enter your email address and we will send you a secure link to reset your account password.
+          </p>
+        </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
         <ForgotPasswordClient />
       </div>
     </div>
