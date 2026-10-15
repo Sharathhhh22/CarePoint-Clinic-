@@ -300,6 +300,10 @@
   p, .body-text {
     max-width: 65ch;
   }
+
+  .text-center p, p.text-center {
+    margin-inline: auto;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

@@ -290,7 +290,7 @@ export function SignupClient() {
                 )}
               </Button>
               
-              <p className="text-sm text-muted-foreground text-center w-full">
+              <p className="text-sm text-muted-foreground text-center w-full max-w-none">
                 Already have an account?{" "}
                 <Link href="/login" className="text-primary font-semibold hover:underline">
                   Log In
@@ -399,14 +399,14 @@ export function SignupClient() {
       </div>
 
       {/* Footer Navigation */}
-      <div className="text-center space-y-3 pt-4">
-        <p className="text-sm text-muted-foreground">
+      <div className="w-full flex flex-col items-center justify-center text-center space-y-2 pt-6">
+        <p className="text-sm text-muted-foreground w-full max-w-none text-center">
           Already have an account?{" "}
           <Link href="/login" className="text-primary font-semibold hover:underline">
             Log In
           </Link>
         </p>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground w-full max-w-none text-center">
           By joining, you agree to our{" "}
           <Link href="/terms" className="hover:underline text-foreground">Terms of Service</Link>
           {" "}and{" "}
