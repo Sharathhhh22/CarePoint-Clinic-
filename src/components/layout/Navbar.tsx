@@ -248,7 +248,7 @@ export function Navbar() {
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="min-h-[44px] inline-flex items-center justify-center w-full rounded-xl bg-primary text-primary-foreground font-semibold shadow-sm hover:bg-primary-hover active:scale-[0.99] transition-all"
                     >
-                      Go to Patient Dashboard
+                      Go to Dashboard
                     </Link>
                   ) : (
                     <>

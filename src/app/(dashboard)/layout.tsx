@@ -84,22 +84,44 @@ export default function DashboardLayout({
     router.refresh()
   }
 
+  const dashboardHref = isAdmin 
+    ? "/admin/dashboard" 
+    : isDoctor 
+      ? "/doctor/dashboard" 
+      : "/patient/dashboard"
+
   const navItems = [
-    { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/appointments", label: "Appointments", icon: CalendarCheck },
-    { href: "/records", label: "Medical Records", icon: User },
-    { href: "/doctor", label: "Doctor Portal", icon: Stethoscope },
-    ...(isAdmin ? [{ href: "/admin", label: "Admin Panel", icon: Settings }] : []),
+    { href: dashboardHref, label: isDoctor ? "Practice Dashboard" : "Dashboard", icon: LayoutDashboard },
+    ...(!isDoctor && !isAdmin ? [
+      { href: "/appointments", label: "Appointments", icon: CalendarCheck },
+      { href: "/records", label: "Medical Records", icon: User },
+    ] : []),
+    ...(isDoctor ? [
+      { href: "/doctor/dashboard", label: "Doctor Schedule", icon: CalendarCheck },
+      { href: "/doctor/application-status", label: "Application Status", icon: Stethoscope },
+    ] : []),
+    ...(isAdmin ? [
+      { href: "/admin/doctor-applications", label: "Doctor Approvals", icon: Stethoscope },
+      { href: "/admin/clinics", label: "Clinics", icon: Settings },
+    ] : []),
     { href: "/profile", label: "Profile", icon: User },
     { href: "/settings", label: "Settings", icon: Settings },
   ]
 
   // Quick items for bottom navigation on mobile/tablet
   const mobileBottomItems = [
-    { href: "/dashboard", label: "Home", icon: LayoutDashboard },
-    { href: "/appointments", label: "Slots", icon: CalendarCheck },
-    { href: "/appointments/new", label: "Book", icon: CalendarCheck, isAction: true },
-    { href: isDoctor ? "/doctor" : "/records", label: isDoctor ? "Doctor" : "Records", icon: isDoctor ? Stethoscope : User },
+    { href: dashboardHref, label: "Home", icon: LayoutDashboard },
+    ...(isDoctor ? [
+      { href: "/doctor/dashboard", label: "Schedule", icon: CalendarCheck },
+      { href: "/doctor/application-status", label: "Status", icon: Stethoscope },
+    ] : isAdmin ? [
+      { href: "/admin/doctor-applications", label: "Approvals", icon: Stethoscope },
+      { href: "/admin/clinics", label: "Clinics", icon: Settings },
+    ] : [
+      { href: "/appointments", label: "Slots", icon: CalendarCheck },
+      { href: "/appointments/new", label: "Book", icon: CalendarCheck, isAction: true },
+      { href: "/records", label: "Records", icon: User },
+    ]),
   ]
 
   return (

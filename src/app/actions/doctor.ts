@@ -12,7 +12,9 @@ export interface SaveDoctorProfileInput {
   registrationAuthority: string
   experienceYears: number
   consultationFee: number
-  clinicId: string
+  clinicId?: string
+  hospitalName?: string
+  practiceLocation?: string
   bio?: string
   photoUrl?: string
   verificationDocUrl?: string
@@ -43,7 +45,9 @@ export async function saveDoctorProfile(input: SaveDoctorProfileInput) {
   const registrationAuthority = sanitizeText(input.registrationAuthority)
   const experienceYears = Number(input.experienceYears) || 0
   const consultationFee = Number(input.consultationFee) || 500
-  const clinicId = input.clinicId
+  const clinicId = input.clinicId || null
+  const hospitalName = input.hospitalName ? sanitizeText(input.hospitalName) : undefined
+  const practiceLocation = input.practiceLocation ? sanitizeText(input.practiceLocation) : undefined
   const bio = input.bio ? sanitizeText(input.bio) : undefined
   const photoUrl = input.photoUrl ? sanitizeText(input.photoUrl) : undefined
   const verificationDocUrl = input.verificationDocUrl ? sanitizeText(input.verificationDocUrl) : undefined
@@ -55,7 +59,6 @@ export async function saveDoctorProfile(input: SaveDoctorProfileInput) {
   if (submitForReview) {
     if (!qualifications.trim()) return { error: "Medical qualifications are required for review." }
     if (!medicalRegistrationNo.trim()) return { error: "Medical council registration number is required." }
-    if (!clinicId) return { error: "Please select an affiliated clinic." }
   }
 
   const targetStatus = submitForReview ? 'pending' : 'draft'
@@ -83,6 +86,8 @@ export async function saveDoctorProfile(input: SaveDoctorProfileInput) {
           experience_years: Number(experienceYears) || 0,
           consultation_fee: Number(consultationFee) || 500,
           clinic_id: clinicId || null,
+          hospital_name: hospitalName?.trim() || null,
+          practice_location: practiceLocation?.trim() || null,
           bio: bio?.trim() || null,
           photo_url: photoUrl?.trim() || null,
           verification_doc_url: verificationDocUrl?.trim() || null,
@@ -111,6 +116,8 @@ export async function saveDoctorProfile(input: SaveDoctorProfileInput) {
             experience_years: Number(experienceYears) || 0,
             consultation_fee: Number(consultationFee) || 500,
             clinic_id: clinicId || null,
+            hospital_name: hospitalName?.trim() || null,
+            practice_location: practiceLocation?.trim() || null,
             bio: bio?.trim() || null,
             photo_url: photoUrl?.trim() || null,
             verification_doc_url: verificationDocUrl?.trim() || null,

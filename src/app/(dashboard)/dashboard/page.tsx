@@ -18,6 +18,11 @@ export default async function Dashboard() {
 
   // Get user profile to check role
   const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', user.id).maybeSingle()
+  
+  if (profile?.role === 'doctor') {
+    redirect('/doctor/dashboard')
+  }
+
   const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
 
   // Fetch appointments. 

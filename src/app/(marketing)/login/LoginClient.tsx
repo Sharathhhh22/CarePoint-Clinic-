@@ -28,7 +28,7 @@ export function LoginClient() {
     setErrorMsg("")
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
         email: loginEmail.trim(),
         password: loginPassword,
       })
@@ -39,8 +39,39 @@ export function LoginClient() {
         }
         throw error
       }
+
+      const user = authData.user
+      if (!user) {
+        throw new Error("Login failed. Please try again.")
+      }
+
+      // Check role in profiles
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle()
+
+      if (profile?.role === "admin" || profile?.role === "staff") {
+        router.push("/admin/dashboard")
+      } else if (profile?.role === "doctor") {
+        // Query doctor status
+        const { data: doctor } = await supabase
+          .from("doctors")
+          .select("status")
+          .eq("profile_id", user.id)
+          .maybeSingle()
+
+        if (doctor?.status === "approved") {
+          router.push("/doctor/dashboard")
+        } else {
+          router.push("/doctor/application-status")
+        }
+      } else {
+        // Default to patient dashboard
+        router.push("/patient/dashboard")
+      }
       
-      router.push('/dashboard')
       router.refresh()
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to authenticate. Please try again."
@@ -55,7 +86,7 @@ export function LoginClient() {
         <CardHeader className="pb-6">
           <CardTitle className="text-2xl text-foreground font-bold">Log In</CardTitle>
           <CardDescription className="text-muted-foreground">
-            Enter your credentials to access your patient portal.
+            Enter your credentials to access your healthcare portal.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">

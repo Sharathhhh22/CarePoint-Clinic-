@@ -39,28 +39,63 @@ export async function updateSession(request: NextRequest) {
   const publicRoutes = ['/', '/features', '/how-it-works', '/about', '/contact', '/login', '/signup', '/forgot-password', '/privacy', '/terms']
   
   // Routes that are strictly protected
-  const protectedRoutes = ['/dashboard', '/settings', '/profile', '/admin', '/patients']
+  const protectedRoutes = ['/dashboard', '/patient', '/doctor', '/admin', '/settings', '/profile', '/records']
 
   const isPublicRoute = publicRoutes.includes(path) || path.startsWith('/receipt/')
   const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route))
 
   if (user) {
-    // Authenticated user
-    if (path === '/' || path === '/login' || path === '/signup') {
-      url.pathname = '/dashboard'
+    // Fetch profile role once for authenticated redirects/protections
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    const role = profile?.role || 'patient'
+
+    // If authenticated user visits login or signup, route them to their role-specific dashboard
+    if (path === '/login' || path === '/signup') {
+      if (role === 'admin' || role === 'staff') {
+        url.pathname = '/admin/dashboard'
+      } else if (role === 'doctor') {
+        const { data: doctor } = await supabase
+          .from('doctors')
+          .select('status')
+          .eq('profile_id', user.id)
+          .maybeSingle()
+
+        url.pathname = doctor?.status === 'approved' ? '/doctor/dashboard' : '/doctor/application-status'
+      } else {
+        url.pathname = '/patient/dashboard'
+      }
       return NextResponse.redirect(url)
     }
 
-    // Hide admin pages properly: non-admins cannot access /admin
+    // Role-based protection: /admin/*
     if (path.startsWith('/admin')) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
+      if (role !== 'admin' && role !== 'staff') {
+        url.pathname = role === 'doctor' ? '/doctor/dashboard' : '/patient/dashboard'
+        return NextResponse.redirect(url)
+      }
+    }
+
+    // Role-based protection: /doctor/dashboard
+    if (path.startsWith('/doctor/dashboard')) {
+      if (role !== 'doctor') {
+        url.pathname = role === 'admin' || role === 'staff' ? '/admin/dashboard' : '/patient/dashboard'
+        return NextResponse.redirect(url)
+      }
+
+      // Check if approved
+      const { data: doctor } = await supabase
+        .from('doctors')
+        .select('status')
+        .eq('profile_id', user.id)
         .maybeSingle()
 
-      if (!profile || (profile.role !== 'admin' && profile.role !== 'staff')) {
-        url.pathname = '/dashboard'
+      if (doctor?.status !== 'approved') {
+        url.pathname = '/doctor/application-status'
         return NextResponse.redirect(url)
       }
     }
