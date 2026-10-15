@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { FeaturesOverlay } from "@/components/layout/FeaturesOverlay";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/config/site";
+import { PwaInstallPrompt } from "@/components/pwa/PwaInstallPrompt";
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -21,6 +22,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
+  manifest: "/manifest.webmanifest",
   title: {
     default: "SlotUrSelf | Book Doctors Instantly",
     template: "%s | SlotUrSelf",
@@ -158,6 +160,7 @@ export default function RootLayout({
           {children}
           
           <FeaturesOverlay />
+          <PwaInstallPrompt />
         </ThemeProvider>
       </body>
     </html>

@@ -1,0 +1,41 @@
+{
+  "name": "SlotUrSelf - Clinic Appointments",
+  "short_name": "SlotUrSelf",
+  "description": "Skip the waiting room. Book verified clinic appointments and access your digital queue pass instantly.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1220",
+  "theme_color": "#0d9488",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book Appointment",
+      "url": "/appointments/new",
+      "description": "Book a verified doctor consultation"
+    },
+    {
+      "name": "Find Clinics",
+      "url": "/clinics",
+      "description": "Find verified clinics near you"
+    },
+    {
+      "name": "My Pass & Records",
+      "url": "/dashboard",
+      "description": "View queue pass and health records"
+    }
+  ]
+}

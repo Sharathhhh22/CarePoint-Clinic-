@@ -11,9 +11,10 @@ import { useTheme } from "next-themes"
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/features", label: "Features" },
+  { href: "/clinics", label: "Clinics" },
+  { href: "/departments", label: "Specialists" },
   { href: "/assistant", label: "AI Guide" },
   { href: "/how-it-works", label: "How It Works" },
-  { href: "/departments", label: "Specialists" },
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },
 ]

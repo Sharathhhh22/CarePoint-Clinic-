@@ -44,6 +44,7 @@ export async function updateSession(request: NextRequest) {
     '/contact', 
     '/assistant', 
     '/departments', 
+    '/clinics',
     '/careers', 
     '/login', 
     '/signup', 

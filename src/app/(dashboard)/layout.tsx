@@ -13,7 +13,8 @@ import {
   Stethoscope,
   CalendarCheck,
   Sun,
-  Moon
+  Moon,
+  Users
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
@@ -97,6 +98,7 @@ export default function DashboardLayout({
       { href: "/records", label: "Medical Records", icon: User },
     ] : []),
     ...(isDoctor ? [
+      { href: "/doctor/queue", label: "Live Queue", icon: Users },
       { href: "/doctor/dashboard", label: "Doctor Schedule", icon: CalendarCheck },
       { href: "/doctor/application-status", label: "Application Status", icon: Stethoscope },
     ] : []),
@@ -112,6 +114,7 @@ export default function DashboardLayout({
   const mobileBottomItems = [
     { href: dashboardHref, label: "Home", icon: LayoutDashboard },
     ...(isDoctor ? [
+      { href: "/doctor/queue", label: "Queue", icon: Users },
       { href: "/doctor/dashboard", label: "Schedule", icon: CalendarCheck },
       { href: "/doctor/application-status", label: "Status", icon: Stethoscope },
     ] : isAdmin ? [

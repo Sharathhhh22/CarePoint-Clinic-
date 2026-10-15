@@ -9,6 +9,10 @@ import { Button } from "@/components/ui/button"
 import { CountdownTimer } from "@/components/ui/CountdownTimer"
 import { QRCodeSVG } from 'qrcode.react'
 import { formatDoctorName, formatAiSummary } from "@/lib/utils"
+import { LiveQueueTracker } from "@/components/queue/LiveQueueTracker"
+import { generateWhatsAppShareLink } from "@/lib/notifications/whatsapp"
+import { siteConfig } from "@/config/site"
+import { MessageSquareShare } from "lucide-react"
 
 export default function ReceiptPage() {
   const params = useParams()
@@ -103,7 +107,7 @@ export default function ReceiptPage() {
           {!isScanned && (
             <div className="hidden md:flex flex-col items-center justify-center bg-white p-4 rounded-xl border border-border shadow-sm mx-auto mb-6">
               <QRCodeSVG 
-                value={typeof window !== 'undefined' ? `${window.location.origin}/receipt/${appointment.id}?scanned=true` : `https://sloturself.com/receipt/${appointment.id}?scanned=true`} 
+                value={typeof window !== 'undefined' ? `${window.location.origin}/receipt/${appointment.id}?scanned=true` : `${siteConfig.url}/receipt/${appointment.id}?scanned=true`} 
                 size={120}
                 level="M"
                 includeMargin={true}
@@ -119,6 +123,18 @@ export default function ReceiptPage() {
           )}
         </CardHeader>
         <CardContent className="space-y-6 mt-4">
+          {appointment.ticket_number && (
+            <div className="print:hidden">
+              <LiveQueueTracker
+                appointmentId={appointment.id}
+                ticketNumber={appointment.ticket_number}
+                appointmentDate={appointment.appointment_date}
+                appointmentTime={appointment.appointment_time}
+                doctorName={appointment.doctor_name}
+                clinicName={appointment.clinic_name}
+              />
+            </div>
+          )}
           
           <div className="rounded-xl bg-surface p-5 border border-border">
             <h3 className="font-semibold text-foreground mb-3 border-b border-border pb-2 flex items-center gap-2">
@@ -216,17 +232,37 @@ export default function ReceiptPage() {
           
           <div className="pt-6 text-center flex flex-col items-center gap-3 print:hidden">
             <p className="text-xs text-muted-foreground font-mono">ID: {appointment.id}</p>
-            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
-              <Button onClick={handleDownloadPdf} className="flex-1 bg-teal-600 hover:bg-teal-700 text-white h-11 text-sm rounded-xl">
-                <Download className="w-4 h-4 mr-2" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-lg">
+              <Button onClick={handleDownloadPdf} className="bg-teal-600 hover:bg-teal-700 text-white h-11 text-xs font-semibold rounded-xl">
+                <Download className="w-4 h-4 mr-1.5" />
                 Print / Save Pass
               </Button>
+              <a
+                href={generateWhatsAppShareLink({
+                  appointmentId: appointment.id,
+                  ticketNumber: appointment.ticket_number,
+                  patientName: appointment.patient_name || 'Patient',
+                  doctorName: formatDoctorName(appointment.doctor_name || 'Doctor'),
+                  specialty: appointment.department_name,
+                  clinicName: appointment.clinic_name || 'Clinic',
+                  clinicAddress: appointment.clinic_address,
+                  appointmentDate: appointment.appointment_date,
+                  appointmentTime: appointment.appointment_time,
+                  patientMobile: appointment.patient_mobile,
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 h-11 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors shadow-xs"
+              >
+                <MessageSquareShare className="w-4 h-4" />
+                Send to WhatsApp
+              </a>
               {appointment.appointment_date && appointment.appointment_time && (
                 <a
                   href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Doctor Appointment with ${formatDoctorName(appointment.doctor_name)}`)}&dates=${appointment.appointment_date.replace(/-/g, '')}T${appointment.appointment_time.replace(/:/g, '').substring(0, 4)}00/${appointment.appointment_date.replace(/-/g, '')}T${(parseInt(appointment.appointment_time.substring(0, 2), 10) + 1).toString().padStart(2, '0')}${appointment.appointment_time.substring(3, 5)}00&details=${encodeURIComponent(`Appointment at ${appointment.clinic_name}. Please present your digital check-in pass at the reception.`)}&location=${encodeURIComponent(appointment.clinic_name)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 h-11 rounded-xl border border-border bg-card hover:bg-surface-elevated text-xs font-semibold text-foreground transition-colors shadow-xs"
+                  className="inline-flex items-center justify-center gap-1.5 h-11 rounded-xl border border-border bg-card hover:bg-surface-elevated text-xs font-semibold text-foreground transition-colors shadow-xs"
                 >
                   <CalendarDays className="w-4 h-4 text-primary" />
                   Google Calendar
