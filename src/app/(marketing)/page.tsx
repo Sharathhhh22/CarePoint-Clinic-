@@ -3,19 +3,32 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Search, ArrowRight, ShieldCheck, Clock, CheckCircle2, QrCode, PhoneCall } from "lucide-react"
+import { 
+  Search, 
+  ArrowRight, 
+  ShieldCheck, 
+  Clock, 
+  CheckCircle2, 
+  QrCode,
+  Stethoscope,
+  Baby,
+  Heart,
+  Sparkles,
+  Bone,
+  Smile
+} from "lucide-react"
 
 export default function Home() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
 
   const specialties = [
-    { name: "General Medicine", count: "12 doctors", icon: "🩺" },
-    { name: "Pediatrics", count: "8 doctors", icon: "👶" },
-    { name: "Cardiology", count: "6 doctors", icon: "❤️" },
-    { name: "Dermatology", count: "9 doctors", icon: "🔬" },
-    { name: "Orthopedics", count: "7 doctors", icon: "🦴" },
-    { name: "Dental Surgery", count: "5 doctors", icon: "🦷" },
+    { name: "General Medicine", focus: "Primary Care & Checkups", icon: Stethoscope },
+    { name: "Pediatrics", focus: "Child & Infant Care", icon: Baby },
+    { name: "Cardiology", focus: "Heart & Vascular Health", icon: Heart },
+    { name: "Dermatology", focus: "Skin & Allergy Care", icon: Sparkles },
+    { name: "Orthopedics", focus: "Bones, Joints & Spine", icon: Bone },
+    { name: "Dental Surgery", focus: "Oral Health & Care", icon: Smile },
   ]
 
   const handleSearch = (e: React.FormEvent) => {
@@ -77,7 +90,7 @@ export default function Home() {
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-4 h-4 text-primary shrink-0" />
-                Atomic Real-Time Slot Lock
+                10-Minute Hold Guarantee
               </span>
               <span className="flex items-center gap-1.5">
                 <QrCode className="w-4 h-4 text-primary shrink-0" />
@@ -85,7 +98,7 @@ export default function Home() {
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-                Zero Booking Fees
+                Transparent Clinic Pricing
               </span>
             </div>
           </div>
@@ -112,21 +125,26 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-              {specialties.map((spec) => (
-                <Link
-                  key={spec.name}
-                  href={`/departments?specialty=${encodeURIComponent(spec.name)}`}
-                  className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors flex flex-col items-center text-center group"
-                >
-                  <span className="text-2xl mb-2" aria-hidden="true">{spec.icon}</span>
-                  <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {spec.name}
-                  </span>
-                  <span className="text-xs text-muted-foreground mt-1">
-                    {spec.count}
-                  </span>
-                </Link>
-              ))}
+              {specialties.map((spec) => {
+                const IconComponent = spec.icon
+                return (
+                  <Link
+                    key={spec.name}
+                    href={`/departments?specialty=${encodeURIComponent(spec.name)}`}
+                    className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors flex flex-col items-center text-center group"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2.5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {spec.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground mt-1">
+                      {spec.focus}
+                    </span>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -159,9 +177,9 @@ export default function Home() {
                 <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary font-bold flex items-center justify-center text-base">
                   2
                 </div>
-                <h3 className="text-lg font-bold text-foreground">10-Minute Slot Lock</h3>
+                <h3 className="text-lg font-bold text-foreground">10-Minute Slot Hold</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  When you pick a slot, our database locks it atomically for 10 minutes so no one else can take it while you enter patient details.
+                  When you pick a slot, it is reserved exclusively for 10 minutes so no one else can take it while you complete your details.
                 </p>
               </div>
 
@@ -171,7 +189,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg font-bold text-foreground">Instant Queue Pass</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Receive your confirmed token number and clinic pass on screen and via SMS. Arrive 10 minutes before your slot and skip the counter queue.
+                  Receive your confirmed token number and digital clinic pass immediately on screen. Arrive 10 minutes before your slot to check in smoothly.
                 </p>
               </div>
 

@@ -4,13 +4,13 @@ import { ArrowRight, Briefcase, MapPin, Clock } from "lucide-react"
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
 export const metadata: Metadata = {
-  title: "Careers | SlotUrSelf",
+  title: "Careers",
   description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
   alternates: {
     canonical: "/careers",
   },
   openGraph: {
-    title: "Careers | SlotUrSelf",
+    title: "Careers",
     description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
     url: "/careers",
   },
@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 
 export default function CareersPage() {
   const jobs = [
-    { title: "Senior Full Stack Engineer", dept: "Engineering", loc: "Remote (US/Canada)", type: "Full-time" },
-    { title: "Product Designer", dept: "Design", loc: "San Francisco, CA / Remote", type: "Full-time" },
-    { title: "Medical Partnerships Lead", dept: "Sales", loc: "New York, NY", type: "Full-time" },
-    { title: "Customer Success Specialist", dept: "Support", loc: "Remote (Global)", type: "Full-time" },
+    { title: "Senior Full Stack Engineer", dept: "Engineering", loc: "Bengaluru, KA / Remote", type: "Full-time" },
+    { title: "Product Designer", dept: "Design", loc: "Bengaluru, KA / Remote", type: "Full-time" },
+    { title: "Medical Partnerships Lead", dept: "Clinical Ops", loc: "Bengaluru / Mumbai", type: "Full-time" },
+    { title: "Patient Success Specialist", dept: "Support", loc: "Bengaluru, KA / Hybrid", type: "Full-time" },
   ]
 
   return (

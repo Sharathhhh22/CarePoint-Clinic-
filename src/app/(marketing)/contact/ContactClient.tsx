@@ -73,11 +73,11 @@ export function ContactClient() {
             <div>
               <p className="font-bold text-foreground">Call Us Directly</p>
               <p className="mt-1">
-                <a href="tel:+18007568669" className="text-primary font-medium hover:underline">
-                  1-800-SLOT-NOW (1-800-756-8669)
+                <a href="tel:+918045678900" className="text-primary font-medium hover:underline">
+                  +91 80 4567 8900
                 </a>
               </p>
-              <p className="text-xs text-muted-foreground">Mon-Fri, 9am - 6pm EST</p>
+              <p className="text-xs text-muted-foreground">Mon-Sat, 9:00 AM - 7:00 PM IST (Emergency: 108)</p>
             </div>
           </div>
 
@@ -87,8 +87,8 @@ export function ContactClient() {
             </div>
             <div>
               <p className="font-bold text-foreground">Headquarters</p>
-              <p className="mt-1">123 Health Tech Blvd, Suite 400</p>
-              <p>San Francisco, CA 94107</p>
+              <p className="mt-1">100 Feet Road, Indiranagar</p>
+              <p>Bengaluru, Karnataka 560038, India</p>
             </div>
           </div>
 

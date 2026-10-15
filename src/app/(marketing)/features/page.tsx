@@ -3,13 +3,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { FeaturesClient } from "./FeaturesClient"
 
 export const metadata: Metadata = {
-  title: "Features | SlotUrSelf",
+  title: "Features",
   description: "Discover the real-time clinical booking engine, verified specialist matching, and digital clinic pass system on SlotUrSelf.",
   alternates: {
     canonical: "/features",
   },
   openGraph: {
-    title: "Features | SlotUrSelf",
+    title: "Features",
     description: "Discover the real-time clinical booking engine, verified specialist matching, and digital clinic pass system on SlotUrSelf.",
     url: "/features",
   },

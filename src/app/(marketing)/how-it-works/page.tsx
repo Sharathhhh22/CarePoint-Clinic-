@@ -3,13 +3,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { HowItWorksClient } from "./HowItWorksClient"
 
 export const metadata: Metadata = {
-  title: "How It Works | SlotUrSelf",
+  title: "How It Works",
   description: "Learn how easy it is to search for verified doctors, lock real-time appointment slots, and bypass clinic waiting rooms with SlotUrSelf.",
   alternates: {
     canonical: "/how-it-works",
   },
   openGraph: {
-    title: "How It Works | SlotUrSelf",
+    title: "How It Works",
     description: "Learn how easy it is to search for verified doctors, lock real-time appointment slots, and bypass clinic waiting rooms with SlotUrSelf.",
     url: "/how-it-works",
   },

@@ -2,12 +2,24 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
-import { Search, Heart, Brain, Bone, Eye, Smile, Activity, ArrowRight } from "lucide-react"
+import { Search, Heart, Brain, Bone, Eye, Smile, Activity, Baby, Sparkles, ArrowRight } from "lucide-react"
 
 export function DepartmentsClient() {
   const [searchTerm, setSearchTerm] = useState("")
 
   const departments = [
+    { 
+      name: "General Medicine", 
+      desc: "Primary care physicians for general health concerns, routine screenings, and family medicine.", 
+      icon: Activity, 
+      keywords: ["general", "medicine", "practice", "fever", "cough", "routine", "primary", "checkup", "doctor"]
+    },
+    { 
+      name: "Pediatrics", 
+      desc: "Comprehensive medical care for infants, children, and adolescents, including developmental checks and immunizations.", 
+      icon: Baby, 
+      keywords: ["pediatrics", "child", "infant", "baby", "kids", "vaccine", "fever"]
+    },
     { 
       name: "Cardiology", 
       desc: "Heart and cardiovascular system specialists for hypertension, angina, and heart health.", 
@@ -15,34 +27,34 @@ export function DepartmentsClient() {
       keywords: ["heart", "cardio", "chest", "blood pressure", "vascular"]
     },
     { 
-      name: "Neurology", 
-      desc: "Brain and nervous system specialists for migraines, neuropathy, and neurological disorders.", 
-      icon: Brain, 
-      keywords: ["brain", "headache", "nerve", "dizziness", "migraine"]
+      name: "Dermatology", 
+      desc: "Diagnosis and clinical treatment of skin, hair, and nail conditions, allergy rashes, and acne.", 
+      icon: Sparkles, 
+      keywords: ["skin", "derma", "dermatology", "rash", "acne", "hair", "nail", "allergy"]
     },
     { 
       name: "Orthopedics", 
       desc: "Bone and joint specialists for fractures, joint pain, arthritis, and sports injuries.", 
       icon: Bone, 
-      keywords: ["bone", "joint", "knee", "spine", "fracture", "arthritis"]
-    },
-    { 
-      name: "Ophthalmology", 
-      desc: "Comprehensive eye care, optical vision checks, cataracts, and ocular health.", 
-      icon: Eye, 
-      keywords: ["eye", "vision", "glasses", "cataract", "glaucoma"]
+      keywords: ["bone", "joint", "knee", "spine", "fracture", "arthritis", "ortho"]
     },
     { 
       name: "Dentistry", 
       desc: "Oral health specialists for preventive cleaning, restorative care, and dental surgery.", 
       icon: Smile, 
-      keywords: ["teeth", "tooth", "dental", "gum", "cavity", "oral"]
+      keywords: ["teeth", "tooth", "dental", "dentistry", "gum", "cavity", "oral"]
     },
     { 
-      name: "General Practice", 
-      desc: "Primary care physicians for general health concerns, routine screenings, and family medicine.", 
-      icon: Activity, 
-      keywords: ["general", "fever", "cough", "routine", "primary", "checkup", "doctor"]
+      name: "Neurology", 
+      desc: "Brain and nervous system specialists for migraines, neuropathy, and neurological disorders.", 
+      icon: Brain, 
+      keywords: ["brain", "headache", "nerve", "dizziness", "migraine", "neuro"]
+    },
+    { 
+      name: "Ophthalmology", 
+      desc: "Comprehensive eye care, optical vision checks, cataracts, and ocular health.", 
+      icon: Eye, 
+      keywords: ["eye", "vision", "glasses", "cataract", "glaucoma", "optics"]
     },
   ]
 
@@ -95,7 +107,7 @@ export function DepartmentsClient() {
           {filtered.map((dept, idx) => (
             <Link 
               key={idx} 
-              href="/appointments/new" 
+              href={`/appointments/new?specialty=${encodeURIComponent(dept.name)}`} 
               className="group bg-card p-7 rounded-2xl border border-border hover:border-primary hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
@@ -120,3 +132,4 @@ export function DepartmentsClient() {
     </>
   )
 }
+

@@ -4,13 +4,13 @@ import { ArrowLeft } from "lucide-react"
 import { ForgotPasswordClient } from "./ForgotPasswordClient"
 
 export const metadata: Metadata = {
-  title: "Reset Password | SlotUrSelf",
+  title: "Reset Password",
   description: "Reset your SlotUrSelf account password securely via email verification.",
   alternates: {
     canonical: "/forgot-password",
   },
   openGraph: {
-    title: "Reset Password | SlotUrSelf",
+    title: "Reset Password",
     description: "Reset your SlotUrSelf account password securely via email verification.",
     url: "/forgot-password",
   },

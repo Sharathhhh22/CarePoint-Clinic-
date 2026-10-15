@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -12,12 +12,16 @@ import { Eye, EyeOff, Loader2, User, Stethoscope, ArrowRight, ArrowLeft, CheckCi
 import { ErrorMessage } from "@/components/ui/ErrorMessage"
 import { DoctorSignupForm } from "@/components/auth/DoctorSignupForm"
 
-export function SignupClient() {
+interface SignupClientProps {
+  initialType?: "patient" | "doctor" | null
+  redirectTarget?: string
+}
+
+export function SignupClient({ initialType = null, redirectTarget }: SignupClientProps) {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const supabase = createClient()
   
-  const [selectedType, setSelectedType] = useState<"patient" | "doctor" | null>(null)
+  const [selectedType, setSelectedType] = useState<"patient" | "doctor" | null>(initialType)
   
   // Patient Form States
   const [patientName, setPatientName] = useState("")
@@ -31,15 +35,9 @@ export function SignupClient() {
   const [errorMsg, setErrorMsg] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  // Initialize from search parameter if present
-  useEffect(() => {
-    const typeParam = searchParams.get("type")
-    if (typeParam === "doctor") {
-      setSelectedType("doctor")
-    } else if (typeParam === "patient") {
-      setSelectedType("patient")
-    }
-  }, [searchParams])
+  const loginLink = redirectTarget 
+    ? `/login?redirect=${encodeURIComponent(redirectTarget)}` 
+    : "/login"
 
   const handlePatientRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -122,8 +120,12 @@ export function SignupClient() {
         }
       }
       
-      // Redirect authenticated patients to /patient/dashboard
-      router.push("/patient/dashboard")
+      // Redirect authenticated patients to redirectTarget or patient dashboard
+      if (redirectTarget && redirectTarget.startsWith('/') && !redirectTarget.startsWith('//')) {
+        router.push(redirectTarget)
+      } else {
+        router.push("/patient/dashboard")
+      }
       router.refresh()
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Registration failed. Please try again."

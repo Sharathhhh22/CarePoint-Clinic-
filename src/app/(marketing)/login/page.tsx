@@ -1,14 +1,16 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { LoginClient } from "./LoginClient"
+import { Loader2 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Log In | SlotUrSelf",
+  title: "Log In",
   description: "Log in to your SlotUrSelf patient portal to view upcoming appointments, health records, and digital passes.",
   alternates: {
     canonical: "/login",
   },
   openGraph: {
-    title: "Log In | SlotUrSelf",
+    title: "Log In",
     description: "Log in to your SlotUrSelf patient portal to view upcoming appointments, health records, and digital passes.",
     url: "/login",
   },
@@ -23,7 +25,15 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md">
-        <LoginClient />
+        <Suspense 
+          fallback={
+            <div className="flex h-48 items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          }
+        >
+          <LoginClient />
+        </Suspense>
       </div>
     </div>
   )

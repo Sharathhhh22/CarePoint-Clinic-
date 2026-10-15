@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,7 @@ import { ErrorMessage } from "@/components/ui/ErrorMessage"
 
 export function LoginClient() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
   
   const [loginEmail, setLoginEmail] = useState("")
@@ -21,6 +22,8 @@ export function LoginClient() {
   
   const [errorMsg, setErrorMsg] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+
+  const redirectUrl = searchParams.get("redirect") || searchParams.get("next")
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,6 +46,13 @@ export function LoginClient() {
       const user = authData.user
       if (!user) {
         throw new Error("Login failed. Please try again.")
+      }
+
+      // If user came from a specific page (e.g. /appointments/new), return them there immediately
+      if (redirectUrl && redirectUrl.startsWith("/") && !redirectUrl.startsWith("//")) {
+        router.push(redirectUrl)
+        router.refresh()
+        return
       }
 
       // Check role in profiles
@@ -80,13 +90,19 @@ export function LoginClient() {
     }
   }
 
+  const signupLink = redirectUrl 
+    ? `/signup?redirect=${encodeURIComponent(redirectUrl)}`
+    : "/signup"
+
   return (
     <Card className="border-border shadow-sm rounded-2xl bg-card">
       <form onSubmit={handleLogin}>
         <CardHeader className="pb-6">
           <CardTitle className="text-2xl text-foreground font-bold">Log In</CardTitle>
           <CardDescription className="text-muted-foreground">
-            Enter your credentials to access your healthcare portal.
+            {redirectUrl?.includes("appointments") 
+              ? "Please log in to continue booking your appointment."
+              : "Enter your credentials to access your healthcare portal."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -159,7 +175,7 @@ export function LoginClient() {
           </Button>
           <div className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="font-semibold text-primary hover:underline">
+            <Link href={signupLink} className="font-semibold text-primary hover:underline">
               Create Account
             </Link>
           </div>

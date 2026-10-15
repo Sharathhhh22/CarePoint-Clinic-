@@ -2,18 +2,20 @@
  * Site-wide constants and configuration.
  */
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sloturself.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://slot-yourself-7afv.vercel.app'
 
 export const siteConfig = {
   name: 'SlotUrSelf',
   title: 'SlotUrSelf | Book Doctors Instantly',
-  description: 'Enterprise healthcare booking platform connecting patients directly with verified clinical specialists. Real-time availability, zero waiting rooms.',
+  description: 'Healthcare booking platform connecting patients directly with verified clinical specialists. Real-time slot reservation, zero waiting rooms.',
   url: siteUrl,
   ogImage: `${siteUrl}/opengraph-image`,
   contact: {
     email: 'support@sloturself.com',
-    phone: '1-800-756-8669',
+    phone: '+91 80 4567 8900',
     emergencyPhone: '108',
+    hours: 'Mon - Sat: 9:00 AM - 7:00 PM IST',
+    address: 'Indiranagar, Bengaluru, Karnataka 560038, India',
   },
   links: {
     privacy: '/privacy',

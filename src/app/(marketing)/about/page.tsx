@@ -5,13 +5,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "About Us | SlotUrSelf",
+  title: "About Us",
   description: "Learn how SlotUrSelf is modernizing healthcare access by eliminating the waiting room through real-time verified clinical scheduling.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
-    title: "About Us | SlotUrSelf",
+    title: "About Us",
     description: "Learn how SlotUrSelf is modernizing healthcare access by eliminating the waiting room through real-time verified clinical scheduling.",
     url: "/about",
   },
@@ -20,20 +20,20 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const commitments = [
     {
-      title: "Medical Licensing Verification",
-      desc: "Every clinic and physician on our platform is cross-checked against State and National Medical Council registers before profiles are made bookable."
+      title: "Doctor Credential Screening",
+      desc: "Every healthcare provider on our platform submits registration numbers and clinical credentials for review prior to account activation."
     },
     {
-      title: "Atomic Slot Holding",
-      desc: "Slots synchronize directly with clinic schedules. Selecting a slot locks it for 10 minutes, eliminating duplicate bookings and awkward waiting room reschedules."
+      title: "Reserved Slot Holding",
+      desc: "Slots synchronize directly with clinic schedules. Selecting a slot reserves it for 10 minutes, eliminating duplicate bookings and awkward waiting room reschedules."
     },
     {
-      title: "Zero Waiting Counter Lines",
-      desc: "Digital passes and real-time token numbers mean you arrive 10 minutes before your consultation and proceed directly to your doctor."
+      title: "Reduced Waiting Times",
+      desc: "Digital queue tokens and real-time appointment confirmations let you arrive on time and proceed smoothly to your consultation."
     },
     {
       title: "Strict Patient Data Privacy",
-      desc: "Your medical documents, prescriptions, and intake details are encrypted with Row-Level Security in PostgreSQL, accessible only to you and your attending doctor."
+      desc: "Your consultations, medical notes, and personal details are safeguarded with role-based access control, accessible only to you and your attending healthcare provider."
     }
   ]
 

@@ -3,14 +3,14 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { DepartmentsClient } from "./DepartmentsClient"
 
 export const metadata: Metadata = {
-  title: "Medical Departments & Specialists | SlotUrSelf",
-  description: "Explore verified clinical specialties across cardiology, neurology, orthopedics, ophthalmology, dentistry, and general medicine on SlotUrSelf.",
+  title: "Medical Departments & Specialists",
+  description: "Explore verified clinical specialties across pediatrics, cardiology, dermatology, neurology, orthopedics, ophthalmology, dentistry, and general medicine on SlotUrSelf.",
   alternates: {
     canonical: "/departments",
   },
   openGraph: {
-    title: "Medical Departments & Specialists | SlotUrSelf",
-    description: "Explore verified clinical specialties across cardiology, neurology, orthopedics, ophthalmology, dentistry, and general medicine on SlotUrSelf.",
+    title: "Medical Departments & Specialists",
+    description: "Explore verified clinical specialties across pediatrics, cardiology, dermatology, neurology, orthopedics, ophthalmology, dentistry, and general medicine on SlotUrSelf.",
     url: "/departments",
   },
 }

@@ -117,7 +117,7 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <form onSubmit={handleSearchSubmit} className="relative">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input 
@@ -163,7 +163,7 @@ export function Navbar() {
             )}
           </div>
 
-          <div className="flex items-center gap-1 md:hidden">
+          <div className="flex items-center gap-1 lg:hidden">
             <button 
               className="text-muted-foreground hover:text-foreground w-11 h-11 flex items-center justify-center rounded-lg hover:bg-surface-elevated transition-colors" 
               aria-label="Toggle Dark Mode" 
@@ -195,7 +195,7 @@ export function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="md:hidden fixed inset-0 z-40 bg-black/60"
+              className="lg:hidden fixed inset-0 z-40 bg-black/60"
               aria-hidden="true"
             />
             <motion.div
@@ -207,7 +207,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="md:hidden fixed top-[72px] inset-x-0 z-50 bg-surface border-b border-border shadow-2xl overflow-y-auto max-h-[calc(100dvh-72px)] pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
+              className="lg:hidden fixed top-[72px] md:top-[84px] inset-x-0 z-50 bg-surface border-b border-border shadow-2xl overflow-y-auto max-h-[calc(100dvh-72px)] pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
             >
               <div className="flex flex-col px-5 py-5 space-y-4">
                 <form onSubmit={handleSearchSubmit} className="relative">

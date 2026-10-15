@@ -35,14 +35,28 @@ export async function updateSession(request: NextRequest) {
   const url = request.nextUrl.clone()
   const path = url.pathname
 
-  // Public routes that unauthenticated users can access
-  const publicRoutes = ['/', '/features', '/how-it-works', '/about', '/contact', '/login', '/signup', '/forgot-password', '/privacy', '/terms']
+  // Public routes that unauthenticated users can access freely
+  const publicRoutes = [
+    '/', 
+    '/features', 
+    '/how-it-works', 
+    '/about', 
+    '/contact', 
+    '/assistant', 
+    '/departments', 
+    '/careers', 
+    '/login', 
+    '/signup', 
+    '/forgot-password', 
+    '/privacy', 
+    '/terms'
+  ]
   
   // Routes that are strictly protected
-  const protectedRoutes = ['/dashboard', '/patient', '/doctor', '/admin', '/settings', '/profile', '/records']
+  const protectedRoutes = ['/dashboard', '/patient', '/doctor', '/admin', '/settings', '/profile', '/records', '/appointments']
 
   const isPublicRoute = publicRoutes.includes(path) || path.startsWith('/receipt/')
-  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route))
+  const isProtectedRoute = protectedRoutes.some(route => path === route || path.startsWith(route + '/'))
 
   if (user) {
     // Fetch profile role once for authenticated redirects/protections
@@ -56,6 +70,13 @@ export async function updateSession(request: NextRequest) {
 
     // If authenticated user visits login or signup, route them to their role-specific dashboard
     if (path === '/login' || path === '/signup') {
+      const redirectTarget = request.nextUrl.searchParams.get('redirect') || request.nextUrl.searchParams.get('next')
+      if (redirectTarget && redirectTarget.startsWith('/')) {
+        url.pathname = redirectTarget
+        url.search = ''
+        return NextResponse.redirect(url)
+      }
+
       if (role === 'admin' || role === 'staff') {
         url.pathname = '/admin/dashboard'
       } else if (role === 'doctor') {
@@ -100,9 +121,14 @@ export async function updateSession(request: NextRequest) {
       }
     }
   } else {
-    // Unauthenticated user
-    if (isProtectedRoute || (!isPublicRoute && path !== '/appointments/new' && !path.startsWith('/api') && path !== '/departments' && path !== '/showcase')) {
+    // Unauthenticated user: send to login with return redirect for protected booking or dashboard flows
+    if (isProtectedRoute || (!isPublicRoute && !path.startsWith('/api') && path !== '/showcase')) {
+      const fullTarget = (path && path !== '/') ? (path + request.nextUrl.search) : ''
       url.pathname = '/login'
+      url.search = ''
+      if (fullTarget) {
+        url.searchParams.set('redirect', fullTarget)
+      }
       return NextResponse.redirect(url)
     }
   }

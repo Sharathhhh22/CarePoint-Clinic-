@@ -3,13 +3,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { ContactClient } from "./ContactClient"
 
 export const metadata: Metadata = {
-  title: "Contact Us | SlotUrSelf",
+  title: "Contact Us",
   description: "Get in touch with the SlotUrSelf medical operations and clinical integration team for support, questions, or partnerships.",
   alternates: {
     canonical: "/contact",
   },
   openGraph: {
-    title: "Contact Us | SlotUrSelf",
+    title: "Contact Us",
     description: "Get in touch with the SlotUrSelf medical operations and clinical integration team for support, questions, or partnerships.",
     url: "/contact",
   },

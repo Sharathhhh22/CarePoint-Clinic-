@@ -4,13 +4,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { AssistantClient } from "./AssistantClient"
 
 export const metadata: Metadata = {
-  title: "AI Symptom Checker & Medical Guide | SlotUrSelf",
+  title: "AI Symptom Checker & Medical Guide",
   description: "Describe your symptoms in plain language to receive automated clinical triage guidance and specialist recommendations on SlotUrSelf.",
   alternates: {
     canonical: "/assistant",
   },
   openGraph: {
-    title: "AI Symptom Checker & Medical Guide | SlotUrSelf",
+    title: "AI Symptom Checker & Medical Guide",
     description: "Describe your symptoms in plain language to receive automated clinical triage guidance and specialist recommendations on SlotUrSelf.",
     url: "/assistant",
   },

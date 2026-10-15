@@ -6,8 +6,8 @@ export function FeaturesClient() {
   const features = [
     { 
       icon: CalendarClock, 
-      title: "Atomic Real-Time Slot Locking", 
-      desc: "Our platform connects directly to clinics' scheduling databases. When you select a slot, it is locked atomically in PostgreSQL for 10 minutes, eliminating double-bookings and race conditions.",
+      title: "Real-Time Slot Reservation", 
+      desc: "Our platform synchronizes directly with clinical schedules. When you select an appointment slot, it is reserved exclusively for 10 minutes, eliminating double-bookings and ensuring your selected time is protected while you complete your intake.",
       bullets: ["Zero double bookings", "Live 10-minute hold countdown", "Instant appointment confirmation"],
       preview: (
         <div className="p-6 bg-card rounded-2xl border border-border space-y-4 shadow-xs">
@@ -39,9 +39,9 @@ export function FeaturesClient() {
     },
     { 
       icon: ShieldCheck, 
-      title: "Verified Practitioner Credentials", 
-      desc: "Doctors on SlotUrSelf undergo verification of medical council registration numbers, medical degrees, and clinic affiliations before their profiles can receive bookings.",
-      bullets: ["State Medical Council ID checks", "Affiliated clinic verification", "Transparent consultation fees"],
+      title: "Doctor Credential Screening", 
+      desc: "Practitioners on SlotUrSelf submit their medical registration numbers, medical degrees, and clinic affiliations for review prior to account approval and public booking.",
+      bullets: ["Registration number verification", "Affiliated clinic confirmation", "Transparent consultation fees"],
       preview: (
         <div className="p-6 bg-card rounded-2xl border border-border space-y-4 shadow-xs">
           <div className="flex items-start gap-4">
