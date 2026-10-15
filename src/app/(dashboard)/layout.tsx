@@ -14,11 +14,11 @@ import {
   CalendarCheck,
   Sun,
   Moon,
-  Users,
-  Activity
+  Users
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 
 const emptySubscribe = () => () => {}
 
@@ -146,14 +146,9 @@ export default function DashboardLayout({
         }`}
       >
         <div className="h-16 flex items-center justify-between px-6 border-b border-border shrink-0">
-          <Link href="/dashboard" className="flex items-center gap-2.5 group" onClick={() => setIsSidebarOpen(false)}>
-            <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
-              <Activity className="w-3.5 h-3.5" />
-            </div>
-            <span className="text-lg font-bold tracking-tight text-foreground">
-              SlotUrSelf
-            </span>
-          </Link>
+          <div onClick={() => setIsSidebarOpen(false)}>
+            <BrandLogo href="/dashboard" iconSize="w-7 h-7" textClassName="text-lg font-bold tracking-tight text-foreground" />
+          </div>
           <button 
             className="lg:hidden w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground rounded-lg hover:bg-surface-elevated transition-colors"
             onClick={() => setIsSidebarOpen(false)}
@@ -214,12 +209,9 @@ export default function DashboardLayout({
                 className="w-full h-10 pl-9 pr-4 rounded-lg border border-border bg-input-bg text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
               />
             </div>
-            <Link href="/dashboard" className="sm:hidden font-bold text-foreground text-base truncate flex items-center gap-2">
-              <div className="w-6 h-6 rounded-md bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shrink-0">
-                <Activity className="w-3.5 h-3.5" />
-              </div>
-              <span>SlotUrSelf</span>
-            </Link>
+            <div className="sm:hidden">
+              <BrandLogo href="/dashboard" iconSize="w-6 h-6" textClassName="text-base font-bold text-foreground truncate" />
+            </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">

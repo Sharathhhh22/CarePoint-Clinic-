@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Mail, Phone, Activity } from "lucide-react"
+import { Mail, Phone } from "lucide-react"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 
 export function Footer() {
   return (
@@ -8,14 +9,9 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           
           <div className="sm:col-span-2 md:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2.5 group mb-4">
-              <div className="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
-                <Activity className="w-3.5 h-3.5" />
-              </div>
-              <h2 className="text-lg font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
-                SlotUrSelf
-              </h2>
-            </Link>
+            <div className="mb-4">
+              <BrandLogo href="/" iconSize="w-7 h-7" textClassName="text-lg font-bold text-foreground tracking-tight group-hover:text-primary transition-colors" />
+            </div>
             <p className="text-sm leading-relaxed text-muted-foreground mb-6">
               Verified specialists, real-time slots, and no phone calls. Your healthcare journey, simplified.
             </p>

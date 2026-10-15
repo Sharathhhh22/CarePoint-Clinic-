@@ -4,9 +4,10 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, User, Search, Moon, Sun, Activity } from "lucide-react"
+import { Menu, X, User, Search, Moon, Sun } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -93,14 +94,7 @@ export function Navbar() {
           
           {/* Left Brand + Divider + Navigation Links */}
           <div className="flex items-center gap-4 xl:gap-6 min-w-0">
-            <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200">
-                <Activity className="w-4 h-4" />
-              </div>
-              <span className="text-lg xl:text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
-                SlotUrSelf
-              </span>
-            </Link>
+            <BrandLogo href="/" iconSize="w-8 h-8" textClassName="text-lg xl:text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary" />
 
             <div className="hidden lg:block h-5 w-px bg-border/80 shrink-0" aria-hidden="true" />
 
