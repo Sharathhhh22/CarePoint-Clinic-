@@ -30,6 +30,7 @@ export default function DashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [isDoctor, setIsDoctor] = useState(false)
+  const [userProfile, setUserProfile] = useState<{ fullName?: string; email?: string; role?: string } | null>(null)
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
@@ -40,7 +41,7 @@ export default function DashboardLayout({
     async function checkRole() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        const { data } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle()
+        const { data } = await supabase.from('profiles').select('role, full_name').eq('id', user.id).maybeSingle()
         if (data?.role === 'admin' || data?.role === 'staff') {
           setIsAdmin(true)
         }
@@ -53,6 +54,11 @@ export default function DashboardLayout({
             setIsDoctor(true)
           }
         }
+        setUserProfile({
+          fullName: data?.full_name || user.user_metadata?.full_name || '',
+          email: user.email || '',
+          role: data?.role || 'patient'
+        })
       }
     }
     checkRole()
@@ -139,9 +145,9 @@ export default function DashboardLayout({
         />
       )}
 
-      {/* Sidebar (Desktop sticky / Mobile slide-over) */}
+      {/* Sidebar (Desktop fixed / Mobile slide-over) */}
       <aside 
-        className={`fixed lg:sticky top-0 left-0 z-50 h-screen w-72 sm:w-64 bg-surface border-r border-border transform transition-transform duration-250 ease-in-out lg:translate-x-0 flex flex-col ${
+        className={`fixed inset-y-0 left-0 z-50 h-screen w-72 sm:w-64 bg-surface border-r border-border flex flex-col transition-transform duration-250 ease-in-out lg:translate-x-0 lg:z-30 ${
           isSidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
         }`}
       >
@@ -166,7 +172,7 @@ export default function DashboardLayout({
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsSidebarOpen(false)}
-                className={`min-h-[44px] flex items-center space-x-3 px-3 py-2.5 rounded-xl nav-text text-sm transition-colors ${
+                className={`min-h-[44px] flex items-center gap-3 px-3 py-2.5 rounded-xl nav-text text-sm transition-colors ${
                   isActive 
                     ? "bg-primary/10 text-primary font-semibold" 
                     : "text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
@@ -179,19 +185,37 @@ export default function DashboardLayout({
           })}
         </nav>
 
-        <div className="p-4 border-t border-border shrink-0 pb-[calc(1rem+env(safe-area-inset-bottom,0px))]">
+        {/* User Card & Perfectly Aligned Logout */}
+        <div className="p-3 border-t border-border shrink-0 bg-surface/50 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] space-y-2">
+          {userProfile && (
+            <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-surface-elevated/70 border border-border/70">
+              <div className="w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-xs flex items-center justify-center shrink-0 border border-primary/20">
+                {(userProfile.fullName || userProfile.email || "U").charAt(0).toUpperCase()}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold text-foreground truncate leading-tight">
+                  {userProfile.fullName || "User Account"}
+                </p>
+                <p className="text-[11px] text-muted-foreground truncate capitalize leading-tight mt-0.5">
+                  {userProfile.role || "Patient"} • {userProfile.email?.split('@')[0]}
+                </p>
+              </div>
+            </div>
+          )}
+
           <button
             onClick={handleLogout}
-            className="min-h-[44px] flex items-center space-x-3 px-3 py-2.5 w-full rounded-xl nav-text text-sm text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors group"
+            className="min-h-[44px] flex items-center gap-3 px-3 py-2.5 w-full rounded-xl nav-text text-sm font-medium text-muted-foreground hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 border border-transparent transition-all group cursor-pointer"
+            aria-label="Log out of your account"
           >
-            <LogOut className="w-5 h-5 text-muted-foreground group-hover:text-destructive shrink-0" />
-            <span>Logout</span>
+            <LogOut className="w-5 h-5 text-muted-foreground group-hover:text-destructive shrink-0 transition-colors" />
+            <span className="font-semibold text-sm">Logout</span>
           </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
         <header className="h-16 bg-surface border-b border-border flex items-center px-4 sm:px-6 lg:px-8 shrink-0 sticky top-0 z-30 justify-between gap-3 transition-colors">
           <div className="flex items-center flex-1 min-w-0">
             <button
