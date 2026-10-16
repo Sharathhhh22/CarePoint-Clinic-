@@ -26,7 +26,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
   const supabase = createClient()
   const doctorId = data.doctorId
 
-  // Fetch doctor custom availability schedule if configured
+  // Fetch doctor custom availability schedule if configured with realtime sync
   useEffect(() => {
     if (!doctorId) return
     async function loadAvailability() {
@@ -45,6 +45,25 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
       }
     }
     loadAvailability()
+
+    // Realtime listener for doctor schedule updates
+    const availChannel = supabase.channel(`doctor_avail_${doctorId}`)
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'doctor_availability',
+        filter: `doctor_id=eq.${doctorId}`,
+      }, () => {
+        loadAvailability()
+      })
+      .on('broadcast', { event: 'schedule_updated' }, () => {
+        loadAvailability()
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(availChannel)
+    }
   }, [doctorId, supabase])
 
   // Generate next 14 days
@@ -132,7 +151,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
 
     fetchSlots()
 
-    // 2. Realtime Broadcast subscription for instantaneous updates
+    // 2. Realtime Broadcast & Postgres Changes subscription for instantaneous updates
     const channel = supabase.channel(`doctor_slots_${doctorId}`)
       .on('broadcast', { event: 'slot_held' }, (payload) => {
         if (payload.payload.date === selectedDate) {
@@ -143,6 +162,14 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
         if (payload.payload.date === selectedDate) {
           setTakenSlots(prev => prev.filter(t => t !== payload.payload.time))
         }
+      })
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'appointments',
+        filter: `doctor_id=eq.${doctorId}`,
+      }, () => {
+        fetchSlots()
       })
       .subscribe()
 

@@ -20,6 +20,39 @@ export class AppointmentService {
 
     const heldUntil = new Date(Date.now() + 5 * 60 * 1000).toISOString()
 
+    // 1. Try atomic concurrency-safe reservation RPC
+    try {
+      const { data: rpcResult, error: rpcError } = await supabase.rpc('hold_appointment_slot_atomic', {
+        p_patient_id: userId,
+        p_doctor_id: doctorId,
+        p_clinic_id: clinicId,
+        p_date: date,
+        p_time: time,
+        p_held_minutes: 5,
+      })
+
+      if (!rpcError && rpcResult && rpcResult.length > 0) {
+        const first = rpcResult[0]
+        if (first.success && first.appointment_id) {
+          return {
+            appointmentId: first.appointment_id,
+            heldUntil: first.held_until,
+          }
+        }
+        if (!first.success) {
+          throw new ApiError(
+            first.error_message || 'That slot was just reserved by another patient. Please choose an alternate time.',
+            409,
+            'SLOT_UNAVAILABLE'
+          )
+        }
+      }
+    } catch (rpcErr) {
+      if (rpcErr instanceof ApiError) throw rpcErr
+      console.warn('Atomic hold RPC fallback to standard insert:', rpcErr)
+    }
+
+    // 2. Fallback to direct insertion if RPC is not available in environment
     const { data, error } = await supabase
       .from('appointments')
       .insert([

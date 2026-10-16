@@ -14,7 +14,8 @@ import {
   CalendarCheck,
   Sun,
   Moon,
-  Users
+  Users,
+  Activity
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
@@ -110,6 +111,7 @@ export default function DashboardLayout({
       { href: "/doctor/application-status", label: "Application Status", icon: Stethoscope },
     ] : []),
     ...(isAdmin ? [
+      { href: "/admin/allocation", label: "Resource Allocation", icon: Activity },
       { href: "/admin/doctor-applications", label: "Doctor Approvals", icon: Stethoscope },
       { href: "/admin/clinics", label: "Clinics", icon: Settings },
     ] : []),
@@ -125,6 +127,7 @@ export default function DashboardLayout({
       { href: "/doctor/dashboard", label: "Schedule", icon: CalendarCheck },
       { href: "/doctor/application-status", label: "Status", icon: Stethoscope },
     ] : isAdmin ? [
+      { href: "/admin/allocation", label: "Allocation", icon: Activity },
       { href: "/admin/doctor-applications", label: "Approvals", icon: Stethoscope },
       { href: "/admin/clinics", label: "Clinics", icon: Settings },
     ] : [

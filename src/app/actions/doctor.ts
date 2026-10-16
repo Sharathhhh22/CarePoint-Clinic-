@@ -216,6 +216,8 @@ export async function updateDoctorSchedule(
     if (error) throw error
 
     revalidatePath('/doctor')
+    revalidatePath('/admin/allocation')
+    revalidatePath('/appointments/new')
     return { success: true }
   } catch (err: any) {
     return { error: err.message || "Failed to update schedule." }
