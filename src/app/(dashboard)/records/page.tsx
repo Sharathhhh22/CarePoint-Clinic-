@@ -109,19 +109,14 @@ export default function MedicalRecordsPage() {
 
       if (uploadError) throw uploadError
 
-      // 2. Get Public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('medical_records')
-        .getPublicUrl(fileName)
-
-      // 3. Save to Database
+      // 2. Save storage relative path to Database
       const { error: dbError } = await supabase
         .from('patient_records')
         .insert([
           {
             patient_id: user.id,
-            title: title,
-            file_url: publicUrl
+            title: cleanTitle || title,
+            file_url: fileName
           }
         ])
 
@@ -140,12 +135,50 @@ export default function MedicalRecordsPage() {
     }
   }
 
+  async function handleViewReport(record: any) {
+    try {
+      let filePath = record.file_url
+      if (!filePath) return
+
+      if (filePath.includes('/medical_records/')) {
+        filePath = filePath.split('/medical_records/')[1]
+      } else if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+        const url = new URL(filePath)
+        const parts = url.pathname.split('/')
+        filePath = parts.slice(parts.indexOf('medical_records') + 1).join('/')
+      }
+
+      const { data, error } = await supabase.storage
+        .from('medical_records')
+        .createSignedUrl(filePath, 300) // 5 minutes validity
+
+      if (error || !data?.signedUrl) {
+        alert("Could not generate secure download link: " + (error?.message || "File unavailable"))
+        return
+      }
+
+      window.open(data.signedUrl, '_blank', 'noopener,noreferrer')
+    } catch (err: any) {
+      alert("Error accessing report: " + err.message)
+    }
+  }
+
   async function handleDelete(id: string, fileUrl: string) {
     if (!confirm("Are you sure you want to delete this record?")) return
 
     try {
       // 1. Delete from DB
       await supabase.from('patient_records').delete().eq('id', id)
+      
+      // 2. Attempt cleanup from private storage
+      if (fileUrl) {
+        let filePath = fileUrl
+        if (filePath.includes('/medical_records/')) {
+          filePath = filePath.split('/medical_records/')[1]
+        }
+        await supabase.storage.from('medical_records').remove([filePath])
+      }
+
       setRecords(records.filter(r => r.id !== id))
     } catch (err) {
       console.error(err)
@@ -361,15 +394,14 @@ export default function MedicalRecordsPage() {
                         </div>
 
                         <div className="flex items-center gap-1">
-                          <a 
-                            href={record.file_url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors"
-                            title="View / Download Report"
+                          <button 
+                            type="button"
+                            onClick={() => handleViewReport(record)} 
+                            className="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors cursor-pointer"
+                            title="View / Download Encrypted Report"
                           >
                             <ExternalLink className="w-4 h-4" />
-                          </a>
+                          </button>
                           <button 
                             onClick={() => handleDelete(record.id, record.file_url)}
                             className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"

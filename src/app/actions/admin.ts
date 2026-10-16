@@ -274,7 +274,22 @@ export async function reviewDoctorApplication(
       return { error: updateError.message }
     }
 
-    // 2. Insert into verification review history audit log
+    // 2. Synchronize user profile role: strictly enforce that only an Admin can elevate or demote roles
+    const { data: doctorRecord } = await supabase
+      .from('doctors')
+      .select('profile_id')
+      .eq('id', doctorId)
+      .single()
+
+    if (doctorRecord?.profile_id) {
+      const targetRole = (decision === 'approved' || decision === 'reactivated') ? 'doctor' : 'patient'
+      await supabase
+        .from('profiles')
+        .update({ role: targetRole })
+        .eq('id', doctorRecord.profile_id)
+    }
+
+    // 3. Insert into verification review history audit log
     const { error: historyError } = await supabase
       .from('doctor_verification_history')
       .insert([
@@ -295,7 +310,7 @@ export async function reviewDoctorApplication(
       console.warn("Could not write to verification audit log:", historyError)
     }
 
-    // 3. Write to centralized security audit log
+    // 4. Write to centralized security audit log
     await logAdminAction(supabase, {
       actorId: user.id,
       action: `DOCTOR_REVIEW_${decision.toUpperCase()}`,
@@ -312,3 +327,53 @@ export async function reviewDoctorApplication(
     return { error: err.message || "Failed to process review." }
   }
 }
+
+/**
+ * Generates a short-lived (300 seconds / 5 minutes) cryptographically signed URL
+ * for an administrator to inspect a doctor's private medical verification credentials.
+ */
+export async function getDoctorVerificationDocSignedUrl(doctorId: string): Promise<{ signedUrl?: string; error?: string }> {
+  const supabase = await createClient()
+  await assertAdmin(supabase)
+
+  try {
+    const { data: doctor, error: docError } = await supabase
+      .from('doctors')
+      .select('verification_doc_url')
+      .eq('id', doctorId)
+      .single()
+
+    if (docError || !doctor) {
+      return { error: "Doctor record not found." }
+    }
+
+    if (!doctor.verification_doc_url) {
+      return { error: "No verification document on file for this doctor." }
+    }
+
+    // Extract relative storage path if stored as a full URL
+    let storagePath = doctor.verification_doc_url
+    if (storagePath.includes('/doctor_verification_docs/')) {
+      storagePath = storagePath.split('/doctor_verification_docs/')[1]
+    } else if (storagePath.startsWith('http://') || storagePath.startsWith('https://')) {
+      const url = new URL(storagePath)
+      const segments = url.pathname.split('/')
+      storagePath = segments.slice(segments.indexOf('doctor_verification_docs') + 1).join('/')
+    }
+
+    const { data, error } = await supabase.storage
+      .from('doctor_verification_docs')
+      .createSignedUrl(storagePath, 300) // 5 minutes validity
+
+    if (error || !data?.signedUrl) {
+      console.error("Signed URL generation failed:", error)
+      return { error: "Could not generate secure document link. " + (error?.message || "") }
+    }
+
+    return { signedUrl: data.signedUrl }
+  } catch (err: any) {
+    console.error("Exception in getDoctorVerificationDocSignedUrl:", err)
+    return { error: err.message || "Failed to retrieve secure document." }
+  }
+}
+

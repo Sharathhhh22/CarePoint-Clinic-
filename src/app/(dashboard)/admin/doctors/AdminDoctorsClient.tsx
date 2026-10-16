@@ -25,7 +25,7 @@ import {
   RotateCcw
 } from "lucide-react"
 import { formatDoctorName } from "@/lib/utils"
-import { reviewDoctorApplication } from "@/app/actions/admin"
+import { reviewDoctorApplication, getDoctorVerificationDocSignedUrl } from "@/app/actions/admin"
 
 interface AdminDoctorsClientProps {
   initialDoctors: any[]
@@ -40,8 +40,26 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
   const [isReviewOpen, setIsReviewOpen] = useState(false)
   const [rejectionReason, setRejectionReason] = useState('')
   const [isActionLoading, setIsActionLoading] = useState(false)
+  const [isDocLoading, setIsDocLoading] = useState(false)
   const [actionError, setActionError] = useState('')
   const [showRejectForm, setShowRejectForm] = useState(false)
+
+  const handleOpenVerificationDoc = async (doctorId: string) => {
+    setIsDocLoading(true)
+    setActionError('')
+    try {
+      const res = await getDoctorVerificationDocSignedUrl(doctorId)
+      if (res.error) {
+        setActionError(res.error)
+      } else if (res.signedUrl) {
+        window.open(res.signedUrl, '_blank', 'noopener,noreferrer')
+      }
+    } catch (err: any) {
+      setActionError(err.message || 'Failed to open document.')
+    } finally {
+      setIsDocLoading(false)
+    }
+  }
 
   // Filter doctors by tab and search
   const pendingDoctors = doctors.filter(d => d.status === 'pending' || (!d.status && !d.is_active))
@@ -386,16 +404,17 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
               <div>
                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Registration Proof & License Document</h4>
                 {selectedDoctor.verification_doc_url ? (
-                  <a
-                    href={selectedDoctor.verification_doc_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary text-sm font-semibold transition-colors"
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => handleOpenVerificationDoc(selectedDoctor.id)}
+                    disabled={isDocLoading}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary text-sm font-semibold transition-colors min-h-[44px]"
                   >
-                    <FileText className="w-4 h-4" />
-                    Open Medical Council Registration Document
+                    {isDocLoading ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <FileText className="w-4 h-4 mr-1" />}
+                    Open Medical Council Registration Document (Encrypted Signed URL)
                     <ExternalLink className="w-3.5 h-3.5 ml-1" />
-                  </a>
+                  </Button>
                 ) : (
                   <p className="text-xs text-muted-foreground italic bg-surface/30 p-3 rounded-lg border border-border">
                     No external certificate file uploaded. Verified via council registry query.

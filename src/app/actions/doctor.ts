@@ -135,13 +135,10 @@ export async function saveDoctorProfile(input: SaveDoctorProfileInput) {
       doctorId = newDoc.id
     }
 
-    // 2. Also ensure user's profile role is set to 'doctor' if currently 'patient'
-    await supabase
-      .from('profiles')
-      .update({ role: 'doctor' })
-      .eq('id', user.id)
+    // Note: Do not elevate profile role to 'doctor' here. Role escalation is strictly 
+    // enforced upon Administrator verification and approval to prevent premature privilege escalation.
 
-    // 3. Save weekly availability schedule if provided
+    // 2. Save weekly availability schedule if provided
     if (schedule && schedule.length > 0) {
       // Remove existing availability records for this doctor
       await supabase

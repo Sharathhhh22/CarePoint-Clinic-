@@ -21,6 +21,9 @@ export function sanitizeText(input: unknown): string {
     .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
     // Strip common HTML tags while preserving raw text
     .replace(/<[^>]+>/g, '')
+    // Filter adversarial prompt injection control delimiters
+    .replace(/\[(?:SYSTEM|INSTRUCTION|ADMIN)\]/gi, '')
+    .replace(/<{2,3}(?:SYSTEM|INSTRUCTION|ADMIN)>{2,3}/gi, '')
     // Trim whitespace
     .trim()
 }
