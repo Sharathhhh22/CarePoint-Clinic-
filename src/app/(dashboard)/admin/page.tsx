@@ -47,7 +47,7 @@ export default async function AdminDashboard() {
             <CardContent>
               <div className="text-3xl font-bold text-foreground mb-1">{todayBookingsCount || 0}</div>
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <p className="text-sm text-muted-foreground">Today's active bookings</p>
+                <p className="text-sm text-muted-foreground">Today&apos;s active bookings</p>
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
                   Live Roster
                 </span>

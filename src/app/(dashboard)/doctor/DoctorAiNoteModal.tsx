@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { Bot, Sparkles, Copy, Check, Loader2, X, FileText, ClipboardList } from "lucide-react"
+import { Bot, Sparkles, Copy, Check, Loader2, ClipboardList } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { ClinicalNoteSummary } from "@/services/llm/types"

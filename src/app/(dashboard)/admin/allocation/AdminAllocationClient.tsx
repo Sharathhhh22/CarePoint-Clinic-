@@ -4,19 +4,16 @@ import { useState, useEffect, useMemo } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { 
-  Users, 
   Stethoscope, 
   CalendarCheck, 
   Clock, 
   AlertTriangle, 
-  CheckCircle2, 
   ShieldCheck, 
   Activity, 
   Search,
   Building2,
   Lock,
   Layers,
-  ArrowUpRight,
   TrendingUp,
   History
 } from "lucide-react"
@@ -35,7 +32,7 @@ export function AdminAllocationClient({
   initialDoctors,
   initialAvailability,
   initialAppointments,
-  departments,
+  departments: _departments,
   auditLogs,
   verificationHistory,
   todayDate,
@@ -53,8 +50,6 @@ export function AdminAllocationClient({
 
   // Real-Time Subscriptions for Appointments & Doctor Availability
   useEffect(() => {
-    setIsRealtimeActive(true)
-
     const channel = supabase.channel('admin_allocation_realtime')
       // 1. Listen for new or updated appointments
       .on('postgres_changes', {
@@ -505,7 +500,7 @@ export function AdminAllocationClient({
                     {duty.isOnDuty && (
                       <div className="pt-2 border-t border-border/60">
                         <div className="flex justify-between items-center text-xs mb-1">
-                          <span className="text-muted-foreground">Today's Load:</span>
+                          <span className="text-muted-foreground">Today&apos;s Load:</span>
                           <span className="font-semibold text-foreground">
                             {bookedTotal} / {duty.maxSlots} slots ({utilization}%)
                           </span>
@@ -532,7 +527,7 @@ export function AdminAllocationClient({
       {activeTab === 'appointments' && (
         <Card className="shadow-xs overflow-hidden">
           <CardHeader className="p-5 border-b border-border bg-surface-elevated/40">
-            <CardTitle className="text-lg font-bold text-foreground">Today's Appointment Booking Flow</CardTitle>
+            <CardTitle className="text-lg font-bold text-foreground">Today&apos;s Appointment Booking Flow</CardTitle>
             <CardDescription className="text-xs">
               Live chronological bookings for {todayDate} with atomic conflict-free slot holds.
             </CardDescription>

@@ -83,7 +83,7 @@ export default function AboutPage() {
               </Link>
             </Button>
             <Button asChild variant="outline" className="border-border text-foreground hover:bg-surface-elevated font-semibold h-11 px-6 rounded-xl">
-              <Link href="/departments">
+              <Link href="/clinics">
                 View Clinics
               </Link>
             </Button>
