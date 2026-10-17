@@ -10,6 +10,17 @@ const nextConfig: NextConfig = {
   // Enable Gzip/Brotli compression
   compress: true,
 
+  // Optimize modern image delivery (AVIF, WebP)
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+
   // Tree-shake and shrink JavaScript bundle sizes for heavy libraries
   experimental: {
     optimizePackageImports: [
@@ -44,8 +55,16 @@ const nextConfig: NextConfig = {
             value: "strict-origin-when-cross-origin",
           },
           {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(self)",
+            value: "camera=(self), microphone=(self), geolocation=(self)",
           },
           {
             key: "Strict-Transport-Security",

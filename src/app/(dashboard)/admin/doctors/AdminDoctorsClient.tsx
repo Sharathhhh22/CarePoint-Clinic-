@@ -259,7 +259,13 @@ export function AdminDoctorsClient({ initialDoctors, clinics }: AdminDoctorsClie
                       <TableCell className="font-medium text-foreground">
                         <div className="flex items-center gap-3">
                           {doc.photo_url ? (
-                            <img src={doc.photo_url} alt={doc.name} className="w-9 h-9 rounded-full object-cover border border-border" />
+                            <img 
+                              src={doc.photo_url} 
+                              alt={doc.name} 
+                              loading="lazy" 
+                              decoding="async" 
+                              className="w-9 h-9 rounded-full object-cover border border-border" 
+                            />
                           ) : (
                             <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
                               {doc.name.replace('Dr.', '').trim().charAt(0) || 'D'}

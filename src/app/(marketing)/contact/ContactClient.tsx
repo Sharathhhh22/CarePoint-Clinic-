@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Mail, MapPin, Phone, CheckCircle2, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ErrorMessage } from "@/components/ui/ErrorMessage"
+import { toast } from "@/components/ui/toast"
+import { trackEvent } from "@/lib/analytics"
 
 export function ContactClient() {
   const [formData, setFormData] = useState({
@@ -19,21 +21,52 @@ export function ContactClient() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.firstName.trim() || !formData.email.trim() || !formData.message.trim()) {
       setErrorMsg("Please fill in all required fields.")
       setStatus('error')
+      toast({
+        title: "Required Fields Missing",
+        description: "Please provide your first name, email, and message.",
+        variant: "destructive"
+      })
       return
     }
 
     setStatus('sending')
     setErrorMsg("")
 
-    // Simulating message transmission with guaranteed state transition
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message.")
+      }
+
       setStatus('success')
-    }, 1000)
+      toast({
+        title: "Message Transmitted",
+        description: "Your inquiry has been sent to our clinical operations team.",
+        variant: "success",
+      })
+      trackEvent("contact_form_submitted", { emailDomain: formData.email.split("@")[1] })
+    } catch (err: any) {
+      const msg = err.message || "An unexpected error occurred. Please try again."
+      setErrorMsg(msg)
+      setStatus('error')
+      toast({
+        title: "Submission Error",
+        description: msg,
+        variant: "destructive",
+      })
+    }
   }
 
   const handleReset = () => {

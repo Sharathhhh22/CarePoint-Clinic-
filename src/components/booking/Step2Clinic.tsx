@@ -223,6 +223,8 @@ export function Step2Clinic({ data, updateData, onNext, onPrev }: Step2Props) {
                               <img 
                                 src={doctor.photo_url} 
                                 alt={doctor.name} 
+                                loading="lazy"
+                                decoding="async"
                                 className="w-12 h-12 rounded-full object-cover border border-border shadow-xs" 
                               />
                             ) : (

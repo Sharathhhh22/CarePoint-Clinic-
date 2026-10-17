@@ -5,9 +5,15 @@ import { cn } from "@/lib/utils";
 import { FeaturesOverlay } from "@/components/layout/FeaturesOverlay";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/config/site";
-import { PwaInstallPrompt } from "@/components/pwa/PwaInstallPrompt";
+import { ToastProvider } from "@/components/ui/toast";
+import { CookieConsent } from "@/components/legal/CookieConsent";
 
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-sans' });
+const outfit = Outfit({ 
+  subsets: ['latin'], 
+  variable: '--font-sans',
+  display: 'swap',
+  preload: true,
+});
 
 export const viewport: Viewport = {
   themeColor: [
@@ -34,9 +40,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32" },
-      { url: "/icon" }
+      { url: "/icon", sizes: "32x32", type: "image/png" }
     ],
-    apple: "/icon",
+    apple: [
+      { url: "/apple-icon", sizes: "180x180", type: "image/png" }
+    ],
     shortcut: "/favicon.ico",
   },
   keywords: [
@@ -149,18 +157,20 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {/* Skip to content link for a11y */}
-          <a 
-            href="#main-content" 
-            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[9999] bg-teal-600 text-white px-4 py-2 rounded-md font-medium outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
-          >
-            Skip to content
-          </a>
-          
-          {children}
-          
-          <FeaturesOverlay />
-          <PwaInstallPrompt />
+          <ToastProvider>
+            {/* Skip to content link for a11y */}
+            <a 
+              href="#main-content" 
+              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[9999] bg-teal-600 text-white px-4 py-2 rounded-md font-medium outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
+            >
+              Skip to content
+            </a>
+            
+            {children}
+            
+            <FeaturesOverlay />
+            <CookieConsent />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>
