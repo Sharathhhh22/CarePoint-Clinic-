@@ -54,3 +54,16 @@ export function sanitizeObject<T>(obj: T): T {
 
   return obj
 }
+
+/**
+ * Escapes special HTML characters to prevent HTML/XSS injection in rendered templates
+ */
+export function escapeHtml(unsafe: unknown): string {
+  if (typeof unsafe !== 'string') return ''
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}

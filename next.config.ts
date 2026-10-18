@@ -78,7 +78,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: process.env.NEXT_PUBLIC_SITE_URL || "https://sloturself.com",
+            value: process.env.NEXT_PUBLIC_SITE_URL || "https://carepointclinic.com",
           },
           {
             key: "Access-Control-Allow-Methods",

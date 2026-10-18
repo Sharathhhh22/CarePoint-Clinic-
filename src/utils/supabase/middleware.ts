@@ -53,7 +53,8 @@ export async function updateSession(request: NextRequest) {
     '/signup', 
     '/forgot-password', 
     '/privacy', 
-    '/terms'
+    '/terms',
+    '/security'
   ]
   
   // Routes that are strictly protected

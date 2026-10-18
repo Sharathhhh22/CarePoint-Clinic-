@@ -154,9 +154,12 @@ export function CareNovaFooter() {
                 Terms of Use
               </button>
               <span>&bull;</span>
-              <span className="flex items-center gap-1.5 text-[#173F30] font-medium">
-                <Shield className="w-3.5 h-3.5" /> HIPAA Compliant
-              </span>
+              <Link
+                href="/security"
+                className="flex items-center gap-1.5 text-[#173F30] font-medium hover:underline transition-colors"
+              >
+                <Shield className="w-3.5 h-3.5" /> Security Checklist &bull; HIPAA Compliant
+              </Link>
             </div>
           </div>
         </div>

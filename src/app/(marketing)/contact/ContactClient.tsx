@@ -26,6 +26,7 @@ export function ContactClient() {
     department: "General Consultation",
     urgency: "Routine (Within 48h)",
     message: "",
+    hp_field: "",
   })
 
   const [touched, setTouched] = useState<Record<string, boolean>>({})
@@ -135,6 +136,7 @@ export function ContactClient() {
       department: "General Consultation",
       urgency: "Routine (Within 48h)",
       message: "",
+      hp_field: "",
     })
     setTouched({})
     setStatus("idle")
@@ -338,6 +340,20 @@ export function ContactClient() {
                   {errorMsg}
                 </div>
               )}
+
+              {/* Anti-bot Honeypot Input (Invisible to humans, catches automated crawlers) */}
+              <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                <label htmlFor="hp_field">Please leave this field empty</label>
+                <input
+                  id="hp_field"
+                  type="text"
+                  name="hp_field"
+                  value={formData.hp_field}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
 
               {/* Name Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
