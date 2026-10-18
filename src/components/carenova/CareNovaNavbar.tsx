@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Search, ArrowRight, Menu, X } from "lucide-react"
+import { Search, ArrowRight, Menu, X, Phone, Mail, Shield } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
 import { CareNovaSearchModal } from "./CareNovaSearchModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { label: "Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Security", href: "/security" },
   { label: "Contact", href: "/contact" },
 ]
 
@@ -164,50 +165,80 @@ export function CareNovaNavbar() {
 
       {/* MOBILE DRAWER */}
       {isMobileMenuOpen && (
-        <div
-          className="md:hidden fixed inset-x-0 top-20 z-40 bg-[#FAFAF7] border-b border-[#E0E4DF] shadow-2xl p-6 animate-in slide-in-from-top-4 duration-200"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation"
-        >
-          <nav className="flex flex-col space-y-4">
-            {NAV_ITEMS.map((item) => {
-              const active = isLinkActive(item.href)
-              return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-base font-semibold py-2 border-b border-[#E0E4DF]/60 transition-colors ${
-                    active ? "text-[#173F30] font-bold" : "text-[#101512] hover:text-[#173F30]"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              )
-            })}
+        <>
+          {/* Backdrop Overlay */}
+          <div
+            className="md:hidden fixed inset-0 z-30 bg-black/40 animate-in fade-in duration-200"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
 
-            <div className="pt-2 flex flex-col gap-3">
-              <Link
-                href="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full text-center py-3 rounded-full border border-[#E0E4DF] text-sm font-semibold text-[#101512] hover:bg-[#E7EEE8] transition-colors"
-              >
-                Log in
-              </Link>
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  openBookingWithItem()
-                }}
-                className="w-full flex items-center justify-center gap-2 bg-[#173F30] text-white text-sm font-semibold py-3.5 rounded-full hover:bg-[#123326] transition-colors shadow-xs"
-              >
-                <span>Book an Appointment</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </nav>
-        </div>
+          <div
+            className="md:hidden fixed inset-x-0 top-20 z-40 bg-[#FAFAF7] border-b border-[#E0E4DF] shadow-2xl p-6 animate-in slide-in-from-top-4 duration-200 max-h-[calc(100vh-5rem)] overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation"
+          >
+            <nav className="flex flex-col space-y-3">
+              {NAV_ITEMS.map((item) => {
+                const active = isLinkActive(item.href)
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`text-base font-semibold py-2.5 border-b border-[#E0E4DF]/60 transition-colors flex items-center justify-between ${
+                      active ? "text-[#173F30] font-bold" : "text-[#101512] hover:text-[#173F30]"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {active && <span className="w-1.5 h-1.5 rounded-full bg-[#173F30]" />}
+                  </Link>
+                )
+              })}
+
+              {/* Clickable Mobile Direct Contacts */}
+              <div className="pt-2 grid grid-cols-2 gap-2.5">
+                <a
+                  href="tel:+18002892273"
+                  className="flex items-center justify-center gap-1.5 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
+                  aria-label="Call CarePoint Clinic directly"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>Call Clinic</span>
+                </a>
+                <a
+                  href="mailto:care@carepointclinic.com"
+                  className="flex items-center justify-center gap-1.5 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-semibold text-[#101512] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
+                  aria-label="Email CarePoint Clinic care team"
+                >
+                  <Mail className="w-3.5 h-3.5 text-[#173F30]" />
+                  <span>Email Care</span>
+                </a>
+              </div>
+
+              <div className="pt-2 flex flex-col gap-2.5">
+                <Link
+                  href="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full text-center py-3 rounded-full border border-[#E0E4DF] text-sm font-semibold text-[#101512] hover:bg-[#E7EEE8] transition-colors"
+                >
+                  Log in to Patient Portal
+                </Link>
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false)
+                    openBookingWithItem()
+                  }}
+                  className="w-full flex items-center justify-center gap-2 bg-[#173F30] text-white text-sm font-semibold py-3.5 rounded-full hover:bg-[#123326] transition-colors shadow-xs"
+                >
+                  <span>Book an Appointment</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </nav>
+          </div>
+        </>
       )}
 
       {/* MODALS */}

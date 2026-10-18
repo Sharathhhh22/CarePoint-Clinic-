@@ -3,13 +3,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Learn how SlotUrSelf collects, secures, and protects patient and medical data in compliance with digital healthcare privacy standards and the DPDP Act.",
+  description: "Learn how CarePoint Clinic collects, secures, and protects patient and medical data in compliance with digital healthcare privacy standards and the DPDP Act.",
   alternates: {
     canonical: "/privacy",
   },
   openGraph: {
     title: "Privacy Policy",
-    description: "Learn how SlotUrSelf collects, secures, and protects patient and medical data in compliance with digital healthcare privacy standards and the DPDP Act.",
+    description: "Learn how CarePoint Clinic collects, secures, and protects patient and medical data in compliance with digital healthcare privacy standards and the DPDP Act.",
     url: "/privacy",
   },
 }
@@ -26,7 +26,7 @@ export default function PrivacyPolicy() {
         <section className="p-6 rounded-2xl bg-card border border-border space-y-3">
           <h2 className="text-xl font-bold text-foreground">1. Introduction & Regulatory Framework</h2>
           <p className="text-muted-foreground">
-            SlotUrSelf (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) operates the clinical appointment scheduling platform accessible at slot-yourself-7afv.vercel.app. We are committed to safeguarding the privacy and confidentiality of personal data and digital health information entrusted to us by patients, doctors, and clinic partners.
+            CarePoint Clinic (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;our&rdquo;) operates the clinical appointment scheduling platform accessible at carepointclinic.com. We are committed to safeguarding the privacy and confidentiality of personal data and digital health information entrusted to us by patients, doctors, and clinic partners.
           </p>
           <p className="text-muted-foreground">
             This Privacy Policy is formulated in compliance with the Digital Personal Data Protection Act, 2023 (DPDP Act), the Information Technology Act, 2000, and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011 (SPDI Rules) of India.
@@ -85,7 +85,7 @@ export default function PrivacyPolicy() {
           <div className="p-6 rounded-2xl bg-surface border border-border space-y-3">
             <p className="font-semibold text-foreground">Zero Third-Party Advertising Monetization</p>
             <p className="text-sm text-muted-foreground">
-              SlotUrSelf never sells, leases, rents, or monetizes patient health records or appointment details to third-party data brokers, insurers, or advertising platforms.
+              CarePoint Clinic never sells, leases, rents, or monetizes patient health records or appointment details to third-party data brokers, insurers, or advertising platforms.
             </p>
             <p className="text-sm text-muted-foreground">
               Your consultation intake information is shared exclusively with the specific medical practitioner and clinic personnel with whom you have confirmed an appointment. All database records are strictly isolated using role-based access control, ensuring doctors can only access records of patients booked with their clinic.
@@ -133,9 +133,9 @@ export default function PrivacyPolicy() {
           </p>
           <div className="text-sm space-y-1 text-muted-foreground pt-1">
             <p><strong className="text-foreground">Grievance Officer:</strong> Healthcare Compliance Desk</p>
-            <p><strong className="text-foreground">Entity:</strong> SlotUrSelf Healthcare Technologies</p>
+            <p><strong className="text-foreground">Entity:</strong> CarePoint Clinic Healthcare Technologies</p>
             <p><strong className="text-foreground">Address:</strong> Indiranagar, 100 Feet Road, Bengaluru, Karnataka 560038, India</p>
-            <p><strong className="text-foreground">Email:</strong> privacy@sloturself.com / support@sloturself.com</p>
+            <p><strong className="text-foreground">Email:</strong> privacy@carepointclinic.com / support@carepointclinic.com</p>
             <p><strong className="text-foreground">Helpline:</strong> +91 80 4567 8900 (Mon–Sat, 9:00 AM – 7:00 PM IST)</p>
           </div>
         </section>

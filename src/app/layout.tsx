@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   keywords: [
     "doctor appointment",
     "clinic booking",
-    "SlotUrSelf",
+    "CarePoint Clinic",
     "healthcare specialists",
     "AI medical triage",
     "online doctor booking",
@@ -60,10 +60,10 @@ export const metadata: Metadata = {
     "digital clinic pass"
   ],
   openGraph: {
-    title: "SlotUrSelf | Book Doctors Instantly",
+    title: "CarePoint Clinic | Compassionate Modern Healthcare",
     description: "Book verified specialists and real-time appointment slots in under 60 seconds.",
     url: siteConfig.url,
-    siteName: "SlotUrSelf",
+    siteName: "CarePoint Clinic",
     locale: "en_IN",
     type: "website",
     images: [
@@ -71,13 +71,13 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "SlotUrSelf - Skip the waiting room. Book doctors instantly.",
+        alt: "CarePoint Clinic - Compassionate Modern Healthcare",
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SlotUrSelf | Book Doctors Instantly",
+    title: "CarePoint Clinic | Compassionate Modern Healthcare",
     description: "Book verified specialists and real-time appointment slots in under 60 seconds.",
     images: ["/opengraph-image"],
   },
@@ -100,7 +100,7 @@ const structuredData = {
     {
       "@type": "MedicalBusiness",
       "@id": `${siteConfig.url}/#organization`,
-      "name": "SlotUrSelf",
+      "name": "CarePoint Clinic",
       "url": siteConfig.url,
       "logo": `${siteConfig.url}/icon`,
       "image": `${siteConfig.url}/opengraph-image`,
@@ -134,7 +134,7 @@ const structuredData = {
       "@type": "WebSite",
       "@id": `${siteConfig.url}/#website`,
       "url": siteConfig.url,
-      "name": "SlotUrSelf",
+      "name": "CarePoint Clinic",
       "description": "Book doctors instantly with zero wait times.",
       "publisher": {
         "@id": `${siteConfig.url}/#organization`

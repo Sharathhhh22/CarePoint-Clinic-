@@ -3,14 +3,14 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { FeaturesClient } from "./FeaturesClient"
 
 export const metadata: Metadata = {
-  title: "Features",
-  description: "Discover the real-time clinical booking engine, verified specialist matching, and digital clinic pass system on SlotUrSelf.",
+  title: "Clinical Features & Patient Booking Engine | CarePoint Clinic",
+  description: "Discover the real-time clinical booking engine, verified specialist matching, and digital clinic pass system at CarePoint Clinic.",
   alternates: {
     canonical: "/features",
   },
   openGraph: {
-    title: "Features",
-    description: "Discover the real-time clinical booking engine, verified specialist matching, and digital clinic pass system on SlotUrSelf.",
+    title: "Clinical Features & Patient Booking Engine | CarePoint Clinic",
+    description: "Discover the real-time clinical booking engine, verified specialist matching, and digital clinic pass system at CarePoint Clinic.",
     url: "/features",
   },
 }

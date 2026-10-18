@@ -4,14 +4,14 @@ import { LoginClient } from "./LoginClient"
 import { Loader2 } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Log In",
-  description: "Log in to your SlotUrSelf patient portal to view upcoming appointments, health records, and digital passes.",
+  title: "Patient & Clinician Portal Log In | CarePoint Clinic",
+  description: "Log in to your CarePoint Clinic patient portal to view scheduled visits, verified health records, and clinical passes.",
   alternates: {
     canonical: "/login",
   },
   openGraph: {
-    title: "Log In",
-    description: "Log in to your SlotUrSelf patient portal to view upcoming appointments, health records, and digital passes.",
+    title: "Patient & Clinician Portal Log In | CarePoint Clinic",
+    description: "Log in to your CarePoint Clinic patient portal to view scheduled visits, verified health records, and clinical passes.",
     url: "/login",
   },
 }

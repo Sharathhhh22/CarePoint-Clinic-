@@ -45,7 +45,7 @@ export function trackEvent(eventName: ConversionEvent, properties: EventProperti
 
   // 3. Custom DOM Event for edge telemetry or local debugging
   try {
-    const customEvent = new CustomEvent("sloturself:conversion", {
+    const customEvent = new CustomEvent("carepoint:conversion", {
       detail: eventPayload,
     })
     window.dispatchEvent(customEvent)

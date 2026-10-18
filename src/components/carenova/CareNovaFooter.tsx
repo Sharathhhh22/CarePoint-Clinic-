@@ -1,14 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Link from "next/link"
-import { Mail, Phone, Clock, MapPin, Heart, Shield, ArrowUpRight } from "lucide-react"
+import { Mail, Phone, Clock, MapPin, Heart, Shield } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
-import { CareNovaLegalModal } from "./CareNovaLegalModals"
 
 export function CareNovaFooter() {
-  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null)
-
   return (
     <>
       <footer className="bg-white border-t border-[#E0E4DF] text-[#777D79] pt-16 pb-12">
@@ -140,19 +137,19 @@ export function CareNovaFooter() {
             <p>&copy; {new Date().getFullYear()} CarePoint Clinic. All rights reserved.</p>
 
             <div className="flex items-center gap-6">
-              <button
-                onClick={() => setLegalModal("privacy")}
-                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors cursor-pointer"
+              <Link
+                href="/privacy"
+                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors"
               >
                 Privacy Policy
-              </button>
+              </Link>
               <span>&bull;</span>
-              <button
-                onClick={() => setLegalModal("terms")}
-                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors cursor-pointer"
+              <Link
+                href="/terms"
+                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors"
               >
                 Terms of Use
-              </button>
+              </Link>
               <span>&bull;</span>
               <Link
                 href="/security"
@@ -164,15 +161,6 @@ export function CareNovaFooter() {
           </div>
         </div>
       </footer>
-
-      {/* LEGAL MODAL */}
-      {legalModal && (
-        <CareNovaLegalModal
-          isOpen={true}
-          onClose={() => setLegalModal(null)}
-          type={legalModal}
-        />
-      )}
     </>
   )
 }

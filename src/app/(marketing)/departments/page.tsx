@@ -5,14 +5,14 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { DepartmentsClient } from "./DepartmentsClient"
 
 export const metadata: Metadata = {
-  title: "Medical Departments & Specialists",
-  description: "Explore verified clinical specialties across pediatrics, cardiology, dermatology, neurology, orthopedics, ophthalmology, dentistry, and general medicine on SlotUrSelf.",
+  title: "Medical Departments & Specialists | CarePoint Clinic",
+  description: "Explore verified clinical specialties across pediatrics, cardiology, dermatology, neurology, orthopedics, ophthalmology, dentistry, and general medicine at CarePoint Clinic.",
   alternates: {
     canonical: "/departments",
   },
   openGraph: {
-    title: "Medical Departments & Specialists",
-    description: "Explore verified clinical specialties across pediatrics, cardiology, dermatology, neurology, orthopedics, ophthalmology, dentistry, and general medicine on SlotUrSelf.",
+    title: "Medical Departments & Specialists | CarePoint Clinic",
+    description: "Explore verified clinical specialties across pediatrics, cardiology, dermatology, neurology, orthopedics, ophthalmology, dentistry, and general medicine at CarePoint Clinic.",
     url: "/departments",
   },
 }

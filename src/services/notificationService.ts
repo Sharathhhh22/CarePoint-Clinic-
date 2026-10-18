@@ -34,10 +34,10 @@ export class NotificationService {
       const { error } = await resend.emails.send({
         from: env.resend.fromEmail,
         to: [payload.toEmail],
-        subject: 'Appointment Confirmed - SlotUrSelf',
+        subject: 'Appointment Confirmed - CarePoint Clinic',
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;">
-            <div style="background-color: #0f172a; padding: 24px; text-align: center;">
+            <div style="background-color: #173f30; padding: 24px; text-align: center;">
               <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Appointment Confirmed</h1>
             </div>
             <div style="padding: 32px; background-color: #ffffff;">
@@ -56,7 +56,7 @@ export class NotificationService {
               </p>
             </div>
             <div style="background-color: #f8fafc; padding: 16px; text-align: center; border-top: 1px solid #eaeaea;">
-              <p style="margin: 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} SlotUrSelf. All rights reserved.</p>
+              <p style="margin: 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} CarePoint Clinic. All rights reserved.</p>
             </div>
           </div>
         `

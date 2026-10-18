@@ -14,8 +14,8 @@ export default function OpenGraphImage() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '80px',
-          background: 'linear-gradient(135deg, #0B1220 0%, #16213A 100%)',
-          color: '#F1F5F9',
+          background: 'linear-gradient(135deg, #102B21 0%, #173F30 100%)',
+          color: '#FAFAF7',
           fontFamily: 'sans-serif',
         }}
       >
@@ -25,7 +25,8 @@ export default function OpenGraphImage() {
               width: '64px',
               height: '64px',
               borderRadius: '16px',
-              background: '#0f766e',
+              background: '#173F30',
+              border: '2px solid #A9C2B2',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -35,55 +36,49 @@ export default function OpenGraphImage() {
             <svg
               viewBox="0 0 24 24"
               fill="none"
-              style={{ width: '44px', height: '44px' }}
+              style={{ width: '40px', height: '40px' }}
             >
-              <path
-                d="M 8 2 H 5 C 3.9 2 3 2.9 3 4 V 8 H 1.5 C 0.7 8 0 8.7 0 9.5 V 14.5 C 0 15.3 0.7 16 1.5 16 H 3 V 20 C 3 21.1 3.9 22 5 22 H 8.5 C 7.5 18 7.5 14 8 10 C 8.2 7 8 4 8 2 Z"
-                fill="#ffffff"
-              />
-              <path
-                d="M 11 2 C 11.5 5 11.5 8 12 11 C 12.5 15 12 18 11.5 22 H 16 C 17.1 22 18 21.1 18 20 V 16 H 21.5 C 22.3 16 23 15.3 23 14.5 V 9.5 C 23 8.7 22.3 8 21.5 8 H 18 V 4 C 18 2.9 17.1 2 16 2 H 11 Z"
-                fill="#0f172a"
-              />
-              <rect x="18" y="3" width="3" height="3" rx="0.5" fill="#5eead4" />
+              <rect x="9" y="3" width="6" height="18" rx="2" fill="#FAFAF7" />
+              <rect x="3" y="9" width="18" height="6" rx="2" fill="#FAFAF7" />
+              <circle cx="12" cy="12" r="2.5" fill="#173F30" />
             </svg>
           </div>
-          <span style={{ fontSize: '36px', fontWeight: 800, letterSpacing: '-0.02em', color: '#FFFFFF' }}>
-            SlotUrSelf
+          <span style={{ fontSize: '36px', fontWeight: 800, letterSpacing: '-0.02em', color: '#FAFAF7' }}>
+            CarePoint Clinic
           </span>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '900px' }}>
           <h1
             style={{
-              fontSize: '64px',
+              fontSize: '60px',
               fontWeight: 800,
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               letterSpacing: '-0.03em',
-              color: '#FFFFFF',
+              color: '#FAFAF7',
               margin: 0,
             }}
           >
-            Skip the waiting room. Book doctors instantly.
+            Compassionate Outpatient Clinical Excellence
           </h1>
           <p
             style={{
-              fontSize: '28px',
-              color: '#94A3B8',
+              fontSize: '26px',
+              color: '#D4E2D9',
               lineHeight: 1.4,
               margin: 0,
             }}
           >
-            Real-time clinical scheduling with verified specialists. Zero waiting rooms, atomic slot holds.
+            Board-certified specialists, zero waiting friction, and modern coordinated appointments.
           </p>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid #26334F', paddingTop: '32px' }}>
-          <span style={{ fontSize: '22px', color: '#14b8a6', fontWeight: 600 }}>
-            sloturself.com
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid rgba(255,255,255,0.15)', paddingTop: '32px' }}>
+          <span style={{ fontSize: '22px', color: '#A9C2B2', fontWeight: 600 }}>
+            carepointclinic.com
           </span>
-          <span style={{ fontSize: '20px', color: '#64748B' }}>
-            Enterprise Healthcare Platform
+          <span style={{ fontSize: '20px', color: '#B7C9BE' }}>
+            Compassionate Modern Healthcare
           </span>
         </div>
       </div>

@@ -2,14 +2,14 @@ import type { Metadata } from "next"
 import { SignupClient } from "./SignupClient"
 
 export const metadata: Metadata = {
-  title: "Create Account",
-  description: "Register for SlotUrSelf to manage your medical appointments, access digital passes, and connect with top doctors.",
+  title: "Create Patient Account | CarePoint Clinic",
+  description: "Register for CarePoint Clinic to manage outpatient appointments, view clinical records, and connect with verified specialists.",
   alternates: {
     canonical: "/signup",
   },
   openGraph: {
-    title: "Create Account",
-    description: "Register for SlotUrSelf to manage your medical appointments, access digital passes, and connect with top doctors.",
+    title: "Create Patient Account | CarePoint Clinic",
+    description: "Register for CarePoint Clinic to manage outpatient appointments, view clinical records, and connect with verified specialists.",
     url: "/signup",
   },
 }

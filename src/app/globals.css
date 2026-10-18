@@ -6,6 +6,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  scroll-behavior: smooth;
+}
+
 :root {
   color-scheme: light;
   --font-primary: 'Manrope', sans-serif;

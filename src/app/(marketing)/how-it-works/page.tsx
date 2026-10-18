@@ -3,14 +3,14 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { HowItWorksClient } from "./HowItWorksClient"
 
 export const metadata: Metadata = {
-  title: "How It Works",
-  description: "Learn how easy it is to search for verified doctors, lock real-time appointment slots, and bypass clinic waiting rooms with SlotUrSelf.",
+  title: "How It Works | CarePoint Clinic",
+  description: "Learn how easy it is to schedule consultations, access verified medical specialists, and experience unhurried outpatient care at CarePoint Clinic.",
   alternates: {
     canonical: "/how-it-works",
   },
   openGraph: {
-    title: "How It Works",
-    description: "Learn how easy it is to search for verified doctors, lock real-time appointment slots, and bypass clinic waiting rooms with SlotUrSelf.",
+    title: "How It Works | CarePoint Clinic",
+    description: "Learn how easy it is to schedule consultations, access verified medical specialists, and experience unhurried outpatient care at CarePoint Clinic.",
     url: "/how-it-works",
   },
 }
