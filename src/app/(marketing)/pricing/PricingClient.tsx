@@ -100,6 +100,7 @@ const FAQS = [
 ]
 
 export function PricingClient() {
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly")
   const [selectedNetwork, setSelectedNetwork] = useState<string>("bcbs")
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
@@ -128,9 +129,39 @@ export function PricingClient() {
         </div>
       </section>
 
-      {/* 2. THREE PRICING TIERS */}
-      <section className="py-16 md:py-24 bg-white border-b border-[#E0E4DF]/60">
+      {/* 2. THREE PRICING TIERS & BILLING TOGGLE */}
+      <section className="py-16 md:py-24 bg-white dark:bg-[#0E1713] border-b border-[#E0E4DF]/60 dark:border-[#4E6C5D]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          
+          {/* Monthly vs Annual Billing Toggle */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+            <span className={`text-sm font-semibold ${billingCycle === "monthly" ? "text-[#101512] dark:text-[#EAEFEA] font-bold" : "text-[#777D79] dark:text-[#9BAAA0]"}`}>
+              Monthly Billing
+            </span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={billingCycle === "annual"}
+              aria-label="Toggle between monthly and annual membership plans"
+              onClick={() => setBillingCycle(billingCycle === "monthly" ? "annual" : "monthly")}
+              className="relative w-16 h-9 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
+            >
+              <span
+                className={`block w-7 h-7 rounded-full bg-[#173F30] dark:bg-[#A9C2B2] shadow-sm transform transition-transform duration-200 ${
+                  billingCycle === "annual" ? "translate-x-7" : "translate-x-0"
+                }`}
+              />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className={`text-sm font-semibold ${billingCycle === "annual" ? "text-[#101512] dark:text-[#EAEFEA] font-bold" : "text-[#777D79] dark:text-[#9BAAA0]"}`}>
+                Annual Care Plan
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#173F30] text-[#A9C2B2] text-xs font-black uppercase tracking-wider animate-pulse shadow-2xs">
+                Save 20%
+              </span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {/* TIER 1 */}
             <div className="rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
@@ -145,9 +176,12 @@ export function PricingClient() {
                   Ideal for general health checkups, minor acute symptoms, and ongoing prescriptions.
                 </p>
 
-                <div className="mb-6 pb-6 border-b border-[#E0E4DF]">
-                  <span className="text-4xl font-extrabold text-[#101512]">$75</span>
-                  <span className="text-xs font-medium text-[#777D79] ml-2">/ 30 min session</span>
+                <div className="mb-6 pb-6 border-b border-[#E0E4DF] dark:border-[#4E6C5D]">
+                  <span className="text-4xl font-extrabold text-[#101512] dark:text-[#EAEFEA]">{billingCycle === "annual" ? "$60" : "$75"}</span>
+                  <span className="text-xs font-medium text-[#777D79] dark:text-[#9BAAA0] ml-2">{billingCycle === "annual" ? "/ month (annual plan)" : "/ 30 min session"}</span>
+                  {billingCycle === "annual" && (
+                    <p className="text-[11px] text-[#173F30] dark:text-[#A9C2B2] font-semibold mt-1">Billed annually ($720/yr, saves $180)</p>
+                  )}
                 </div>
 
                 <ul className="space-y-3 text-xs text-[#777D79] mb-8">
@@ -194,8 +228,11 @@ export function PricingClient() {
                 </p>
 
                 <div className="mb-6 pb-6 border-b border-white/20">
-                  <span className="text-4xl font-extrabold text-white">$130</span>
-                  <span className="text-xs font-medium text-white/70 ml-2">/ 45 min session</span>
+                  <span className="text-4xl font-extrabold text-white">{billingCycle === "annual" ? "$104" : "$130"}</span>
+                  <span className="text-xs font-medium text-white/70 ml-2">{billingCycle === "annual" ? "/ month (annual plan)" : "/ 45 min session"}</span>
+                  {billingCycle === "annual" && (
+                    <p className="text-[11px] text-[#A9C2B2] font-semibold mt-1">Billed annually ($1,248/yr, saves $312)</p>
+                  )}
                 </div>
 
                 <ul className="space-y-3 text-xs text-white/90 mb-8">
@@ -237,9 +274,12 @@ export function PricingClient() {
                   Full head-to-toe preventive screening, metabolic panel, and longevity guidance.
                 </p>
 
-                <div className="mb-6 pb-6 border-b border-[#E0E4DF]">
-                  <span className="text-4xl font-extrabold text-[#101512]">$195</span>
-                  <span className="text-xs font-medium text-[#777D79] ml-2">/ 75 min session</span>
+                <div className="mb-6 pb-6 border-b border-[#E0E4DF] dark:border-[#4E6C5D]">
+                  <span className="text-4xl font-extrabold text-[#101512] dark:text-[#EAEFEA]">{billingCycle === "annual" ? "$156" : "$195"}</span>
+                  <span className="text-xs font-medium text-[#777D79] dark:text-[#9BAAA0] ml-2">{billingCycle === "annual" ? "/ month (annual plan)" : "/ 75 min session"}</span>
+                  {billingCycle === "annual" && (
+                    <p className="text-[11px] text-[#173F30] dark:text-[#A9C2B2] font-semibold mt-1">Billed annually ($1,872/yr, saves $468)</p>
+                  )}
                 </div>
 
                 <ul className="space-y-3 text-xs text-[#777D79] mb-8">

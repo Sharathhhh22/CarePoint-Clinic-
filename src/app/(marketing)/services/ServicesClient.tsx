@@ -3,6 +3,8 @@
 import React, { useState } from "react"
 import Link from "next/link"
 import {
+  Search,
+  X,
   Stethoscope,
   Heart,
   Baby,
@@ -129,11 +131,37 @@ const SERVICES: ServiceItem[] = [
 
 export function ServicesClient() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const [searchQuery, setSearchQuery] = useState<string>("")
 
-  const filteredServices =
-    selectedCategory === "all"
-      ? SERVICES
-      : SERVICES.filter((s) => s.category === selectedCategory)
+  const categoryLabels: Record<string, string> = {
+    all: "All Specialties",
+    primary: "Primary Care",
+    cardio: "Cardiovascular",
+    pediatrics: "Pediatrics",
+    neuro: "Neurology",
+    diagnostics: "Diagnostics & Lab",
+    telehealth: "HD Telehealth",
+  }
+
+  const filteredServices = React.useMemo(() => {
+    return SERVICES.filter((s) => {
+      const matchesCategory =
+        selectedCategory === "all" || s.category === selectedCategory
+
+      if (!matchesCategory) return false
+
+      if (!searchQuery.trim()) return true
+
+      const q = searchQuery.toLowerCase().trim()
+      const matchesName = s.name.toLowerCase().includes(q)
+      const matchesSummary = s.summary.toLowerCase().includes(q)
+      const matchesDoctor = s.leadDoctor.toLowerCase().includes(q)
+      const matchesConditions = s.conditions.some((c) => c.toLowerCase().includes(q))
+      const matchesTools = s.diagnosticTools.some((t) => t.toLowerCase().includes(q))
+
+      return matchesName || matchesSummary || matchesDoctor || matchesConditions || matchesTools
+    })
+  }, [selectedCategory, searchQuery])
 
   return (
     <div className="w-full">
@@ -156,8 +184,57 @@ export function ServicesClient() {
             </p>
           </div>
 
-          {/* CATEGORY FILTER TABS */}
-          <div className="flex flex-wrap items-center gap-2 mt-10 pt-8 border-t border-[#E0E4DF]">
+          {/* SEARCH & CATEGORY FILTER CONTROLS */}
+          <div className="mt-10 pt-8 border-t border-[#E0E4DF] dark:border-[#4E6C5D] space-y-6">
+            
+            {/* Screen Reader Live Region for Announcements */}
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="sr-only"
+            >
+              {`Showing ${filteredServices.length} ${
+                filteredServices.length === 1 ? "service" : "services"
+              }${searchQuery ? ` matching "${searchQuery}"` : ""}${
+                selectedCategory !== "all" ? ` in ${categoryLabels[selectedCategory] || selectedCategory}` : ""
+              }`}
+            </div>
+
+            {/* Keyword Search Input */}
+            <div className="max-w-xl relative">
+              <label htmlFor="services-search" className="sr-only">
+                Search medical services, symptoms, or diagnostic tests
+              </label>
+              <div className="relative flex items-center">
+                <Search className="w-4 h-4 text-[#777D79] dark:text-[#9BAAA0] absolute left-3.5 pointer-events-none" />
+                <input
+                  id="services-search"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by specialty, symptom (e.g. palpitations, migraine), or test..."
+                  className="w-full h-11 pl-10 pr-10 rounded-full border border-[#E0E4DF] dark:border-[#4E6C5D] bg-white dark:bg-[#121B16] text-xs sm:text-sm text-[#101512] dark:text-[#EAEFEA] placeholder:text-[#777D79] dark:placeholder:text-[#6E8076] focus:outline-none focus:ring-2 focus:ring-[#173F30] dark:focus:ring-[#A9C2B2] shadow-2xs transition-all"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 p-1 rounded-full text-[#777D79] hover:text-[#101512] dark:hover:text-[#FAFAF7]"
+                    aria-label="Clear service search query"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Category Filter Pills & Results Counter */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div 
+                className="flex flex-wrap items-center gap-2"
+                role="group"
+                aria-label="Filter clinical services by category"
+              >
             <button
               onClick={() => setSelectedCategory("all")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
@@ -229,12 +306,40 @@ export function ServicesClient() {
               Telehealth
             </button>
           </div>
+          <span className="text-xs text-[#777D79] dark:text-[#9BAAA0] font-medium">
+            Showing <strong className="text-[#101512] dark:text-[#EAEFEA]">{filteredServices.length}</strong> of {SERVICES.length} services
+          </span>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
       {/* 2. SERVICES GRID */}
-      <section className="py-16 md:py-24 bg-white border-b border-[#E0E4DF]/60">
+      <section className="py-16 md:py-24 bg-white dark:bg-[#0E1713] border-b border-[#E0E4DF]/60 dark:border-[#4E6C5D]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          {filteredServices.length === 0 ? (
+            <div className="text-center py-16 px-4 max-w-md mx-auto space-y-4">
+              <div className="w-12 h-12 rounded-full bg-[#E7EEE8] dark:bg-[#1E2E25] text-[#173F30] dark:text-[#A9C2B2] flex items-center justify-center mx-auto">
+                <Search className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-[#101512] dark:text-[#EAEFEA]">
+                No clinical services found
+              </h3>
+              <p className="text-xs sm:text-sm text-[#777D79] dark:text-[#9BAAA0] leading-relaxed">
+                We couldn&apos;t find any service matching &quot;{searchQuery}&quot; in {categoryLabels[selectedCategory] || selectedCategory}. Try adjusting your keywords or clearing the filter.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery("")
+                  setSelectedCategory("all")
+                }}
+                className="px-5 py-2.5 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold transition-all shadow-xs"
+              >
+                Reset Search &amp; View All Services
+              </button>
+            </div>
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredServices.map((service) => {
               const Icon = service.icon
@@ -313,6 +418,7 @@ export function ServicesClient() {
               )
             })}
           </div>
+        )}
         </div>
       </section>
 

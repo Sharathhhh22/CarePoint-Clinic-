@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
 import { CarePointDoctorBioModal } from "@/components/carenova/CarePointDoctorBioModal"
+import { AnimatedStatsCounter } from "@/components/common/AnimatedStatsCounter"
 
 const CLINICAL_PILLARS = [
   {

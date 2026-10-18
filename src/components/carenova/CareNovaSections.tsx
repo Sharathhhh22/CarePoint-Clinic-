@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
+import { AnimatedStatsCounter } from "@/components/common/AnimatedStatsCounter"
 
 export function CareNovaSections() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
@@ -35,6 +36,12 @@ export function CareNovaSections() {
   const [selectedBioDoctor, setSelectedBioDoctor] = useState<string | undefined>()
   const [isBioOpen, setIsBioOpen] = useState(false)
   const [selectedConcernId, setSelectedConcernId] = useState("cardio-palpitations")
+
+  // Interactive UI Features State: Doctor specialty filter and Pricing cycle
+  const [activeDoctorSpecialty, setActiveDoctorSpecialty] = useState<string>("All Specialties")
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly")
+
+  const doctorSpecialties = ["All Specialties", "Cardiology", "Family Medicine", "Internal Medicine", "Pediatrics"]
 
   const handleOpenDoctorBio = (docName: string) => {
     setSelectedBioDoctor(docName)
@@ -144,6 +151,34 @@ export function CareNovaSections() {
       availability: "Wed, Fri, Sat"
     }
   ]
+
+  const filteredDoctors = React.useMemo(() => {
+    if (activeDoctorSpecialty === "All Specialties") return doctors
+    return doctors.filter(doc => doc.specialty === activeDoctorSpecialty)
+  }, [activeDoctorSpecialty, doctors])
+
+  const handleDoctorTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault()
+      const nextIndex = (index + 1) % doctorSpecialties.length
+      setActiveDoctorSpecialty(doctorSpecialties[nextIndex])
+      document.getElementById(`tab-doc-${nextIndex}`)?.focus()
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault()
+      const prevIndex = (index - 1 + doctorSpecialties.length) % doctorSpecialties.length
+      setActiveDoctorSpecialty(doctorSpecialties[prevIndex])
+      document.getElementById(`tab-doc-${prevIndex}`)?.focus()
+    } else if (e.key === "Home") {
+      e.preventDefault()
+      setActiveDoctorSpecialty(doctorSpecialties[0])
+      document.getElementById(`tab-doc-0`)?.focus()
+    } else if (e.key === "End") {
+      e.preventDefault()
+      const lastIndex = doctorSpecialties.length - 1
+      setActiveDoctorSpecialty(doctorSpecialties[lastIndex])
+      document.getElementById(`tab-doc-${lastIndex}`)?.focus()
+    }
+  }
 
   const SYMPTOM_CONCERNS = [
     {
@@ -324,10 +359,42 @@ export function CareNovaSections() {
   return (
     <>
       {/* ======================================================== */}
-      {/* SECTION A: OUR APPROACH TO CARE                          */}
+      {/* SECTION A: OUR APPROACH TO CARE & ANIMATED METRICS       */}
       {/* ======================================================== */}
-      <section id="about" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
+      <section id="about" className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0D1511] border-t border-[#E0E4DF] dark:border-[#4E6C5D]">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          
+          {/* INTERACTIVE FEATURE: Animated Stats Counter */}
+          <div className="mb-16 p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              <AnimatedStatsCounter
+                target={15000}
+                suffix="+"
+                label="Patients Cared For"
+                subtext="Outpatient visits since 2020"
+              />
+              <AnimatedStatsCounter
+                target={99.4}
+                decimals={1}
+                suffix="%"
+                label="Patient Satisfaction"
+                subtext="Verified post-visit surveys"
+              />
+              <AnimatedStatsCounter
+                target={5}
+                prefix="< "
+                suffix=" min"
+                label="Average Wait Time"
+                subtext="Synchronized arrival appointments"
+              />
+              <AnimatedStatsCounter
+                target={100}
+                suffix="%"
+                label="Board-Certified MDs"
+                subtext="Verified hospital credentials"
+              />
+            </div>
+          </div>
           
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-block mb-3">
@@ -722,8 +789,48 @@ export function CareNovaSections() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {doctors.map((doc) => (
+          {/* KEYBOARD-ACCESSIBLE TABS */}
+          <div className="mb-10">
+            <div
+              role="tablist"
+              aria-label="Filter clinicians by medical specialty"
+              className="flex flex-wrap items-center gap-2 p-1.5 rounded-full bg-white dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] w-fit shadow-2xs"
+            >
+              {doctorSpecialties.map((specialty, idx) => {
+                const isSelected = activeDoctorSpecialty === specialty
+                return (
+                  <button
+                    key={specialty}
+                    id={`tab-doc-${idx}`}
+                    role="tab"
+                    aria-selected={isSelected}
+                    aria-controls="doctors-tabpanel"
+                    tabIndex={isSelected ? 0 : -1}
+                    onClick={() => setActiveDoctorSpecialty(specialty)}
+                    onKeyDown={(e) => handleDoctorTabKeyDown(e, idx)}
+                    className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2] ${
+                      isSelected
+                        ? "bg-[#173F30] text-white shadow-xs dark:bg-[#1E4D3B] dark:text-[#EAEFEA]"
+                        : "text-[#777D79] dark:text-[#9BAAA0] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                    }`}
+                  >
+                    {specialty}
+                  </button>
+                )
+              })}
+            </div>
+            <p className="sr-only" aria-live="polite">
+              {`Showing ${filteredDoctors.length} ${filteredDoctors.length === 1 ? 'specialist' : 'specialists'} in ${activeDoctorSpecialty}`}
+            </p>
+          </div>
+
+          <div
+            id="doctors-tabpanel"
+            role="tabpanel"
+            aria-label={`Doctors in ${activeDoctorSpecialty}`}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {filteredDoctors.map((doc) => (
               <div
                 key={doc.name}
                 className="bg-white rounded-3xl overflow-hidden border border-[#E0E4DF] hover:border-[#173F30]/40 transition-all shadow-xs hover:shadow-md flex flex-col justify-between group"
@@ -809,20 +916,55 @@ export function CareNovaSections() {
       <section id="pricing" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-block mb-3">
               Transparent Fees
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#101512] leading-[1.08] mb-3">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#101512] dark:text-[#EAEFEA] leading-[1.08] mb-3">
               Simple, transparent pricing.
             </h2>
-            <p className="text-base text-[#777D79] leading-relaxed">
+            <p className="text-base text-[#777D79] dark:text-[#9BAAA0] leading-relaxed">
               Quality healthcare without hidden billing or surprise facility fees. Clear consultation rates upfront.
             </p>
           </div>
 
+          {/* INTERACTIVE FEATURE: Monthly vs Annual Switch */}
+          <div className="flex items-center justify-center gap-3 mb-12">
+            <span className={`text-xs font-semibold ${billingCycle === "monthly" ? "text-[#101512] dark:text-[#EAEFEA] font-bold" : "text-[#777D79] dark:text-[#9BAAA0]"}`}>
+              Monthly Billing
+            </span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={billingCycle === "annual"}
+              aria-label="Toggle between monthly and annual care plans"
+              onClick={() => setBillingCycle(billingCycle === "monthly" ? "annual" : "monthly")}
+              className="relative w-14 h-8 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
+            >
+              <span
+                className={`block w-6 h-6 rounded-full bg-[#173F30] dark:bg-[#A9C2B2] shadow-sm transform transition-transform duration-200 ${
+                  billingCycle === "annual" ? "translate-x-6" : "translate-x-0"
+                }`}
+              />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className={`text-xs font-semibold ${billingCycle === "annual" ? "text-[#101512] dark:text-[#EAEFEA] font-bold" : "text-[#777D79] dark:text-[#9BAAA0]"}`}>
+                Annual Care Plan
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-[#173F30] text-[#A9C2B2] text-[10px] font-black uppercase tracking-wider animate-pulse">
+                Save 20%
+              </span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {pricingTiers.map((tier) => (
+            {pricingTiers.map((tier) => {
+              const basePriceNum = parseInt(tier.price.replace("$", ""), 10)
+              const annualPriceNum = Math.round(basePriceNum * 0.8)
+              const displayPrice = billingCycle === "annual" ? `$${annualPriceNum}` : tier.price
+              const billingPeriodText = billingCycle === "annual" ? "/ month (annual plan)" : "/ consultation"
+
+              return (
               <div
                 key={tier.name}
                 className={`rounded-3xl p-8 border transition-all flex flex-col justify-between ${
@@ -842,8 +984,8 @@ export function CareNovaSections() {
                   <p className="text-xs text-[#777D79] mb-4">{tier.time}</p>
 
                   <div className="flex items-baseline gap-1 mb-4">
-                    <span className="text-4xl font-extrabold text-[#173F30]">{tier.price}</span>
-                    <span className="text-xs text-[#777D79]">/ consultation</span>
+                    <span className="text-4xl font-extrabold text-[#173F30] dark:text-[#A9C2B2]">{displayPrice}</span>
+                    <span className="text-xs text-[#777D79] dark:text-[#9BAAA0] ml-1">{billingPeriodText}</span>
                   </div>
 
                   <p className="text-xs text-[#777D79] leading-relaxed mb-6">
@@ -872,7 +1014,8 @@ export function CareNovaSections() {
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-            ))}
+            )
+            })}
           </div>
 
           <div className="mt-12 text-center">

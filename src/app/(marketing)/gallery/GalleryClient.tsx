@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
+  ChevronLeft,
+  ChevronRight,
   Sparkles,
   Maximize2,
   X,
@@ -129,12 +131,60 @@ const GALLERY_ITEMS: GalleryItem[] = [
 
 export function GalleryClient() {
   const [activeFilter, setActiveFilter] = useState<string>("all")
-  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const lastTriggerRef = useRef<HTMLElement | null>(null)
 
   const filteredItems =
     activeFilter === "all"
       ? GALLERY_ITEMS
       : GALLERY_ITEMS.filter((item) => item.category === activeFilter)
+
+  const selectedItem = selectedIndex !== null ? filteredItems[selectedIndex] : null
+
+  const openLightbox = (index: number, e: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>) => {
+    lastTriggerRef.current = e.currentTarget
+    setSelectedIndex(index)
+  }
+
+  const closeLightbox = () => {
+    setSelectedIndex(null)
+    setTimeout(() => {
+      lastTriggerRef.current?.focus()
+    }, 50)
+  }
+
+  const goToNext = () => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % filteredItems.length)
+    }
+  }
+
+  const goToPrevious = () => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + filteredItems.length) % filteredItems.length)
+    }
+  }
+
+  // Keyboard Navigation: ArrowLeft, ArrowRight, Escape
+  useEffect(() => {
+    if (selectedIndex === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault()
+        closeLightbox()
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault()
+        goToNext()
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault()
+        goToPrevious()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [selectedIndex, filteredItems.length])
 
   return (
     <div className="w-full">
@@ -217,11 +267,20 @@ export function GalleryClient() {
       <section className="py-16 md:py-24 bg-white border-b border-[#E0E4DF]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item) => (
+            {filteredItems.map((item, index) => (
               <div
                 key={item.id}
-                onClick={() => setSelectedItem(item)}
-                className="group rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] overflow-hidden cursor-pointer hover:border-[#173F30]/40 transition-all hover:shadow-xl flex flex-col justify-between"
+                role="button"
+                tabIndex={0}
+                aria-label={`View photo & details of ${item.title}`}
+                onClick={(e) => openLightbox(index, e)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    openLightbox(index, e)
+                  }
+                }}
+                className="group rounded-3xl bg-[#FAFAF7] dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] overflow-hidden cursor-pointer hover:border-[#173F30]/40 dark:hover:border-[#A9C2B2]/40 transition-all hover:shadow-xl flex flex-col justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
               >
                 <div>
                   <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-[#E7EEE8]">
@@ -323,31 +382,67 @@ export function GalleryClient() {
         </div>
       </section>
 
-      {/* 4. LIGHTBOX MODAL */}
-      {selectedItem && (
+      {/* 4. KEYBOARD-NAVIGABLE LIGHTBOX MODAL */}
+      {selectedItem && selectedIndex !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-[#101512]/70 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#101512]/75 backdrop-blur-md animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
+          aria-label={`Facility photo viewer: ${selectedItem.title}`}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeLightbox()
+          }}
         >
-          <div className="relative w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-[#E0E4DF] flex flex-col md:flex-row max-h-[90vh]">
-            <button
-              onClick={() => setSelectedItem(null)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/90 text-[#101512] hover:bg-white flex items-center justify-center shadow-md transition-all"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
+          <div className="relative w-full max-w-4xl bg-white dark:bg-[#121B16] rounded-3xl overflow-hidden shadow-2xl border border-[#E0E4DF] dark:border-[#4E6C5D] flex flex-col md:flex-row max-h-[92vh] animate-in zoom-in-95 duration-200">
+            
+            {/* Top Bar with Counter & Close */}
+            <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+              <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-black/60 text-white text-[11px] font-medium backdrop-blur-xs">
+                Photo {selectedIndex + 1} of {filteredItems.length}
+              </span>
+              <button
+                onClick={closeLightbox}
+                className="w-9 h-9 rounded-full bg-white/95 dark:bg-[#1E2E25] text-[#101512] dark:text-[#EAEFEA] hover:bg-white flex items-center justify-center shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30]"
+                aria-label="Close lightbox (Escape)"
+                title="Close lightbox (Escape)"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-            {/* Left image */}
-            <div className="relative w-full md:w-1/2 h-64 md:h-auto min-h-[300px] bg-[#E7EEE8]">
+            {/* Left Image with Chevron Arrow Navigation */}
+            <div className="relative w-full md:w-1/2 h-72 md:h-auto min-h-[320px] bg-[#E7EEE8] dark:bg-[#1B2921]">
               <Image
                 src={selectedItem.image}
                 alt={selectedItem.title}
                 fill
                 className="object-cover"
+                priority
               />
-              <span className="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-xs text-[#173F30] text-xs font-bold shadow-xs">
+              
+              {/* Previous Photo Button */}
+              <button
+                type="button"
+                onClick={goToPrevious}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/75 text-white flex items-center justify-center backdrop-blur-xs transition-all shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Previous facility photo (Arrow Left)"
+                title="Previous photo (←)"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              {/* Next Photo Button */}
+              <button
+                type="button"
+                onClick={goToNext}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 hover:bg-black/75 text-white flex items-center justify-center backdrop-blur-xs transition-all shadow-md active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Next facility photo (Arrow Right)"
+                title="Next photo (→)"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+
+              <span className="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-white/95 dark:bg-[#121B16]/95 backdrop-blur-xs text-[#173F30] dark:text-[#A9C2B2] text-xs font-bold shadow-xs">
                 {selectedItem.badge}
               </span>
             </div>
@@ -355,36 +450,50 @@ export function GalleryClient() {
             {/* Right details */}
             <div className="w-full md:w-1/2 p-6 sm:p-8 overflow-y-auto flex flex-col justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-1">
-                  {selectedItem.categoryLabel}
-                </p>
-                <h3 className="text-2xl font-bold text-[#101512] mb-3">{selectedItem.title}</h3>
-                <p className="text-sm text-[#777D79] leading-relaxed mb-6">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#173F30] dark:text-[#A9C2B2]">
+                    {selectedItem.categoryLabel}
+                  </p>
+                  <span className="sm:hidden text-xs text-[#777D79] dark:text-[#9BAAA0] font-medium">
+                    {selectedIndex + 1} / {filteredItems.length}
+                  </span>
+                </div>
+                
+                <h3 className="text-2xl font-bold text-[#101512] dark:text-[#EAEFEA] mb-3">
+                  {selectedItem.title}
+                </h3>
+                
+                <p className="text-sm text-[#777D79] dark:text-[#9BAAA0] leading-relaxed mb-6">
                   {selectedItem.description}
                 </p>
 
                 <div className="space-y-2 mb-6">
-                  <p className="text-xs font-bold text-[#101512] uppercase tracking-wider">
-                    Architectural & Clinical Specs:
+                  <p className="text-xs font-bold text-[#101512] dark:text-[#EAEFEA] uppercase tracking-wider">
+                    Architectural &amp; Clinical Specs:
                   </p>
                   {selectedItem.specs.map((spec, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-[#777D79]">
-                      <CheckCircle2 className="w-4 h-4 text-[#173F30] shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-2 text-xs text-[#777D79] dark:text-[#9BAAA0]">
+                      <CheckCircle2 className="w-4 h-4 text-[#173F30] dark:text-[#A9C2B2] shrink-0 mt-0.5" />
                       <span>{spec}</span>
                     </div>
                   ))}
                 </div>
+
+                <p className="text-[11px] text-[#777D79] dark:text-[#6E8076] italic">
+                  Keyboard shortcuts: Use ← and → arrow keys to navigate, Esc to close
+                </p>
               </div>
 
-              <div className="pt-4 border-t border-[#E0E4DF] flex items-center justify-between gap-4">
+              <div className="pt-6 border-t border-[#E0E4DF] dark:border-[#4E6C5D] flex items-center justify-between gap-4 mt-6">
                 <button
+                  type="button"
                   onClick={() => {
-                    setSelectedItem(null)
+                    closeLightbox()
                     openBookingModal()
                   }}
-                  className="w-full py-3 px-5 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2"
+                  className="w-full py-3 px-5 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Book Consultation Here</span>
+                  <span>Book Consultation in This Room</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

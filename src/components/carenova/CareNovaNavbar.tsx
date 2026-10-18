@@ -74,7 +74,7 @@ export function CareNovaNavbar() {
 
       <header
         className={`sticky top-0 z-40 w-full transition-all duration-200 bg-[#FAFAF7] dark:bg-[#0D1511] border-b ${
-          isScrolled ? "border-[#E0E4DF] dark:border-[#22352B] shadow-xs" : "border-[#E0E4DF]/70 dark:border-[#22352B]/70"
+          isScrolled ? "border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs" : "border-[#E0E4DF]/70 dark:border-[#4E6C5D]/70"
         }`}
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex h-20 items-center justify-between">
@@ -180,7 +180,7 @@ export function CareNovaNavbar() {
           />
 
           <div
-            className="md:hidden fixed inset-x-0 top-20 z-40 bg-[#FAFAF7] dark:bg-[#0D1511] border-b border-[#E0E4DF] dark:border-[#22352B] shadow-2xl p-6 animate-in slide-in-from-top-4 duration-200 max-h-[calc(100vh-5rem)] overflow-y-auto"
+            className="md:hidden fixed inset-x-0 top-20 z-40 bg-[#FAFAF7] dark:bg-[#0D1511] border-b border-[#E0E4DF] dark:border-[#4E6C5D] shadow-2xl p-6 animate-in slide-in-from-top-4 duration-200 max-h-[calc(100vh-5rem)] overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
