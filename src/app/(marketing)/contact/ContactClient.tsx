@@ -270,7 +270,7 @@ export function ContactClient() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Navigation className="w-3.5 h-3.5 text-[#173F30]" />
-                  <span>Subway: Green Line "E" Branch to Medical Center Station.</span>
+                  <span>Subway: Green Line &quot;E&quot; Branch to Medical Center Station.</span>
                 </div>
               </div>
 

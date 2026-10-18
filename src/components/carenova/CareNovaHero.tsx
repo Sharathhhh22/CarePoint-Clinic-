@@ -16,8 +16,7 @@ import {
 import { CareNovaVideoModal } from "./CareNovaVideoModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
-import { CarePoint3DHeroCanvas } from "./3d/CarePoint3DHeroCanvas"
-import { CarePoint3DCard } from "./3d/CarePoint3DCard"
+import { ShiningText } from "@/components/ui/shining-text"
 
 export function CareNovaHero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false)
@@ -47,8 +46,7 @@ export function CareNovaHero() {
         id="hero"
         className="relative overflow-hidden bg-[#FAFAF7] pt-6 pb-16 md:pt-10 md:pb-24 lg:pt-12 lg:pb-28"
       >
-        <CarePoint3DHeroCanvas />
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-14 items-center">
             
             {/* ======================================================== */}
@@ -57,11 +55,12 @@ export function CareNovaHero() {
             <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-center z-10">
               
               {/* Eyebrow */}
-              <div className="inline-flex items-center gap-2 mb-5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#A9C2B2] shrink-0" aria-hidden="true" />
-                <span className="text-xs md:text-sm tracking-wide text-[#777D79] font-medium uppercase">
-                  Better Care. Brighter Tomorrows.
-                </span>
+              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-[#101512] mb-6 shadow-xs border border-white/10 w-fit">
+                <span className="w-2 h-2 rounded-full bg-[#A9C2B2] shrink-0 animate-pulse" aria-hidden="true" />
+                <ShiningText
+                  text="Better Care. Brighter Tomorrows."
+                  className="!text-xs tracking-wider uppercase font-semibold inline-block !m-0"
+                />
               </div>
 
               {/* Main Headline */}
@@ -219,102 +218,90 @@ export function CareNovaHero() {
               {/* ====================================================== */}
 
               {/* CARD A: COMPASSIONATE CARE (Upper-Left) */}
-              <div className="hidden lg:block absolute top-6 -left-8 xl:-left-12 z-20 w-[250px]">
-                <CarePoint3DCard intensity={12} glare={true} depth={15}>
-                  <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF]">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
-                          <HeartPulse className="w-5 h-5 text-[#173F30]" />
-                        </div>
-                        <div>
-                          <h2 className="text-sm font-bold text-[#101512] leading-tight">
-                            Compassionate Care
-                          </h2>
-                          <p className="text-xs text-[#777D79] mt-0.5">
-                            Every Step of the Way
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Arrow Action Link leading to About section */}
-                      <button
-                        onClick={handleScrollToAbout}
-                        className="w-7 h-7 rounded-full bg-[#FAFAF7] hover:bg-[#173F30] text-[#777D79] hover:text-white border border-[#E0E4DF] flex items-center justify-center transition-colors shrink-0"
-                        aria-label="Learn about our compassionate care approach"
-                      >
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
+              <div className="hidden lg:block absolute top-6 -left-8 xl:-left-12 z-20 w-[250px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
+                      <HeartPulse className="w-5 h-5 text-[#173F30]" />
+                    </div>
+                    <div>
+                      <h2 className="text-sm font-bold text-[#101512] leading-tight">
+                        Compassionate Care
+                      </h2>
+                      <p className="text-xs text-[#777D79] mt-0.5">
+                        Every Step of the Way
+                      </p>
                     </div>
                   </div>
-                </CarePoint3DCard>
+
+                  {/* Arrow Action Link leading to About section */}
+                  <button
+                    onClick={handleScrollToAbout}
+                    className="w-7 h-7 rounded-full bg-[#FAFAF7] hover:bg-[#173F30] text-[#777D79] hover:text-white border border-[#E0E4DF] flex items-center justify-center transition-colors shrink-0"
+                    aria-label="Learn about our compassionate care approach"
+                  >
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
 
               {/* CARD B: NEXT APPOINTMENT (Lower-Right) */}
-              <div className="hidden lg:block absolute bottom-10 -right-6 xl:-right-10 z-20 w-[270px]">
-                <CarePoint3DCard intensity={14} glare={true} depth={18}>
-                  <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.12)] border border-[#E0E4DF]">
-                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E0E4DF]/60">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-[#173F30]" />
-                        <span className="text-xs font-bold text-[#101512]">Your Next Appointment</span>
-                      </div>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E7EEE8] text-[#173F30]">
-                        Preview
-                      </span>
-                    </div>
-
-                    <div 
-                      onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
-                      className="flex items-center gap-3 mb-3 cursor-pointer group/doc hover:opacity-90 transition-opacity"
-                      title="Click to view Dr. Sara Khan's credentials"
-                    >
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/doc:border-[#173F30] shrink-0 transition-colors">
-                        <Image
-                          src="/images/carenova/dr-sara-khan.jpg"
-                          alt="Dr. Sara Khan"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-[#101512] group-hover/doc:text-[#173F30] transition-colors truncate">
-                          Dr. Sara Khan
-                        </p>
-                        <p className="text-xs text-[#777D79]">Cardiologist (View Bio)</p>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => handleOpenBooking("Dr. Sara Khan")}
-                      className="w-full py-2 px-3 rounded-xl bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
-                    >
-                      <span>Book an Appointment</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+              <div className="hidden lg:block absolute bottom-10 -right-6 xl:-right-10 z-20 w-[270px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.12)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E0E4DF]/60">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-[#173F30]" />
+                    <span className="text-xs font-bold text-[#101512]">Your Next Appointment</span>
                   </div>
-                </CarePoint3DCard>
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E7EEE8] text-[#173F30]">
+                    Preview
+                  </span>
+                </div>
+
+                <div 
+                  onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
+                  className="flex items-center gap-3 mb-3 cursor-pointer group/doc hover:opacity-90 transition-opacity"
+                  title="Click to view Dr. Sara Khan's credentials"
+                >
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/doc:border-[#173F30] shrink-0 transition-colors">
+                    <Image
+                      src="/images/carenova/dr-sara-khan.jpg"
+                      alt="Dr. Sara Khan"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-bold text-[#101512] group-hover/doc:text-[#173F30] transition-colors truncate">
+                      Dr. Sara Khan
+                    </p>
+                    <p className="text-xs text-[#777D79]">Cardiologist (View Bio)</p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => handleOpenBooking("Dr. Sara Khan")}
+                  className="w-full py-2 px-3 rounded-xl bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
+                >
+                  <span>Book an Appointment</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
 
               {/* CARD C: PATIENT EXPERIENCE EDITORIAL QUOTE (Lower-Left) */}
-              <div className="hidden lg:block absolute -bottom-5 left-4 z-20 max-w-[280px]">
-                <CarePoint3DCard intensity={10} glare={true} depth={12}>
-                  <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF]">
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0 mt-0.5">
-                        <Quote className="w-3.5 h-3.5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-medium text-[#101512] leading-relaxed italic">
-                          &ldquo;Every patient deserves to feel heard, respected, and supported.&rdquo;
-                        </p>
-                        <p className="text-[10px] text-[#777D79] mt-1 font-semibold not-italic">
-                          CarePoint Care Principle
-                        </p>
-                      </div>
-                    </div>
+              <div className="hidden lg:block absolute -bottom-5 left-4 z-20 max-w-[280px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="flex items-start gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0 mt-0.5">
+                    <Quote className="w-3.5 h-3.5" />
                   </div>
-                </CarePoint3DCard>
+                  <div>
+                    <p className="text-xs font-medium text-[#101512] leading-relaxed italic">
+                      &ldquo;Every patient deserves to feel heard, respected, and supported.&rdquo;
+                    </p>
+                    <p className="text-[10px] text-[#777D79] mt-1 font-semibold not-italic">
+                      CarePoint Care Principle
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* CARD D: CARE OVERVIEW (Bottom-Right, subtle) */}

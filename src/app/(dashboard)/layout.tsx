@@ -15,7 +15,10 @@ import {
   Sun,
   Moon,
   Users,
-  Activity
+  Activity,
+  CreditCard,
+  FileSpreadsheet,
+  Building2
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useTheme } from "next-themes"
@@ -113,7 +116,9 @@ export default function DashboardLayout({
     ...(isAdmin ? [
       { href: "/admin/allocation", label: "Resource Allocation", icon: Activity },
       { href: "/admin/doctor-applications", label: "Doctor Approvals", icon: Stethoscope },
-      { href: "/admin/clinics", label: "Clinics", icon: Settings },
+      { href: "/admin/clinics", label: "Clinics", icon: Building2 },
+      { href: "/admin/payments", label: "Payments", icon: CreditCard },
+      { href: "/admin/reports", label: "Reports", icon: FileSpreadsheet },
     ] : []),
     { href: "/profile", label: "Profile", icon: User },
     { href: "/settings", label: "Settings", icon: Settings },
@@ -129,7 +134,7 @@ export default function DashboardLayout({
     ] : isAdmin ? [
       { href: "/admin/allocation", label: "Allocation", icon: Activity },
       { href: "/admin/doctor-applications", label: "Approvals", icon: Stethoscope },
-      { href: "/admin/clinics", label: "Clinics", icon: Settings },
+      { href: "/admin/payments", label: "Payments", icon: CreditCard },
     ] : [
       { href: "/appointments", label: "Slots", icon: CalendarCheck },
       { href: "/appointments/new", label: "Book", icon: CalendarCheck, isAction: true },

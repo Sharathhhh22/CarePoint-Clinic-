@@ -16,8 +16,6 @@ import {
   Eye,
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
-import { CarePoint3DRoomTour } from "@/components/carenova/3d/CarePoint3DRoomTour"
-import { CarePoint3DCard } from "@/components/carenova/3d/CarePoint3DCard"
 
 interface GalleryItem {
   id: string
@@ -153,7 +151,7 @@ export function GalleryClient() {
               <span className="text-[#173F30]">equipped for precision.</span>
             </h1>
             <p className="text-lg sm:text-xl text-[#777D79] leading-relaxed font-normal">
-              Tour CarePoint Clinic's purpose-built outpatient environment. We replaced sterile, noisy corridors with biophilic natural light, acoustic privacy partitions, and cutting-edge diagnostic technology.
+              Tour CarePoint Clinic&apos;s purpose-built outpatient environment. We replaced sterile, noisy corridors with biophilic natural light, acoustic privacy partitions, and cutting-edge diagnostic technology.
             </p>
           </div>
 
@@ -216,58 +214,49 @@ export function GalleryClient() {
       {/* 2. GALLERY GRID */}
       <section className="py-16 md:py-24 bg-white border-b border-[#E0E4DF]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          {/* Interactive 3D Panoramic 360 Room Explorer */}
-          <div className="mb-16">
-            <CarePoint3DRoomTour />
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredItems.map((item) => (
-              <CarePoint3DCard
+              <div
                 key={item.id}
-                intensity={6}
-                depth={10}
                 onClick={() => setSelectedItem(item)}
-                className="cursor-pointer"
+                className="group rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] overflow-hidden cursor-pointer hover:border-[#173F30]/40 transition-all hover:shadow-xl flex flex-col justify-between"
               >
-                <div className="group h-full rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] overflow-hidden hover:border-[#173F30]/40 transition-all hover:shadow-xl flex flex-col justify-between">
-                  <div>
-                    <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-[#E7EEE8]">
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-[#101512]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-white/90 text-[#173F30] flex items-center justify-center shadow-lg backdrop-blur-xs scale-90 group-hover:scale-100 transition-transform">
-                          <Maximize2 className="w-5 h-5" />
-                        </div>
+                <div>
+                  <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-[#E7EEE8]">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-[#101512]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-white/90 text-[#173F30] flex items-center justify-center shadow-lg backdrop-blur-xs scale-90 group-hover:scale-100 transition-transform">
+                        <Maximize2 className="w-5 h-5" />
                       </div>
-                      <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#173F30] text-[11px] font-bold shadow-xs">
-                        {item.badge}
-                      </span>
                     </div>
-
-                    <div className="p-6">
-                      <p className="text-xs font-semibold text-[#173F30] mb-1">
-                        {item.categoryLabel}
-                      </p>
-                      <h3 className="text-lg font-bold text-[#101512] group-hover:text-[#173F30] transition-colors mb-2">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-[#777D79] line-clamp-2 leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
+                    <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#173F30] text-[11px] font-bold shadow-xs">
+                      {item.badge}
+                    </span>
                   </div>
 
-                  <div className="p-6 pt-0 flex items-center justify-between text-xs font-bold text-[#173F30]">
-                    <span>Explore room specifications</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <div className="p-6">
+                    <p className="text-xs font-semibold text-[#173F30] mb-1">
+                      {item.categoryLabel}
+                    </p>
+                    <h3 className="text-lg font-bold text-[#101512] group-hover:text-[#173F30] transition-colors mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-[#777D79] line-clamp-2 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
-              </CarePoint3DCard>
+
+                <div className="p-6 pt-0 flex items-center justify-between text-xs font-bold text-[#173F30]">
+                  <span>Explore room specifications</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
             ))}
           </div>
         </div>
