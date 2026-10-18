@@ -22,6 +22,7 @@ const NAV_ITEMS = [
 export function CareNovaNavbar() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isBookingOpen, setIsBookingOpen] = useState(false)
@@ -30,9 +31,17 @@ export function CareNovaNavbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (docHeight > 0) {
+        const progress = Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100))
+        setScrollProgress(progress)
+      } else {
+        setScrollProgress(0)
+      }
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -73,8 +82,10 @@ export function CareNovaNavbar() {
       </div>
 
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-200 bg-[#FAFAF7] dark:bg-[#0D1511] border-b ${
-          isScrolled ? "border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs" : "border-[#E0E4DF]/70 dark:border-[#4E6C5D]/70"
+        className={`sticky top-0 z-40 w-full transition-all duration-300 border-b ${
+          isScrolled
+            ? "bg-[#FAFAF7]/85 dark:bg-[#0D1511]/85 backdrop-blur-md border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs"
+            : "bg-[#FAFAF7] dark:bg-[#0D1511] border-[#E0E4DF]/70 dark:border-[#4E6C5D]/70"
         }`}
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex h-20 items-center justify-between">
@@ -166,6 +177,21 @@ export function CareNovaNavbar() {
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
+        </div>
+
+        {/* Scroll Reading Progress Bar */}
+        <div
+          role="progressbar"
+          aria-label="Page reading progress"
+          aria-valuenow={Math.round(scrollProgress)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#E0E4DF]/40 dark:bg-[#4E6C5D]/30 pointer-events-none"
+        >
+          <div
+            className="h-full bg-[#173F30] dark:bg-[#A9C2B2] transition-[width] duration-75 ease-out"
+            style={{ width: `${scrollProgress}%` }}
+          />
         </div>
       </header>
 

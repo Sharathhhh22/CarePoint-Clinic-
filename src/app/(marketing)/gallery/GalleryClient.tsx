@@ -129,10 +129,53 @@ const GALLERY_ITEMS: GalleryItem[] = [
   },
 ]
 
+function GalleryGridSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading facility showcase..."
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className="rounded-3xl bg-[#FAFAF7] dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] overflow-hidden flex flex-col justify-between animate-pulse"
+        >
+          <div>
+            <div className="h-64 sm:h-72 w-full bg-[#E7EEE8] dark:bg-[#1B2921] relative">
+              <div className="absolute top-4 left-4 w-24 h-6 rounded-full bg-white dark:bg-[#121B16]" />
+            </div>
+            <div className="p-6 space-y-3">
+              <div className="w-28 h-3.5 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              <div className="w-48 h-5 rounded bg-[#E0E4DF] dark:bg-[#1E2E25]" />
+              <div className="w-full h-3 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              <div className="w-3/4 h-3 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+            </div>
+          </div>
+          <div className="p-6 pt-0">
+            <div className="w-36 h-4 rounded bg-[#E0E4DF] dark:bg-[#1E2E25]" />
+          </div>
+        </div>
+      ))}
+      <span className="sr-only">Loading facility showcase...</span>
+    </div>
+  )
+}
+
 export function GalleryClient() {
   const [activeFilter, setActiveFilter] = useState<string>("all")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const lastTriggerRef = useRef<HTMLElement | null>(null)
+
+  const handleFilterChange = (filter: string) => {
+    if (filter === activeFilter) return
+    setIsLoading(true)
+    setActiveFilter(filter)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 220)
+  }
 
   const filteredItems =
     activeFilter === "all"
@@ -210,7 +253,7 @@ export function GalleryClient() {
           {/* FILTER CONTROLS */}
           <div className="flex flex-wrap items-center gap-2 mt-10 pt-8 border-t border-[#E0E4DF]">
             <button
-              onClick={() => setActiveFilter("all")}
+              onClick={() => handleFilterChange("all")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                 activeFilter === "all"
                   ? "bg-[#173F30] text-white shadow-xs"
@@ -220,7 +263,7 @@ export function GalleryClient() {
               All Facilities ({GALLERY_ITEMS.length})
             </button>
             <button
-              onClick={() => setActiveFilter("suites")}
+              onClick={() => handleFilterChange("suites")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                 activeFilter === "suites"
                   ? "bg-[#173F30] text-white shadow-xs"
@@ -230,7 +273,7 @@ export function GalleryClient() {
               Consultation Suites
             </button>
             <button
-              onClick={() => setActiveFilter("diagnostics")}
+              onClick={() => handleFilterChange("diagnostics")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                 activeFilter === "diagnostics"
                   ? "bg-[#173F30] text-white shadow-xs"
@@ -240,7 +283,7 @@ export function GalleryClient() {
               Diagnostics & Imaging
             </button>
             <button
-              onClick={() => setActiveFilter("lounges")}
+              onClick={() => handleFilterChange("lounges")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                 activeFilter === "lounges"
                   ? "bg-[#173F30] text-white shadow-xs"
@@ -250,7 +293,7 @@ export function GalleryClient() {
               Patient Lounges
             </button>
             <button
-              onClick={() => setActiveFilter("pediatrics")}
+              onClick={() => handleFilterChange("pediatrics")}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                 activeFilter === "pediatrics"
                   ? "bg-[#173F30] text-white shadow-xs"
@@ -266,8 +309,11 @@ export function GalleryClient() {
       {/* 2. GALLERY GRID */}
       <section className="py-16 md:py-24 bg-white border-b border-[#E0E4DF]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredItems.map((item, index) => (
+          {isLoading ? (
+            <GalleryGridSkeleton />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredItems.map((item, index) => (
               <div
                 key={item.id}
                 role="button"
@@ -319,7 +365,8 @@ export function GalleryClient() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 

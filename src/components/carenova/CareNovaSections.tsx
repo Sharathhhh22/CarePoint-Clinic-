@@ -26,6 +26,8 @@ import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
 import { AnimatedStatsCounter } from "@/components/common/AnimatedStatsCounter"
 import { Skeleton } from "@/components/ui/skeleton"
+import { ScrollReveal, ScrollRevealItem } from "@/components/common/ScrollReveal"
+import { toast } from "@/components/ui/toast"
 
 function DoctorsGridSkeleton() {
   return (
@@ -84,9 +86,24 @@ export function CareNovaSections() {
     if (specialty === activeDoctorSpecialty) return
     setIsDoctorsLoading(true)
     setActiveDoctorSpecialty(specialty)
+    toast({
+      title: "Physicians Filtered",
+      description: specialty === "All Specialties" ? "Displaying all clinical departments" : `Showing verified specialists for: ${specialty}`,
+      variant: "info",
+    })
     setTimeout(() => {
       setIsDoctorsLoading(false)
     }, 220)
+  }
+
+  const handleBillingCycleToggle = () => {
+    const nextCycle = billingCycle === "monthly" ? "annual" : "monthly"
+    setBillingCycle(nextCycle)
+    toast({
+      title: nextCycle === "annual" ? "Annual Billing Activated" : "Monthly Billing Selected",
+      description: nextCycle === "annual" ? "20% discount applied to all concierge care plans" : "Standard monthly outpatient billing rate",
+      variant: "success",
+    })
   }
 
   const doctorSpecialties = ["All Specialties", "Cardiology", "Family Medicine", "Internal Medicine", "Pediatrics"]
@@ -112,6 +129,15 @@ export function CareNovaSections() {
     setBookingDoctor(undefined)
     setBookingService(undefined)
     setIsBookingOpen(true)
+  }
+
+  const handleSelectConcern = (concernId: string, matchedDoc: string, specialty: string) => {
+    setSelectedConcernId(concernId)
+    toast({
+      title: "Clinical Match Identified",
+      description: `Matched with ${matchedDoc} • ${specialty}`,
+      variant: "info",
+    })
   }
 
   const services = [
@@ -410,7 +436,7 @@ export function CareNovaSections() {
       {/* SECTION A: OUR APPROACH TO CARE & ANIMATED METRICS       */}
       {/* ======================================================== */}
       <section id="about" className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0D1511] border-t border-[#E0E4DF] dark:border-[#4E6C5D]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ScrollReveal stagger={0.08} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
           {/* INTERACTIVE FEATURE: Animated Stats Counter */}
           <div className="mb-16 p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs">
@@ -531,14 +557,14 @@ export function CareNovaSections() {
             </div>
           </div>
 
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION B: SERVICES                                      */}
       {/* ======================================================== */}
       <section id="services" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ScrollReveal stagger={0.08} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
             <div className="max-w-2xl">
@@ -619,14 +645,14 @@ export function CareNovaSections() {
             </Link>
           </div>
 
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION: SYMPTOM CHECKER & SPECIALIST MATCHING TOOL       */}
       {/* ======================================================== */}
       <section id="symptom-matcher" className="py-20 md:py-28 bg-white border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ScrollReveal stagger={0.08} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
           <div className="max-w-3xl mb-12 sm:mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
@@ -656,7 +682,7 @@ export function CareNovaSections() {
                   return (
                     <button
                       key={concern.id}
-                      onClick={() => setSelectedConcernId(concern.id)}
+                      onClick={() => handleSelectConcern(concern.id, concern.matchedDoctor, concern.matchedDoctorTitle)}
                       className={`text-left p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group ${
                         isSelected
                           ? "bg-[#173F30] text-white border-[#173F30] shadow-md ring-2 ring-[#173F30]/30 -translate-y-0.5"
@@ -806,14 +832,14 @@ export function CareNovaSections() {
 
           </div>
 
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION C: MEET OUR DOCTORS                              */}
       {/* ======================================================== */}
       <section id="doctors" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ScrollReveal stagger={0.08} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
             <div className="max-w-2xl">
@@ -962,14 +988,14 @@ export function CareNovaSections() {
             </Link>
           </div>
 
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION D: PRICING & CARE PLANS                          */}
       {/* ======================================================== */}
       <section id="pricing" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ScrollReveal stagger={0.08} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-block mb-3">
@@ -993,7 +1019,7 @@ export function CareNovaSections() {
               role="switch"
               aria-checked={billingCycle === "annual"}
               aria-label="Toggle between monthly and annual care plans"
-              onClick={() => setBillingCycle(billingCycle === "monthly" ? "annual" : "monthly")}
+              onClick={handleBillingCycleToggle}
               className="relative w-14 h-8 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
             >
               <span
@@ -1083,7 +1109,7 @@ export function CareNovaSections() {
             </Link>
           </div>
 
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ======================================================== */}
@@ -1141,7 +1167,7 @@ export function CareNovaSections() {
       {/* SECTION F: FREQUENTLY ASKED QUESTIONS                    */}
       {/* ======================================================== */}
       <section id="faq" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ScrollReveal stagger={0.08} className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
@@ -1195,7 +1221,7 @@ export function CareNovaSections() {
 
           </div>
 
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* Appointment Booking Modal */}
