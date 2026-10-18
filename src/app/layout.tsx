@@ -1,4 +1,3 @@
-import { ReticleDev } from './reticle-dev';
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Outfit } from "next/font/google";
@@ -256,7 +255,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", outfit.variable)}>
-      <body suppressHydrationWarning className="min-h-screen bg-background text-foreground antialiased selection:bg-teal-500/20 selection:text-teal-700 dark:selection:text-teal-300">{process.env.NODE_ENV === 'development' ? <ReticleDev /> : null}
+      <body suppressHydrationWarning className="min-h-screen bg-background text-foreground antialiased selection:bg-teal-500/20 selection:text-teal-700 dark:selection:text-teal-300">
         <script
           id="schema-structured-data"
           type="application/ld+json"
