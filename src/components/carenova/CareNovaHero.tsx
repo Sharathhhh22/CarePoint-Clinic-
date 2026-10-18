@@ -54,13 +54,12 @@ export function CareNovaHero() {
             {/* ======================================================== */}
             <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-center z-10">
               
-              {/* Eyebrow */}
-              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-[#101512] mb-6 shadow-xs border border-white/10 w-fit">
-                <span className="w-2 h-2 rounded-full bg-[#A9C2B2] shrink-0 animate-pulse" aria-hidden="true" />
-                <ShiningText
-                  text="Better Care. Brighter Tomorrows."
-                  className="!text-xs tracking-wider uppercase font-semibold inline-block !m-0"
-                />
+              {/* Eyebrow - Clean, refined sage-tinted pill */}
+              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#E7EEE8] border border-[#A9C2B2]/40 text-[#173F30] mb-6 shadow-2xs w-fit">
+                <span className="w-2 h-2 rounded-full bg-[#173F30] shrink-0" aria-hidden="true" />
+                <span className="text-xs tracking-wider uppercase font-bold text-[#173F30]">
+                  Better Care. Brighter Tomorrows.
+                </span>
               </div>
 
               {/* Main Headline */}
@@ -75,12 +74,12 @@ export function CareNovaHero() {
                 Accessible, compassionate, personalised healthcare for you and your loved ones.
               </p>
 
-              {/* Primary and Secondary Action Buttons */}
+              {/* Primary and Secondary Action Buttons - Identical height & perfect alignment */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
                 {/* Primary Button */}
                 <button
                   onClick={() => handleOpenBooking()}
-                  className="inline-flex items-center justify-center gap-2.5 bg-[#173F30] hover:bg-[#123326] text-white text-base font-semibold px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg active:scale-[0.98] group"
+                  className="h-14 inline-flex items-center justify-center gap-2.5 bg-[#173F30] hover:bg-[#123326] text-white text-base font-semibold px-8 rounded-full transition-all shadow-md hover:shadow-lg active:scale-[0.98] group shrink-0"
                 >
                   <span>Book an Appointment</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -89,7 +88,7 @@ export function CareNovaHero() {
                 {/* Secondary Button */}
                 <button
                   onClick={() => setIsVideoOpen(true)}
-                  className="inline-flex items-center justify-center gap-3 bg-white hover:bg-white/90 text-[#101512] border border-[#E0E4DF] hover:border-[#173F30]/40 text-base font-semibold px-6 py-3.5 rounded-full transition-all shadow-2xs hover:shadow-xs active:scale-[0.98] group"
+                  className="h-14 inline-flex items-center justify-center gap-3 bg-white hover:bg-[#FAFAF7] text-[#101512] border border-[#E0E4DF] hover:border-[#173F30]/40 text-base font-semibold px-7 rounded-full transition-all shadow-2xs hover:shadow-xs active:scale-[0.98] group shrink-0"
                 >
                   <span className="w-8 h-8 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center group-hover:bg-[#173F30] group-hover:text-white transition-colors shrink-0">
                     <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
@@ -218,7 +217,7 @@ export function CareNovaHero() {
               {/* ====================================================== */}
 
               {/* CARD A: COMPASSIONATE CARE (Upper-Left) */}
-              <div className="hidden lg:block absolute top-6 -left-8 xl:-left-12 z-20 w-[250px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+              <div className="hidden lg:block absolute top-10 -left-6 xl:-left-10 z-20 w-[255px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
@@ -245,8 +244,8 @@ export function CareNovaHero() {
                 </div>
               </div>
 
-              {/* CARD B: NEXT APPOINTMENT (Lower-Right) */}
-              <div className="hidden lg:block absolute bottom-10 -right-6 xl:-right-10 z-20 w-[270px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.12)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+              {/* CARD B: NEXT APPOINTMENT (Lower-Right, elevated above bottom widgets) */}
+              <div className="hidden lg:block absolute bottom-36 -right-2 xl:-right-6 z-20 w-[275px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.12)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E0E4DF]/60">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[#173F30]" />
@@ -280,7 +279,7 @@ export function CareNovaHero() {
 
                 <button
                   onClick={() => handleOpenBooking("Dr. Sara Khan")}
-                  className="w-full py-2 px-3 rounded-xl bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
+                  className="w-full py-2.5 px-4 rounded-xl bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
                 >
                   <span>Book an Appointment</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -288,7 +287,7 @@ export function CareNovaHero() {
               </div>
 
               {/* CARD C: PATIENT EXPERIENCE EDITORIAL QUOTE (Lower-Left) */}
-              <div className="hidden lg:block absolute -bottom-5 left-4 z-20 max-w-[280px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+              <div className="hidden lg:block absolute bottom-4 left-4 xl:left-8 z-20 max-w-[290px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-start gap-2.5">
                   <div className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0 mt-0.5">
                     <Quote className="w-3.5 h-3.5" />
@@ -304,19 +303,8 @@ export function CareNovaHero() {
                 </div>
               </div>
 
-              {/* CARD D: CARE OVERVIEW (Bottom-Right, subtle) */}
-              <div className="hidden xl:flex absolute -bottom-7 right-20 z-10 bg-white/95 backdrop-blur-md rounded-xl px-3.5 py-2.5 shadow-md border border-[#E0E4DF] items-center gap-2.5">
-                <div className="w-6 h-6 rounded-lg bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
-                  <Activity className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-[#101512]">Care, Made Simpler</p>
-                  <p className="text-[11px] text-[#777D79]">Appointments and services in one place</p>
-                </div>
-              </div>
-
               {/* Handwritten Brand Accent & Curved SVG Line (Bottom-Left Corner) */}
-              <div className="hidden lg:flex absolute -bottom-14 left-8 z-10 items-center gap-2 pointer-events-none">
+              <div className="hidden lg:flex absolute -bottom-10 left-8 z-10 items-center gap-2 pointer-events-none">
                 <svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 18C14 2 34 2 46 22" stroke="#A9C2B2" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 3"/>
                 </svg>

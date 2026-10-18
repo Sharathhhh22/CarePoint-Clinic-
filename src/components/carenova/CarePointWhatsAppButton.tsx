@@ -59,19 +59,15 @@ export function CarePointWhatsAppButton() {
       {/* Floating launcher button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group flex items-center gap-2 bg-[#173F30] hover:bg-[#123326] text-white py-3 px-4 rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95 border border-[#173F30]/30"
+        className="group relative flex items-center justify-center w-12 h-12 sm:w-13 sm:h-13 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 border-2 border-white"
         aria-label="Chat with CarePoint Clinic on WhatsApp"
+        title="Chat with CarePoint Clinic on WhatsApp"
       >
-        <span className="relative flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#25D366]"></span>
+        <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#173F30] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#173F30] border border-white"></span>
         </span>
-        <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center text-white shrink-0">
-          <MessageCircle className="w-3.5 h-3.5 fill-white" />
-        </div>
-        <span className="text-xs font-semibold tracking-tight hidden sm:inline">
-          WhatsApp Enquiry
-        </span>
+        <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-white" />
       </button>
     </div>
   )
