@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, Trash2, CheckCircle2, FileText, X, AlertCircle } from "lucide-react"
+import { Plus, Trash2, CheckCircle2, X, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/utils/supabase/client"
 
@@ -172,6 +172,7 @@ export function PrescriptionModal({
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-elevated transition-colors"
+            aria-label="Close prescription modal"
           >
             <X className="w-5 h-5" />
           </button>

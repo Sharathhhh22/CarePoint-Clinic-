@@ -1,6 +1,6 @@
 "use client"
 
-import { Printer, Download, X, Calendar, User, FileText, CheckCircle2 } from "lucide-react"
+import { Printer, X, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import type { PrescriptionData } from "./PrescriptionModal"
 
@@ -37,6 +37,7 @@ export function PrescriptionViewer({ prescription, onClose }: PrescriptionViewer
             <button
               onClick={onClose}
               className="p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-surface-elevated transition-colors"
+              aria-label="Close prescription viewer"
             >
               <X className="w-4 h-4" />
             </button>

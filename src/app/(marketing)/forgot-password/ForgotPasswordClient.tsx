@@ -85,7 +85,7 @@ export function ForgotPasswordClient() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@example.com"
+                placeholder="patient@gmail.com"
                 className="pl-10 h-11"
               />
             </div>

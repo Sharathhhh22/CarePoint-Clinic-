@@ -249,7 +249,7 @@ export function LoginClient() {
                 type="email"
                 inputMode="email"
                 autoComplete="email"
-                placeholder="name@example.com"
+                placeholder="patient@gmail.com"
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}

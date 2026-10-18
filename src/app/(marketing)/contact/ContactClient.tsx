@@ -358,10 +358,11 @@ export function ContactClient() {
               {/* Name Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101512]">
+                  <label htmlFor="contact-first-name" className="text-xs font-bold text-[#101512]">
                     First Name <span className="text-[#E25C3D]">*</span>
                   </label>
                   <input
+                    id="contact-first-name"
                     type="text"
                     name="firstName"
                     value={formData.firstName}
@@ -380,8 +381,9 @@ export function ContactClient() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101512]">Last Name</label>
+                  <label htmlFor="contact-last-name" className="text-xs font-bold text-[#101512]">Last Name</label>
                   <input
+                    id="contact-last-name"
                     type="text"
                     name="lastName"
                     value={formData.lastName}
@@ -395,16 +397,17 @@ export function ContactClient() {
               {/* Email & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101512]">
+                  <label htmlFor="contact-email" className="text-xs font-bold text-[#101512]">
                     Email Address <span className="text-[#E25C3D]">*</span>
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     onBlur={() => handleBlur("email")}
-                    placeholder="sarah@example.com"
+                    placeholder="sarah.jenkins@gmail.com"
                     className={`w-full h-11 px-3.5 rounded-xl border bg-[#FAFAF7] text-sm text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30] ${
                       touched.email && errors.email
                         ? "border-red-400 bg-red-50/30"
@@ -417,10 +420,11 @@ export function ContactClient() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101512]">
+                  <label htmlFor="contact-phone" className="text-xs font-bold text-[#101512]">
                     Phone Number <span className="text-[#E25C3D]">*</span>
                   </label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     name="phone"
                     value={formData.phone}
@@ -442,10 +446,11 @@ export function ContactClient() {
               {/* Department & Urgency */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101512]">
+                  <label htmlFor="contact-department" className="text-xs font-bold text-[#101512]">
                     Relevant Specialty / Department
                   </label>
                   <select
+                    id="contact-department"
                     name="department"
                     value={formData.department}
                     onChange={handleChange}
@@ -462,8 +467,9 @@ export function ContactClient() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101512]">Urgency of Request</label>
+                  <label htmlFor="contact-urgency" className="text-xs font-bold text-[#101512]">Urgency of Request</label>
                   <select
+                    id="contact-urgency"
                     name="urgency"
                     value={formData.urgency}
                     onChange={handleChange}
@@ -478,10 +484,11 @@ export function ContactClient() {
 
               {/* Message textarea */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-[#101512]">
+                <label htmlFor="contact-message" className="text-xs font-bold text-[#101512]">
                   How can we help? (Symptoms or Details) <span className="text-[#E25C3D]">*</span>
                 </label>
                 <textarea
+                  id="contact-message"
                   name="message"
                   rows={4}
                   value={formData.message}

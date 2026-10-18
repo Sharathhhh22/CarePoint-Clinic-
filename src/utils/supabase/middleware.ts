@@ -67,7 +67,6 @@ export async function updateSession(request: NextRequest) {
   // Routes that are strictly protected
   const protectedRoutes = ['/dashboard', '/patient', '/doctor', '/admin', '/settings', '/profile', '/records', '/appointments']
 
-  const isPublicRoute = publicRoutes.includes(path) || path.startsWith('/receipt/')
   const isProtectedRoute = protectedRoutes.some(route => path === route || path.startsWith(route + '/'))
 
   if (user) {

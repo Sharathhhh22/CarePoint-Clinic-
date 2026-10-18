@@ -12,7 +12,6 @@ import {
   Maximize2, 
   Minimize2, 
   FileText, 
-  User, 
   Activity, 
   ShieldCheck, 
   Clock,

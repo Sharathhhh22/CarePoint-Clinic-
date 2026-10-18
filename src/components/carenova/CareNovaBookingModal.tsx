@@ -376,14 +376,15 @@ export function CareNovaBookingModal({
           {step === 3 && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
+                <label htmlFor="booking-patient-name" className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
                   Full Name <span className="text-[#173F30]">*</span>
                 </label>
                 <input
+                  id="booking-patient-name"
                   type="text"
                   value={patientName}
                   onChange={e => setPatientName(e.target.value)}
-                  placeholder="e.g. Jane Doe"
+                  placeholder="e.g. Eleanor Vance"
                   className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E0E4DF] focus:border-[#173F30] focus:outline-hidden text-sm text-[#101512]"
                 />
                 {errors.name && <p className="text-xs text-red-600 mt-1 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.name}</p>}
@@ -391,24 +392,26 @@ export function CareNovaBookingModal({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
+                  <label htmlFor="booking-patient-email" className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
                     Email Address <span className="text-[#173F30]">*</span>
                   </label>
                   <input
+                    id="booking-patient-email"
                     type="email"
                     value={patientEmail}
                     onChange={e => setPatientEmail(e.target.value)}
-                    placeholder="jane@example.com"
+                    placeholder="eleanor@gmail.com"
                     className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E0E4DF] focus:border-[#173F30] focus:outline-hidden text-sm text-[#101512]"
                   />
                   {errors.email && <p className="text-xs text-red-600 mt-1 flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{errors.email}</p>}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
+                  <label htmlFor="booking-patient-phone" className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
                     Phone Number <span className="text-[#173F30]">*</span>
                   </label>
                   <input
+                    id="booking-patient-phone"
                     type="tel"
                     value={patientPhone}
                     onChange={e => setPatientPhone(e.target.value)}
@@ -420,10 +423,11 @@ export function CareNovaBookingModal({
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
+                <label htmlFor="booking-notes" className="block text-xs font-bold uppercase tracking-wider text-[#101512] mb-1.5">
                   Reason for Visit / Clinical Notes (Optional)
                 </label>
                 <textarea
+                  id="booking-notes"
                   rows={3}
                   value={notes}
                   onChange={e => setNotes(e.target.value)}

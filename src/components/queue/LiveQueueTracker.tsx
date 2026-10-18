@@ -104,9 +104,16 @@ export function LiveQueueTracker({
   }, [appointmentId, appointmentDate, ticketNumber, supabase])
 
   useEffect(() => {
-    fetchQueueState()
+    let isMounted = true
+    const loadInitialState = async () => {
+      if (isMounted) await fetchQueueState()
+    }
+    void loadInitialState()
     const interval = setInterval(fetchQueueState, 15000) // Poll every 15s
-    return () => clearInterval(interval)
+    return () => {
+      isMounted = false
+      clearInterval(interval)
+    }
   }, [fetchQueueState])
 
   // Alert when it's patient's turn
@@ -219,7 +226,7 @@ export function LiveQueueTracker({
         )}
 
         <div className="flex items-center justify-between text-[11px] text-muted-foreground border-t border-border/80 pt-3">
-          <span>{clinicName || "Clinic Reception"}</span>
+          <span>{clinicName || "Clinic Reception"}{doctorName ? ` • ${doctorName}` : ""}{appointmentTime ? ` (${appointmentTime})` : ""}</span>
           <span>Updated {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
         </div>
       </CardContent>

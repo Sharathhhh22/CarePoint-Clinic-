@@ -221,6 +221,7 @@ export function MfaSetupModal({
                     onClick={handleCopySecret}
                     className="p-1 hover:text-primary transition-colors cursor-pointer"
                     title="Copy Key"
+                    aria-label="Copy secret key"
                   >
                     <Copy className="w-3.5 h-3.5" />
                   </button>

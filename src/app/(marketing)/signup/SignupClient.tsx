@@ -185,7 +185,7 @@ export function SignupClient({ initialType = null, redirectTarget }: SignupClien
                 <Input 
                   id="patient-name" 
                   autoComplete="name"
-                  placeholder="e.g. Jane Doe" 
+                  placeholder="e.g. Eleanor Vance" 
                   required 
                   value={patientName} 
                   onChange={e => setPatientName(e.target.value)} 
@@ -200,7 +200,7 @@ export function SignupClient({ initialType = null, redirectTarget }: SignupClien
                   type="email" 
                   inputMode="email"
                   autoComplete="email"
-                  placeholder="jane.doe@example.com" 
+                  placeholder="eleanor.vance@gmail.com" 
                   required 
                   value={patientEmail} 
                   onChange={e => setPatientEmail(e.target.value)} 

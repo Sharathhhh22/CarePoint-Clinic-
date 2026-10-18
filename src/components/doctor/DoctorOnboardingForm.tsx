@@ -325,7 +325,7 @@ export function DoctorOnboardingForm({ initialDoctor, clinics, onSuccess }: Doct
               <Label htmlFor="doc-photo">Profile Photo URL</Label>
               <Input
                 id="doc-photo"
-                placeholder="https://example.com/photo.jpg"
+                placeholder="https://carepointclinic.com/doctors/dr-photo.jpg"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}
               />
@@ -336,7 +336,7 @@ export function DoctorOnboardingForm({ initialDoctor, clinics, onSuccess }: Doct
               <Label htmlFor="doc-proof">Medical Certificate / License Proof URL</Label>
               <Input
                 id="doc-proof"
-                placeholder="https://example.com/council-registration-proof.pdf"
+                placeholder="https://carepointclinic.com/credentials/license-proof.pdf"
                 value={verificationDocUrl}
                 onChange={(e) => setVerificationDocUrl(e.target.value)}
               />
