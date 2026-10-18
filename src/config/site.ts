@@ -2,7 +2,7 @@
  * Site-wide constants and configuration.
  */
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://slot-yourself-7afv.vercel.app'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://carepointclinic.com'
 
 export const siteConfig = {
   name: 'CarePoint Clinic',

@@ -54,7 +54,14 @@ export async function updateSession(request: NextRequest) {
     '/forgot-password', 
     '/privacy', 
     '/terms',
-    '/security'
+    '/security',
+    '/robots.txt',
+    '/sitemap.xml',
+    '/llms.txt',
+    '/icon',
+    '/apple-icon',
+    '/opengraph-image',
+    '/manifest.webmanifest'
   ]
   
   // Routes that are strictly protected
@@ -126,8 +133,8 @@ export async function updateSession(request: NextRequest) {
       }
     }
   } else {
-    // Unauthenticated user: send to login with return redirect for protected booking or dashboard flows
-    if (isProtectedRoute || (!isPublicRoute && !path.startsWith('/api') && path !== '/showcase')) {
+    // Unauthenticated user: only redirect strictly protected routes
+    if (isProtectedRoute) {
       const fullTarget = (path && path !== '/') ? (path + request.nextUrl.search) : ''
       url.pathname = '/login'
       url.search = ''

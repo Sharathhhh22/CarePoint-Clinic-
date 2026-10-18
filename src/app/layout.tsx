@@ -98,44 +98,74 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "MedicalBusiness",
+      "@type": ["MedicalBusiness", "MedicalClinic"],
       "@id": `${siteConfig.url}/#organization`,
       "name": "CarePoint Clinic",
+      "legalName": "CarePoint Outpatient Medical Centre",
       "url": siteConfig.url,
       "logo": `${siteConfig.url}/icon`,
       "image": `${siteConfig.url}/opengraph-image`,
-      "description": "Enterprise healthcare booking platform connecting patients directly with verified clinical specialists.",
+      "description": "CarePoint Clinic is a patient-centred outpatient medical centre offering family medicine, cardiology, pediatrics, neurology, diagnostic ultrasound, and same-day telehealth.",
       "telephone": siteConfig.contact.phone,
+      "email": siteConfig.contact.email,
       "emergencyTelephone": siteConfig.contact.emergencyPhone,
       "priceRange": "$$",
+      "isAcceptingNewPatients": true,
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "123 Health Tech Blvd, Suite 400",
-        "addressLocality": "San Francisco",
-        "addressRegion": "CA",
-        "postalCode": "94107",
+        "streetAddress": "450 Medical Heights Blvd, Suite 300",
+        "addressLocality": "Boston",
+        "addressRegion": "MA",
+        "postalCode": "02115",
         "addressCountry": "US"
       },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 42.3401,
+        "longitude": -71.0903
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "08:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Sunday"],
+          "opens": "09:00",
+          "closes": "14:00"
+        }
+      ],
       "medicalSpecialty": [
         "Cardiovascular",
         "Neurology",
         "Orthopedics",
         "Ophthalmology",
         "Dentistry",
-        "PrimaryCare"
+        "PrimaryCare",
+        "Pediatrics"
       ],
-      "availableService": {
-        "@type": "MedicalProcedure",
-        "name": "Clinical Specialist Appointment Booking",
-        "procedureType": "NoninvasiveProcedure"
-      }
+      "availableService": [
+        {
+          "@type": "MedicalProcedure",
+          "name": "Outpatient Specialist Consultation",
+          "procedureType": "NoninvasiveProcedure"
+        },
+        {
+          "@type": "MedicalProcedure",
+          "name": "Diagnostic Ultrasound & Point-of-Care Blood Testing",
+          "procedureType": "DiagnosticProcedure"
+        }
+      ]
     },
     {
       "@type": "WebSite",
       "@id": `${siteConfig.url}/#website`,
       "url": siteConfig.url,
       "name": "CarePoint Clinic",
-      "description": "Book doctors instantly with zero wait times.",
+      "description": "Accessible, compassionate, personalised outpatient healthcare with verified specialists.",
       "publisher": {
         "@id": `${siteConfig.url}/#organization`
       }

@@ -1,42 +1,42 @@
-# SlotUrSelf
+# CarePoint Clinic
 
-> SlotUrSelf is an enterprise healthcare appointment platform that enables real-time, verified clinical booking with zero wait times.
+> CarePoint Clinic is a modern outpatient healthcare platform providing compassionate, human-centred clinical care, board-certified specialist consultations, on-site diagnostics, and seamless online appointment coordination.
 
 ## Overview
-SlotUrSelf connects patients directly to verified healthcare providers across partner hospital networks and independent clinics. The platform features atomic slot-locking to eliminate double-booking, AI-assisted preliminary symptom triage, and location-based specialist routing.
+CarePoint Clinic connects patients with experienced physicians across primary care, cardiology, pediatrics, neurology, orthopedics, ophthalmology, and diagnostic imaging. We combine unhurried doctor consultations with digital scheduling, transparent self-pay and insurance pricing, and robust patient privacy protections.
 
 ## Core Capabilities
-- **Real-Time Booking Engine**: Master clinical calendar integration providing instant slot locks.
-- **Verified Medical Professionals**: All medical practitioners undergo credential and medical licensing checks.
-- **Specialist Routing & AI Triage**: Structured symptom analysis mapping clinical presentation to appropriate medical departments.
-- **Digital Passes**: QR-coded tickets and countdown arrival passes to bypass physical clinic queues.
-- **Emergency Helpline**: National Medical Emergency routing (108).
+- **Direct Specialist Scheduling**: Book real-time clinical consultations and same-day telehealth appointments in under 60 seconds with instant booking confirmation.
+- **Board-Certified Physicians**: Every clinician is fully licensed, credential-verified, and dedicated to empathetic care.
+- **On-Site Diagnostics & Labs**: Rapid blood panels, high-resolution ultrasound, digital X-rays, and ECG testing.
+- **Transparent Pricing**: Clear self-pay rates, verified insurance network support, and no surprise medical bills.
+- **HIPAA & DPDP Compliance**: Complete 19-point security architecture featuring TLS 1.3 in-transit encryption, AES-256 rest encryption, and strict role-based access controls.
+- **Zero AI Buzzwords or Synthetic Triage**: Real clinical care delivered by real medical doctors.
 
-## Main Routes
-- Homepage: https://sloturself.com/
-- Features: https://sloturself.com/features
-- How It Works: https://sloturself.com/how-it-works
-- Medical Departments: https://sloturself.com/departments
-- AI Symptom Guide: https://sloturself.com/assistant
-- About Us: https://sloturself.com/about
-- Careers: https://sloturself.com/careers
-- Contact Support: https://sloturself.com/contact
-- Patient Login: https://sloturself.com/login
-- Account Registration: https://sloturself.com/signup
-- Privacy Policy: https://sloturself.com/privacy
-- Terms of Service: https://sloturself.com/terms
+## Main Routes & Clean URL Slugs
+- Homepage: https://carepointclinic.com/
+- Clinical Services: https://carepointclinic.com/services
+- About the Clinic: https://carepointclinic.com/about
+- Facilities & Diagnostics Gallery: https://carepointclinic.com/gallery
+- Transparent Pricing & Insurance: https://carepointclinic.com/pricing
+- Security & Compliance Checklist: https://carepointclinic.com/security
+- Contact & Clinic Location: https://carepointclinic.com/contact
+- Privacy Policy: https://carepointclinic.com/privacy
+- Terms of Use: https://carepointclinic.com/terms
 
-## Medical Specialties Supported
-- Cardiology (Heart, Cardiovascular, Hypertension)
-- Neurology (Brain, Migraines, Neuropathy)
-- Orthopedics (Bone, Joints, Spine, Sports Injuries)
-- Ophthalmology (Eye Care, Cataracts, Vision Correction)
-- Dentistry (Oral Health, Preventive & Restorative Care)
-- General Practice (Primary Care, Family Medicine, Preventive Health)
+## Clinical Specialties Supported
+- **Primary Care & Family Medicine**: Routine wellness exams, chronic illness management, immunizations, and preventive care.
+- **Cardiovascular Health**: Echocardiography, hypertension management, cholesterol profiling, and stress test evaluations.
+- **Pediatrics & Child Wellness**: Newborn checkups, developmental screenings, acute pediatric care, and adolescent health.
+- **Neurology & Migraine Clinic**: Tension headache management, peripheral neuropathy diagnostics, and neurological assessments.
+- **Orthopedics & Joint Care**: Musculoskeletal triage, joint injections, sports injury management, and physical therapy coordination.
+- **Ophthalmology & Vision**: Comprehensive eye examinations, refraction assessment, and glaucoma screening.
+- **Diagnostic Ultrasound & Labs**: On-site phlebotomy, thyroid imaging, abdominal sonograms, and rapid point-of-care testing.
 
 ## Contact Information
-- Support: support@sloturself.com
-- Partnerships: partnerships@sloturself.com
-- Phone: 1-800-SLOT-NOW (1-800-756-8669)
-- Emergency Service: 108
-- Headquarters: 123 Health Tech Blvd, Suite 400, San Francisco, CA 94107
+- Primary Care Helpline: +1 (800) 289-2273
+- Clinical Inquiries: care@carepointclinic.com
+- Privacy & Compliance: privacy@carepointclinic.com
+- Legal Inquiries: legal@carepointclinic.com
+- Clinic Address: 450 Medical Heights Blvd, Suite 300, Boston, MA 02115
+- Emergency Hotline: 911 (United States) / 108 (India)

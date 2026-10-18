@@ -5,6 +5,14 @@ import { CareNovaSections } from "@/components/carenova/CareNovaSections"
 export const metadata: Metadata = {
   title: "CarePoint Clinic | Healthcare Made Human",
   description: "Accessible, compassionate, personalised outpatient healthcare for you and your loved ones. Book your consultation with our verified clinical specialists.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "CarePoint Clinic | Healthcare Made Human",
+    description: "Accessible, compassionate, personalised outpatient healthcare for you and your loved ones. Book your consultation with our verified clinical specialists.",
+    url: "/",
+  },
 }
 
 export default function CarePointLandingPage() {

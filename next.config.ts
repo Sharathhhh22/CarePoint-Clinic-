@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "framer-motion",
+      "motion",
       "@base-ui/react",
       "@radix-ui/react-tabs",
       "date-fns",
