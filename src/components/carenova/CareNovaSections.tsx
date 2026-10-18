@@ -25,6 +25,44 @@ import {
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
 import { AnimatedStatsCounter } from "@/components/common/AnimatedStatsCounter"
+import { Skeleton } from "@/components/ui/skeleton"
+
+function DoctorsGridSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading clinical specialists..."
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+    >
+      {[...Array(4)].map((_, i) => (
+        <div
+          key={i}
+          className="doctor-card bg-white dark:bg-[#121B16] rounded-3xl overflow-hidden border border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs flex flex-col justify-between animate-pulse"
+        >
+          <div>
+            <div className="relative aspect-[4/4.5] w-full bg-[#E7EEE8] dark:bg-[#1B2921]">
+              <div className="absolute top-3 right-3">
+                <Skeleton className="w-16 h-5 rounded-full bg-white dark:bg-[#121B16]" />
+              </div>
+            </div>
+            <div className="p-5 space-y-2.5">
+              <Skeleton className="w-20 h-3 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              <Skeleton className="w-36 h-5 rounded bg-[#E0E4DF] dark:bg-[#1E2E25]" />
+              <Skeleton className="w-44 h-3 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              <Skeleton className="w-full h-3 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              <Skeleton className="w-4/5 h-3 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+            </div>
+          </div>
+          <div className="p-5 pt-0 space-y-2">
+            <Skeleton className="w-full h-9 rounded-full bg-[#E0E4DF] dark:bg-[#1E2E25]" />
+            <Skeleton className="w-full h-9 rounded-full bg-[#173F30]/20 dark:bg-[#4E6C5D]/40" />
+          </div>
+        </div>
+      ))}
+      <span className="sr-only">Loading clinical specialists...</span>
+    </div>
+  )
+}
 
 export function CareNovaSections() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
@@ -39,7 +77,17 @@ export function CareNovaSections() {
 
   // Interactive UI Features State: Doctor specialty filter and Pricing cycle
   const [activeDoctorSpecialty, setActiveDoctorSpecialty] = useState<string>("All Specialties")
+  const [isDoctorsLoading, setIsDoctorsLoading] = useState<boolean>(false)
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly")
+
+  const handleDoctorSpecialtySelect = (specialty: string) => {
+    if (specialty === activeDoctorSpecialty) return
+    setIsDoctorsLoading(true)
+    setActiveDoctorSpecialty(specialty)
+    setTimeout(() => {
+      setIsDoctorsLoading(false)
+    }, 220)
+  }
 
   const doctorSpecialties = ["All Specialties", "Cardiology", "Family Medicine", "Internal Medicine", "Pediatrics"]
 
@@ -161,21 +209,21 @@ export function CareNovaSections() {
     if (e.key === "ArrowRight") {
       e.preventDefault()
       const nextIndex = (index + 1) % doctorSpecialties.length
-      setActiveDoctorSpecialty(doctorSpecialties[nextIndex])
+      handleDoctorSpecialtySelect(doctorSpecialties[nextIndex])
       document.getElementById(`tab-doc-${nextIndex}`)?.focus()
     } else if (e.key === "ArrowLeft") {
       e.preventDefault()
       const prevIndex = (index - 1 + doctorSpecialties.length) % doctorSpecialties.length
-      setActiveDoctorSpecialty(doctorSpecialties[prevIndex])
+      handleDoctorSpecialtySelect(doctorSpecialties[prevIndex])
       document.getElementById(`tab-doc-${prevIndex}`)?.focus()
     } else if (e.key === "Home") {
       e.preventDefault()
-      setActiveDoctorSpecialty(doctorSpecialties[0])
+      handleDoctorSpecialtySelect(doctorSpecialties[0])
       document.getElementById(`tab-doc-0`)?.focus()
     } else if (e.key === "End") {
       e.preventDefault()
       const lastIndex = doctorSpecialties.length - 1
-      setActiveDoctorSpecialty(doctorSpecialties[lastIndex])
+      handleDoctorSpecialtySelect(doctorSpecialties[lastIndex])
       document.getElementById(`tab-doc-${lastIndex}`)?.focus()
     }
   }
@@ -806,7 +854,7 @@ export function CareNovaSections() {
                     aria-selected={isSelected}
                     aria-controls="doctors-tabpanel"
                     tabIndex={isSelected ? 0 : -1}
-                    onClick={() => setActiveDoctorSpecialty(specialty)}
+                    onClick={() => handleDoctorSpecialtySelect(specialty)}
                     onKeyDown={(e) => handleDoctorTabKeyDown(e, idx)}
                     className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2] ${
                       isSelected
@@ -824,78 +872,85 @@ export function CareNovaSections() {
             </p>
           </div>
 
-          <div
-            id="doctors-tabpanel"
-            role="tabpanel"
-            aria-label={`Doctors in ${activeDoctorSpecialty}`}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {filteredDoctors.map((doc) => (
-              <div
-                key={doc.name}
-                className="bg-white rounded-3xl overflow-hidden border border-[#E0E4DF] hover:border-[#173F30]/40 transition-all shadow-xs hover:shadow-md flex flex-col justify-between group"
-              >
-                <div>
-                  {/* Doctor Portrait - Clickable to open bio */}
-                  <div 
-                    onClick={() => handleOpenDoctorBio(doc.name)}
-                    className="relative aspect-[4/4.5] w-full bg-[#E7EEE8] overflow-hidden cursor-pointer"
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`View clinical profile of ${doc.name}`}
-                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleOpenDoctorBio(doc.name) }}
-                  >
-                    <Image
-                      src={doc.image}
-                      alt={`${doc.name}, ${doc.specialty} at CarePoint Clinic`}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-                      className="object-cover object-top group-hover:scale-103 transition-transform duration-300"
-                    />
-                    <div className="absolute top-3 right-3 bg-white px-2.5 py-1 rounded-full text-[10px] font-semibold text-[#173F30] border border-[#E0E4DF] shadow-xs">
-                      {doc.availability}
+          {isDoctorsLoading ? (
+            <DoctorsGridSkeleton />
+          ) : (
+            <div
+              id="doctors-tabpanel"
+              role="tabpanel"
+              aria-label={`Doctors in ${activeDoctorSpecialty}`}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            >
+              {filteredDoctors.map((doc) => (
+                <div
+                  key={doc.name}
+                  className="doctor-card bg-white dark:bg-[#121B16] rounded-3xl overflow-hidden border border-[#E0E4DF] dark:border-[#4E6C5D] hover:border-[#173F30]/40 transition-all shadow-xs hover:shadow-md flex flex-col justify-between group"
+                >
+                  <div>
+                    {/* Doctor Portrait - Clickable to open bio */}
+                    <div 
+                      onClick={() => handleOpenDoctorBio(doc.name)}
+                      className="relative aspect-[4/4.5] w-full bg-[#E7EEE8] dark:bg-[#1B2921] overflow-hidden cursor-pointer"
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`View clinical profile of ${doc.name}`}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleOpenDoctorBio(doc.name) }}
+                    >
+                      <Image
+                        src={doc.image}
+                        alt={`${doc.name}, ${doc.specialty} at CarePoint Clinic`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+                        className="object-cover object-top group-hover:scale-103 transition-transform duration-300"
+                      />
+                      <div className="absolute top-3 right-3 bg-white dark:bg-[#121B16] px-2.5 py-1 rounded-full text-[10px] font-semibold text-[#173F30] dark:text-[#A9C2B2] border border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs">
+                        {doc.availability}
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <span className="text-xs font-semibold text-[#A9C2B2] uppercase tracking-wider">
+                        {doc.specialty}
+                      </span>
+                      <h3 
+                        onClick={() => handleOpenDoctorBio(doc.name)}
+                        className="text-lg font-bold text-[#101512] dark:text-[#EAEFEA] mt-0.5 mb-1 hover:text-[#173F30] dark:hover:text-[#A9C2B2] cursor-pointer transition-colors"
+                      >
+                        {doc.name}
+                      </h3>
+                      <p className="text-xs text-[#777D79] dark:text-[#9BAAA0] font-medium mb-2">
+                        {doc.qualification}
+                      </p>
+                      <p className="text-xs text-[#777D79] dark:text-[#9BAAA0] leading-relaxed">
+                        {doc.focus}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="p-5">
-                    <span className="text-xs font-semibold text-[#A9C2B2] uppercase tracking-wider">
-                      {doc.specialty}
-                    </span>
-                    <h3 
+                  {/* Card Action Buttons: View Bio & Book Consultation */}
+                  <div className="p-5 pt-0 space-y-2">
+                    <button
                       onClick={() => handleOpenDoctorBio(doc.name)}
-                      className="text-lg font-bold text-[#101512] mt-0.5 mb-1 hover:text-[#173F30] cursor-pointer transition-colors"
+                      className="w-full py-2 px-3 rounded-full border border-[#E0E4DF] dark:border-[#4E6C5D] hover:border-[#173F30]/40 hover:bg-[#E7EEE8]/60 dark:hover:bg-[#1E2E25] text-xs font-semibold text-[#101512] dark:text-[#EAEFEA] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      {doc.name}
-                    </h3>
-                    <p className="text-xs text-[#777D79] font-medium mb-2">
-                      {doc.qualification}
-                    </p>
-                    <p className="text-xs text-[#777D79] leading-relaxed">
-                      {doc.focus}
+                      <User className="w-3.5 h-3.5 text-[#173F30] dark:text-[#A9C2B2]" />
+                      <span>View Credentials &amp; Bio</span>
+                    </button>
+                    <button
+                      onClick={() => handleBookDoctor(doc.name)}
+                      className="no-print w-full py-2.5 px-4 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors shadow-2xs cursor-pointer"
+                    >
+                      <span>Book with {doc.name.split(" ")[1]}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <p className="hidden print:block text-[11px] font-semibold text-gray-700 text-center">
+                      Appointments: (800) 289-CARE
                     </p>
                   </div>
                 </div>
-
-                {/* Card Action Buttons: View Bio & Book Consultation */}
-                <div className="p-5 pt-0 space-y-2">
-                  <button
-                    onClick={() => handleOpenDoctorBio(doc.name)}
-                    className="w-full py-2 px-3 rounded-full border border-[#E0E4DF] hover:border-[#173F30]/40 hover:bg-[#E7EEE8]/60 text-xs font-semibold text-[#101512] flex items-center justify-center gap-1.5 transition-colors"
-                  >
-                    <User className="w-3.5 h-3.5 text-[#173F30]" />
-                    <span>View Credentials & Bio</span>
-                  </button>
-                  <button
-                    onClick={() => handleBookDoctor(doc.name)}
-                    className="w-full py-2.5 px-4 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors shadow-2xs"
-                  >
-                    <span>Book with {doc.name.split(" ")[1]}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="mt-12 text-center">
             <Link

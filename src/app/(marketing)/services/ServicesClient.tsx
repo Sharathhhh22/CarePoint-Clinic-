@@ -18,8 +18,10 @@ import {
   FileText,
   Calendar,
   Sparkles,
+  Printer,
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface ServiceItem {
   id: string
@@ -129,9 +131,73 @@ const SERVICES: ServiceItem[] = [
   },
 ]
 
+function ServicesGridSkeleton() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading clinical specialties..."
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className="rounded-3xl bg-[#FAFAF7] dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] p-7 flex flex-col justify-between shadow-xs animate-pulse"
+        >
+          <div>
+            <div className="flex items-center justify-between mb-5">
+              <Skeleton className="w-12 h-12 rounded-2xl bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              <Skeleton className="w-24 h-6 rounded-full bg-[#E0E4DF] dark:bg-[#1E2E25]" />
+            </div>
+            <Skeleton className="w-48 h-6 rounded-md bg-[#E0E4DF] dark:bg-[#1E2E25] mb-2" />
+            <Skeleton className="w-32 h-3.5 rounded-md bg-[#E7EEE8] dark:bg-[#1E2E25] mb-3" />
+            <Skeleton className="w-full h-3.5 rounded-md bg-[#E7EEE8] dark:bg-[#1E2E25] mb-2" />
+            <Skeleton className="w-4/5 h-3.5 rounded-md bg-[#E7EEE8] dark:bg-[#1E2E25] mb-6" />
+
+            <div className="space-y-4 pt-4 border-t border-[#E0E4DF] dark:border-[#4E6C5D] mb-6">
+              <Skeleton className="w-28 h-3 rounded bg-[#E0E4DF] dark:bg-[#1E2E25] mb-2" />
+              <div className="flex flex-wrap gap-1.5">
+                <Skeleton className="w-20 h-6 rounded-lg bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+                <Skeleton className="w-24 h-6 rounded-lg bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+                <Skeleton className="w-16 h-6 rounded-lg bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-[#E0E4DF] dark:border-[#4E6C5D] flex items-center justify-between">
+            <div className="space-y-1">
+              <Skeleton className="w-16 h-3 rounded bg-[#E0E4DF] dark:bg-[#1E2E25]" />
+              <Skeleton className="w-28 h-6 rounded bg-[#E7EEE8] dark:bg-[#1E2E25]" />
+            </div>
+            <Skeleton className="w-28 h-10 rounded-full bg-[#173F30]/20 dark:bg-[#4E6C5D]/40" />
+          </div>
+        </div>
+      ))}
+      <span className="sr-only">Loading clinical specialties...</span>
+    </div>
+  )
+}
+
 export function ServicesClient() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [searchQuery, setSearchQuery] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleCategoryClick = (cat: string) => {
+    if (cat === selectedCategory) return
+    setIsLoading(true)
+    setSelectedCategory(cat)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 220)
+  }
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query)
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 180)
+  }
 
   const categoryLabels: Record<string, string> = {
     all: "All Specialties",
@@ -201,6 +267,7 @@ export function ServicesClient() {
             </div>
 
             {/* Keyword Search Input */}
+            {/* Keyword Search Input */}
             <div className="max-w-xl relative">
               <label htmlFor="services-search" className="sr-only">
                 Search medical services, symptoms, or diagnostic tests
@@ -211,15 +278,15 @@ export function ServicesClient() {
                   id="services-search"
                   type="text"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   placeholder="Search by specialty, symptom (e.g. palpitations, migraine), or test..."
                   className="w-full h-11 pl-10 pr-10 rounded-full border border-[#E0E4DF] dark:border-[#4E6C5D] bg-white dark:bg-[#121B16] text-xs sm:text-sm text-[#101512] dark:text-[#EAEFEA] placeholder:text-[#777D79] dark:placeholder:text-[#6E8076] focus:outline-none focus:ring-2 focus:ring-[#173F30] dark:focus:ring-[#A9C2B2] shadow-2xs transition-all"
                 />
                 {searchQuery && (
                   <button
                     type="button"
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 p-1 rounded-full text-[#777D79] hover:text-[#101512] dark:hover:text-[#FAFAF7]"
+                    onClick={() => handleSearchChange("")}
+                    className="absolute right-3 p-1 rounded-full text-[#777D79] hover:text-[#101512] dark:hover:text-[#FAFAF7] cursor-pointer"
                     aria-label="Clear service search query"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -228,96 +295,126 @@ export function ServicesClient() {
               </div>
             </div>
 
-            {/* Category Filter Pills & Results Counter */}
+            {/* Category Filter Pills & Results Counter & Print Action */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div 
                 className="flex flex-wrap items-center gap-2"
                 role="group"
                 aria-label="Filter clinical services by category"
               >
-            <button
-              onClick={() => setSelectedCategory("all")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "all"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              All Specialties ({SERVICES.length})
-            </button>
-            <button
-              onClick={() => setSelectedCategory("primary")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "primary"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              Primary Care
-            </button>
-            <button
-              onClick={() => setSelectedCategory("cardio")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "cardio"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              Cardiovascular
-            </button>
-            <button
-              onClick={() => setSelectedCategory("pediatrics")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "pediatrics"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              Pediatrics
-            </button>
-            <button
-              onClick={() => setSelectedCategory("neuro")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "neuro"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              Neurology
-            </button>
-            <button
-              onClick={() => setSelectedCategory("diagnostics")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "diagnostics"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              Diagnostics & Lab
-            </button>
-            <button
-              onClick={() => setSelectedCategory("telehealth")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                selectedCategory === "telehealth"
-                  ? "bg-[#173F30] text-white shadow-xs"
-                  : "bg-white text-[#777D79] border border-[#E0E4DF] hover:text-[#101512] hover:bg-[#E7EEE8]"
-              }`}
-            >
-              Telehealth
-            </button>
+                <button
+                  onClick={() => handleCategoryClick("all")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "all"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  All Specialties ({SERVICES.length})
+                </button>
+                <button
+                  onClick={() => handleCategoryClick("primary")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "primary"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  Primary Care
+                </button>
+                <button
+                  onClick={() => handleCategoryClick("cardio")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "cardio"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  Cardiovascular
+                </button>
+                <button
+                  onClick={() => handleCategoryClick("pediatrics")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "pediatrics"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  Pediatrics
+                </button>
+                <button
+                  onClick={() => handleCategoryClick("neuro")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "neuro"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  Neurology
+                </button>
+                <button
+                  onClick={() => handleCategoryClick("diagnostics")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "diagnostics"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  Diagnostics &amp; Lab
+                </button>
+                <button
+                  onClick={() => handleCategoryClick("telehealth")}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    selectedCategory === "telehealth"
+                      ? "bg-[#173F30] text-white shadow-xs"
+                      : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
+                  }`}
+                >
+                  Telehealth
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-xs text-[#777D79] dark:text-[#9BAAA0] font-medium no-print">
+                  Showing <strong className="text-[#101512] dark:text-[#EAEFEA]">{filteredServices.length}</strong> of {SERVICES.length} services
+                </span>
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="no-print inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#E0E4DF] dark:border-[#4E6C5D] bg-white dark:bg-[#121B16] text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921] transition-all shadow-2xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30]"
+                  title="Print or save this clinical specialties directory as PDF"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print Directory (PDF)</span>
+                </button>
+              </div>
+            </div>
           </div>
-          <span className="text-xs text-[#777D79] dark:text-[#9BAAA0] font-medium">
-            Showing <strong className="text-[#101512] dark:text-[#EAEFEA]">{filteredServices.length}</strong> of {SERVICES.length} services
-          </span>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
       {/* 2. SERVICES GRID */}
       <section className="py-16 md:py-24 bg-white dark:bg-[#0E1713] border-b border-[#E0E4DF]/60 dark:border-[#4E6C5D]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          {filteredServices.length === 0 ? (
+          
+          {/* PRINT-ONLY OFFICIAL DIRECTORY HEADER */}
+          <div className="hidden print:block mb-8 pb-4 border-b-2 border-black">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-black text-black tracking-tight">CarePoint Clinic</h2>
+                <p className="text-xs text-gray-700 font-semibold">Official Outpatient Specialties Directory &amp; Schedule of Fees</p>
+              </div>
+              <div className="text-right text-xs text-gray-700 leading-tight">
+                <p className="font-bold">450 Medical Heights Blvd, Suite 300</p>
+                <p>Boston, MA 02115 &bull; Tel: (800) 289-CARE</p>
+                <p className="text-[10px] text-gray-500 mt-0.5">care@carepointclinic.com &bull; carepointclinic.com</p>
+              </div>
+            </div>
+          </div>
+
+          {isLoading ? (
+            <ServicesGridSkeleton />
+          ) : filteredServices.length === 0 ? (
             <div className="text-center py-16 px-4 max-w-md mx-auto space-y-4">
               <div className="w-12 h-12 rounded-full bg-[#E7EEE8] dark:bg-[#1E2E25] text-[#173F30] dark:text-[#A9C2B2] flex items-center justify-center mx-auto">
                 <Search className="w-6 h-6" />
@@ -346,36 +443,36 @@ export function ServicesClient() {
               return (
                 <div
                   key={service.id}
-                  className="rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-7 flex flex-col justify-between hover:border-[#173F30]/40 transition-all hover:shadow-lg group"
+                  className="service-card rounded-3xl bg-[#FAFAF7] dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] p-7 flex flex-col justify-between hover:border-[#173F30]/40 dark:hover:border-[#A9C2B2]/40 transition-all hover:shadow-lg group"
                 >
                   <div>
                     {/* Top row */}
                     <div className="flex items-center justify-between mb-5">
-                      <div className="w-12 h-12 rounded-2xl bg-[#E7EEE8] text-[#173F30] flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <div className="w-12 h-12 rounded-2xl bg-[#E7EEE8] dark:bg-[#1E2E25] text-[#173F30] dark:text-[#A9C2B2] flex items-center justify-center group-hover:scale-105 transition-transform">
                         <Icon className="w-6 h-6" />
                       </div>
-                      <span className="px-3 py-1 rounded-full bg-white text-[#173F30] border border-[#E0E4DF] text-xs font-bold">
+                      <span className="px-3 py-1 rounded-full bg-white dark:bg-[#1E2E25] text-[#173F30] dark:text-[#A9C2B2] border border-[#E0E4DF] dark:border-[#4E6C5D] text-xs font-bold">
                         {service.badge}
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-[#101512] mb-2">{service.name}</h3>
-                    <p className="text-xs font-semibold text-[#173F30] mb-3">
+                    <h3 className="text-xl font-bold text-[#101512] dark:text-[#EAEFEA] mb-2">{service.name}</h3>
+                    <p className="text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] mb-3">
                       Led by {service.leadDoctor}
                     </p>
-                    <p className="text-sm text-[#777D79] leading-relaxed mb-6">
+                    <p className="text-sm text-[#777D79] dark:text-[#9BAAA0] leading-relaxed mb-6">
                       {service.summary}
                     </p>
 
                     {/* Conditions & diagnostics */}
-                    <div className="space-y-4 pt-4 border-t border-[#E0E4DF] mb-6">
+                    <div className="space-y-4 pt-4 border-t border-[#E0E4DF] dark:border-[#4E6C5D] mb-6">
                       <div>
-                        <p className="text-xs font-bold text-[#101512] mb-2">Frequently Treated:</p>
+                        <p className="text-xs font-bold text-[#101512] dark:text-[#EAEFEA] mb-2">Frequently Treated:</p>
                         <div className="flex flex-wrap gap-1.5">
                           {service.conditions.map((c, i) => (
                             <span
                               key={i}
-                              className="px-2.5 py-1 rounded-lg bg-white border border-[#E0E4DF] text-[11px] font-medium text-[#777D79]"
+                              className="px-2.5 py-1 rounded-lg bg-white dark:bg-[#1E2E25] border border-[#E0E4DF] dark:border-[#4E6C5D] text-[11px] font-medium text-[#777D79] dark:text-[#9BAAA0]"
                             >
                               {c}
                             </span>
@@ -383,9 +480,9 @@ export function ServicesClient() {
                         </div>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-white border border-[#E0E4DF] text-xs text-[#777D79]">
-                        <p className="font-semibold text-[#101512] mb-1 flex items-center gap-1.5">
-                          <FileText className="w-3.5 h-3.5 text-[#173F30]" /> Visit Preparation:
+                      <div className="p-3.5 rounded-xl bg-white dark:bg-[#1B2921] border border-[#E0E4DF] dark:border-[#4E6C5D] text-xs text-[#777D79] dark:text-[#9BAAA0]">
+                        <p className="font-semibold text-[#101512] dark:text-[#EAEFEA] mb-1 flex items-center gap-1.5">
+                          <FileText className="w-3.5 h-3.5 text-[#173F30] dark:text-[#A9C2B2]" /> Visit Preparation:
                         </p>
                         <p className="text-[11px] leading-relaxed">{service.preparation}</p>
                       </div>
@@ -393,14 +490,14 @@ export function ServicesClient() {
                   </div>
 
                   {/* Pricing & Booking Action */}
-                  <div className="pt-6 border-t border-[#E0E4DF] flex items-center justify-between">
+                  <div className="pt-6 border-t border-[#E0E4DF] dark:border-[#4E6C5D] flex items-center justify-between">
                     <div>
-                      <p className="text-[11px] text-[#777D79] uppercase font-bold tracking-wider">
+                      <p className="text-[11px] text-[#777D79] dark:text-[#9BAAA0] uppercase font-bold tracking-wider">
                         Consultation
                       </p>
-                      <p className="text-xl font-extrabold text-[#173F30]">
+                      <p className="text-xl font-extrabold text-[#173F30] dark:text-[#A9C2B2]">
                         {service.fee}{" "}
-                        <span className="text-xs font-medium text-[#777D79]">
+                        <span className="text-xs font-medium text-[#777D79] dark:text-[#9BAAA0]">
                           / {service.duration}
                         </span>
                       </p>
@@ -408,11 +505,14 @@ export function ServicesClient() {
 
                     <button
                       onClick={() => openBookingModal({ service: service.name })}
-                      className="inline-flex items-center gap-1.5 bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold px-4 py-2.5 rounded-full transition-all shadow-xs active:scale-95"
+                      className="no-print inline-flex items-center gap-1.5 bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold px-4 py-2.5 rounded-full transition-all shadow-xs active:scale-95 cursor-pointer"
                     >
                       <span>Book Visit</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
+                    <p className="hidden print:block text-[11px] font-semibold text-gray-700">
+                      Book: (800) 289-CARE
+                    </p>
                   </div>
                 </div>
               )
