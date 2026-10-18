@@ -24,6 +24,8 @@ import {
 } from "lucide-react"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
+import { CarePoint3DAnatomyViewer } from "./3d/CarePoint3DAnatomyViewer"
+import { CarePoint3DCard } from "./3d/CarePoint3DCard"
 
 export function CareNovaSections() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
@@ -513,16 +515,21 @@ export function CareNovaSections() {
       <section id="symptom-matcher" className="py-20 md:py-28 bg-white border-t border-[#E0E4DF]">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
+          {/* Interactive 3D Anatomy Human Body Explorer */}
+          <div className="mb-14">
+            <CarePoint3DAnatomyViewer />
+          </div>
+
           <div className="max-w-3xl mb-12 sm:mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
               <Sparkles className="w-3.5 h-3.5 text-[#173F30]" />
-              <span>Clinical Triage & Specialist Matching</span>
+              <span>Direct Symptom Routing</span>
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#101512] leading-[1.08] mb-3">
-              Find the right doctor for your health concern.
+              Or select by specific symptom concern.
             </h2>
             <p className="text-base sm:text-lg text-[#777D79] leading-relaxed">
-              Select what you are experiencing or looking for, and our clinical routing guide will match you with the ideal specialist and consultation format.
+              Explore common health concerns below to immediately access personalized clinician matches and appointment availability.
             </p>
           </div>
 

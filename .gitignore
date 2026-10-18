@@ -43,3 +43,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tooling
+.cursor/
+.reticle*
+*reticle*
+RETICLE.md
+scripts/test-captures.mjs
+

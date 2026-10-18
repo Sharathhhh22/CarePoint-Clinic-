@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
+import { CarePoint3DCard } from "@/components/carenova/3d/CarePoint3DCard"
 
 interface InsuranceOption {
   id: string
@@ -131,142 +132,148 @@ export function PricingClient() {
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {/* TIER 1 */}
-            <div className="rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
-              <div>
-                <span className="px-3 py-1 rounded-full bg-white text-[#777D79] text-xs font-bold border border-[#E0E4DF]">
-                  Standard Care
-                </span>
-                <h3 className="text-2xl font-bold text-[#101512] mt-4 mb-2">
-                  Primary Consultation
-                </h3>
-                <p className="text-xs text-[#777D79] mb-6">
-                  Ideal for general health checkups, minor acute symptoms, and ongoing prescriptions.
-                </p>
+            <CarePoint3DCard intensity={8} depth={10} className="h-full">
+              <div className="h-full rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
+                <div>
+                  <span className="px-3 py-1 rounded-full bg-white text-[#777D79] text-xs font-bold border border-[#E0E4DF]">
+                    Standard Care
+                  </span>
+                  <h3 className="text-2xl font-bold text-[#101512] mt-4 mb-2">
+                    Primary Consultation
+                  </h3>
+                  <p className="text-xs text-[#777D79] mb-6">
+                    Ideal for general health checkups, minor acute symptoms, and ongoing prescriptions.
+                  </p>
 
-                <div className="mb-6 pb-6 border-b border-[#E0E4DF]">
-                  <span className="text-4xl font-extrabold text-[#101512]">$75</span>
-                  <span className="text-xs font-medium text-[#777D79] ml-2">/ 30 min session</span>
+                  <div className="mb-6 pb-6 border-b border-[#E0E4DF]">
+                    <span className="text-4xl font-extrabold text-[#101512]">$75</span>
+                    <span className="text-xs font-medium text-[#777D79] ml-2">/ 30 min session</span>
+                  </div>
+
+                  <ul className="space-y-3 text-xs text-[#777D79] mb-8">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>30-minute unrushed physician exam</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>Comprehensive vital signs check</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>Digital prescription dispatch</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>7-day patient portal messaging</span>
+                    </li>
+                  </ul>
                 </div>
 
-                <ul className="space-y-3 text-xs text-[#777D79] mb-8">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>30-minute unrushed physician exam</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>Comprehensive vital signs check</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>Digital prescription dispatch</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>7-day patient portal messaging</span>
-                  </li>
-                </ul>
+                <button
+                  onClick={() => openBookingModal({ service: "Primary Care & Family Medicine" })}
+                  className="w-full py-3 px-5 rounded-full border border-[#E0E4DF] text-[#173F30] font-bold text-xs hover:bg-[#E7EEE8] transition-colors"
+                >
+                  Book Primary Care
+                </button>
               </div>
-
-              <button
-                onClick={() => openBookingModal({ service: "Primary Care & Family Medicine" })}
-                className="w-full py-3 px-5 rounded-full border border-[#E0E4DF] text-[#173F30] font-bold text-xs hover:bg-[#E7EEE8] transition-colors"
-              >
-                Book Primary Care
-              </button>
-            </div>
+            </CarePoint3DCard>
 
             {/* TIER 2 - FEATURED */}
-            <div className="rounded-3xl bg-[#173F30] text-white p-8 flex flex-col justify-between shadow-xl relative scale-100 md:-translate-y-2">
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#A9C2B2] text-[#173F30] text-[11px] font-black uppercase tracking-wider shadow-sm">
-                Most Popular
-              </div>
-
-              <div>
-                <span className="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold">
-                  Specialist Practice
-                </span>
-                <h3 className="text-2xl font-bold text-white mt-4 mb-2">Specialist Review</h3>
-                <p className="text-xs text-white/80 mb-6">
-                  For complex issues in cardiology, neurology, pediatrics, or refractory symptoms.
-                </p>
-
-                <div className="mb-6 pb-6 border-b border-white/20">
-                  <span className="text-4xl font-extrabold text-white">$130</span>
-                  <span className="text-xs font-medium text-white/70 ml-2">/ 45 min session</span>
+            <CarePoint3DCard intensity={8} depth={14} className="h-full md:-translate-y-2">
+              <div className="h-full rounded-3xl bg-[#173F30] text-white p-8 flex flex-col justify-between shadow-xl relative scale-100">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#A9C2B2] text-[#173F30] text-[11px] font-black uppercase tracking-wider shadow-sm">
+                  Most Popular
                 </div>
 
-                <ul className="space-y-3 text-xs text-white/90 mb-8">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
-                    <span>45-minute specialist consultation</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
-                    <span>Prior medical chart & ECG review</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
-                    <span>Personalized 60-day recovery roadmap</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
-                    <span>Priority on-site diagnostic scheduling</span>
-                  </li>
-                </ul>
-              </div>
+                <div>
+                  <span className="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold">
+                    Specialist Practice
+                  </span>
+                  <h3 className="text-2xl font-bold text-white mt-4 mb-2">Specialist Review</h3>
+                  <p className="text-xs text-white/80 mb-6">
+                    For complex issues in cardiology, neurology, pediatrics, or refractory symptoms.
+                  </p>
 
-              <button
-                onClick={() => openBookingModal({ service: "Specialist Clinical Consultation" })}
-                className="w-full py-3.5 px-5 rounded-full bg-white text-[#173F30] hover:bg-[#FAFAF7] font-bold text-xs transition-all shadow-md active:scale-95"
-              >
-                Book Specialist Review
-              </button>
-            </div>
+                  <div className="mb-6 pb-6 border-b border-white/20">
+                    <span className="text-4xl font-extrabold text-white">$130</span>
+                    <span className="text-xs font-medium text-white/70 ml-2">/ 45 min session</span>
+                  </div>
+
+                  <ul className="space-y-3 text-xs text-white/90 mb-8">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
+                      <span>45-minute specialist consultation</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
+                      <span>Prior medical chart & ECG review</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
+                      <span>Personalized 60-day recovery roadmap</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
+                      <span>Priority on-site diagnostic scheduling</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <button
+                  onClick={() => openBookingModal({ service: "Specialist Clinical Consultation" })}
+                  className="w-full py-3.5 px-5 rounded-full bg-white text-[#173F30] hover:bg-[#FAFAF7] font-bold text-xs transition-all shadow-md active:scale-95"
+                >
+                  Book Specialist Review
+                </button>
+              </div>
+            </CarePoint3DCard>
 
             {/* TIER 3 */}
-            <div className="rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
-              <div>
-                <span className="px-3 py-1 rounded-full bg-white text-[#777D79] text-xs font-bold border border-[#E0E4DF]">
-                  Executive Health
-                </span>
-                <h3 className="text-2xl font-bold text-[#101512] mt-4 mb-2">Executive Longevity</h3>
-                <p className="text-xs text-[#777D79] mb-6">
-                  Full head-to-toe preventive screening, metabolic panel, and longevity guidance.
-                </p>
+            <CarePoint3DCard intensity={8} depth={10} className="h-full">
+              <div className="h-full rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
+                <div>
+                  <span className="px-3 py-1 rounded-full bg-white text-[#777D79] text-xs font-bold border border-[#E0E4DF]">
+                    Executive Health
+                  </span>
+                  <h3 className="text-2xl font-bold text-[#101512] mt-4 mb-2">Executive Longevity</h3>
+                  <p className="text-xs text-[#777D79] mb-6">
+                    Full head-to-toe preventive screening, metabolic panel, and longevity guidance.
+                  </p>
 
-                <div className="mb-6 pb-6 border-b border-[#E0E4DF]">
-                  <span className="text-4xl font-extrabold text-[#101512]">$195</span>
-                  <span className="text-xs font-medium text-[#777D79] ml-2">/ 75 min session</span>
+                  <div className="mb-6 pb-6 border-b border-[#E0E4DF]">
+                    <span className="text-4xl font-extrabold text-[#101512]">$195</span>
+                    <span className="text-xs font-medium text-[#777D79] ml-2">/ 75 min session</span>
+                  </div>
+
+                  <ul className="space-y-3 text-xs text-[#777D79] mb-8">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>75-minute dual physician review</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>12-Lead Resting Digital ECG included</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>Complete blood chemistry & lipid profile</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-[#173F30] shrink-0" />
+                      <span>Doctor follow-up video call included</span>
+                    </li>
+                  </ul>
                 </div>
 
-                <ul className="space-y-3 text-xs text-[#777D79] mb-8">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>75-minute dual physician review</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>12-Lead Resting Digital ECG included</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>Complete blood chemistry & lipid profile</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>Doctor follow-up video call included</span>
-                  </li>
-                </ul>
+                <button
+                  onClick={() => openBookingModal({ service: "Executive Longevity & Metabolic Review" })}
+                  className="w-full py-3 px-5 rounded-full border border-[#E0E4DF] text-[#173F30] font-bold text-xs hover:bg-[#E7EEE8] transition-colors"
+                >
+                  Book Executive Longevity
+                </button>
               </div>
-
-              <button
-                onClick={() => openBookingModal({ service: "Executive Longevity & Metabolic Review" })}
-                className="w-full py-3 px-5 rounded-full border border-[#E0E4DF] text-[#173F30] font-bold text-xs hover:bg-[#E7EEE8] transition-colors"
-              >
-                Book Executive Longevity
-              </button>
-            </div>
+            </CarePoint3DCard>
           </div>
         </div>
       </section>

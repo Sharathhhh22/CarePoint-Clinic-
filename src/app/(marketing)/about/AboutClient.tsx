@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
 import { CarePointDoctorBioModal } from "@/components/carenova/CarePointDoctorBioModal"
+import { CarePoint3DCard } from "@/components/carenova/3d/CarePoint3DCard"
 
 const CLINICAL_PILLARS = [
   {
@@ -211,43 +212,42 @@ export function AboutClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PHYSICIANS.map((doc, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-[#E0E4DF] overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative h-64 w-full bg-[#E7EEE8] overflow-hidden">
-                    <Image
-                      src={doc.image}
-                      alt={doc.name}
-                      fill
-                      className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                    />
+              <CarePoint3DCard key={idx} intensity={6} depth={10}>
+                <div className="h-full bg-white rounded-2xl border border-[#E0E4DF] overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between">
+                  <div>
+                    <div className="relative h-64 w-full bg-[#E7EEE8] overflow-hidden">
+                      <Image
+                        src={doc.image}
+                        alt={doc.name}
+                        fill
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h4 className="text-base font-bold text-[#101512]">{doc.name}</h4>
+                      <p className="text-xs font-semibold text-[#173F30] mt-0.5">{doc.role}</p>
+                      <p
+                        className="text-xs text-[#777D79] mt-2 font-medium"
+                        dangerouslySetInnerHTML={{ __html: doc.degrees }}
+                      />
+                      <p className="text-xs text-[#777D79] mt-2 leading-relaxed border-t border-[#E0E4DF] pt-3">
+                        <span className="font-semibold text-[#101512]">Clinical Focus: </span>
+                        {doc.focus}
+                      </p>
+                    </div>
                   </div>
-                  <div className="p-5">
-                    <h4 className="text-base font-bold text-[#101512]">{doc.name}</h4>
-                    <p className="text-xs font-semibold text-[#173F30] mt-0.5">{doc.role}</p>
-                    <p
-                      className="text-xs text-[#777D79] mt-2 font-medium"
-                      dangerouslySetInnerHTML={{ __html: doc.degrees }}
-                    />
-                    <p className="text-xs text-[#777D79] mt-2 leading-relaxed border-t border-[#E0E4DF] pt-3">
-                      <span className="font-semibold text-[#101512]">Clinical Focus: </span>
-                      {doc.focus}
-                    </p>
-                  </div>
-                </div>
 
-                <div className="p-5 pt-0">
-                  <button
-                    onClick={() => setSelectedDoctor(doc.name)}
-                    className="w-full py-2.5 px-4 text-xs font-bold rounded-xl border border-[#E0E4DF] text-[#173F30] hover:bg-[#E7EEE8] transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <GraduationCap className="w-4 h-4" />
-                    <span>View Credentials & Bio</span>
-                  </button>
+                  <div className="p-5 pt-0">
+                    <button
+                      onClick={() => setSelectedDoctor(doc.name)}
+                      className="w-full py-2.5 px-4 text-xs font-bold rounded-xl border border-[#E0E4DF] text-[#173F30] hover:bg-[#E7EEE8] transition-colors flex items-center justify-center gap-1.5"
+                    >
+                      <GraduationCap className="w-4 h-4" />
+                      <span>View Credentials & Bio</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </CarePoint3DCard>
             ))}
           </div>
         </div>
