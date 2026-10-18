@@ -7,7 +7,9 @@ import { FeaturesOverlay } from "@/components/layout/FeaturesOverlay";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/config/site";
 import { ToastProvider } from "@/components/ui/toast";
+import { Suspense } from "react";
 import { CookieConsent } from "@/components/legal/CookieConsent";
+import { UtmTracker } from "@/components/common/UtmTracker";
 
 const outfit = Outfit({ 
   subsets: ['latin'], 
@@ -201,6 +203,9 @@ export default function RootLayout({
             
             <FeaturesOverlay />
             <CookieConsent />
+            <Suspense fallback={null}>
+              <UtmTracker />
+            </Suspense>
           </ToastProvider>
         </ThemeProvider>
       </body>

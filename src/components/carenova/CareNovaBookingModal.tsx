@@ -1,4 +1,5 @@
 "use client"
+import { getStoredUtmParams } from "@/components/common/UtmTracker"
 
 import React, { useState, useEffect } from "react"
 import Image from "next/image"
@@ -153,6 +154,18 @@ export function CareNovaBookingModal({
     setTimeout(() => {
       const randomCode = "CP-" + Math.floor(10000 + Math.random() * 90000)
       setBookingRef(randomCode)
+      try {
+        const utm = getStoredUtmParams()
+        sessionStorage.setItem("carepoint_last_booking", JSON.stringify({
+          code: randomCode,
+          service: selectedService,
+          doctor: selectedDoctor,
+          date: selectedDate,
+          time: selectedTime,
+          utm,
+          created_at: new Date().toISOString()
+        }))
+      } catch {}
       setIsSubmitting(false)
       setStep(4) // Confirmation step
     }, 600)

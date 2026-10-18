@@ -11,7 +11,7 @@ export function CarePointWhatsAppButton() {
     "https://wa.me/18002892273?text=Hello%20CarePoint%20Clinic,%20I%20would%20like%20to%20enquire%20about%20a%20consultation."
 
   return (
-    <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end">
+    <div className="whatsapp-floating-btn no-print fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end">
       {/* Quick message card on click */}
       {isOpen && (
         <div className="mb-3 w-72 sm:w-80 bg-white rounded-2xl shadow-xl border border-[#E0E4DF] p-4 animate-in slide-in-from-bottom-2 duration-200">

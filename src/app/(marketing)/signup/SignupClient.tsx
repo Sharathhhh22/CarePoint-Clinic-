@@ -250,15 +250,25 @@ export function SignupClient({ initialType = null, redirectTarget }: SignupClien
               
               <div className="space-y-1.5">
                 <Label htmlFor="patient-confirm-password" className="text-foreground">Confirm Password</Label>
-                <Input 
-                  id="patient-confirm-password" 
-                  type={showPassword ? "text" : "password"} 
-                  autoComplete="new-password"
-                  required 
-                  value={patientConfirmPassword} 
-                  onChange={e => setPatientConfirmPassword(e.target.value)} 
-                  className="h-11"
-                />
+                <div className="relative flex items-center">
+                  <Input 
+                    id="patient-confirm-password" 
+                    type={showPassword ? "text" : "password"} 
+                    autoComplete="new-password"
+                    required 
+                    value={patientConfirmPassword} 
+                    onChange={e => setPatientConfirmPassword(e.target.value)} 
+                    className="h-11 pr-12"
+                  />
+                  <button 
+                    type="button" 
+                    className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Hide confirm password" : "Show confirm password"}
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-start space-x-3 pt-2">

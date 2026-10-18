@@ -16,6 +16,7 @@ import {
   ExternalLink,
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
+import { getStoredUtmParams } from "@/components/common/UtmTracker"
 
 export function ContactClient() {
   const [formData, setFormData] = useState({
@@ -108,7 +109,7 @@ export function ContactClient() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, utm: getStoredUtmParams() }),
       })
 
       const data = await res.json()

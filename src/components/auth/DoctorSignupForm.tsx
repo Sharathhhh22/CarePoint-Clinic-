@@ -431,16 +431,26 @@ export function DoctorSignupForm({ onBackToSelection }: DoctorSignupFormProps) {
 
               <div className="space-y-1.5">
                 <Label htmlFor="doc-confirm-pass" className="text-foreground">Confirm Password</Label>
-                <Input
-                  id="doc-confirm-pass"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  placeholder="••••••••"
-                  required
-                  value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
-                  className="h-11"
-                />
+                <div className="relative flex items-center">
+                  <Input
+                    id="doc-confirm-pass"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    placeholder="••••••••"
+                    required
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    className="h-11 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={showPassword ? "Hide confirm password" : "Show confirm password"}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
             </div>
 

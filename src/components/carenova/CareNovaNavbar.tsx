@@ -7,6 +7,7 @@ import { Search, ArrowRight, Menu, X, Phone, Mail, Shield } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
 import { CareNovaSearchModal } from "./CareNovaSearchModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
+import { CarePointThemeToggle } from "./CarePointThemeToggle"
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
@@ -72,8 +73,8 @@ export function CareNovaNavbar() {
       </div>
 
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-200 bg-[#FAFAF7] border-b ${
-          isScrolled ? "border-[#E0E4DF] shadow-xs" : "border-[#E0E4DF]/70"
+        className={`sticky top-0 z-40 w-full transition-all duration-200 bg-[#FAFAF7] dark:bg-[#0D1511] border-b ${
+          isScrolled ? "border-[#E0E4DF] dark:border-[#22352B] shadow-xs" : "border-[#E0E4DF]/70 dark:border-[#22352B]/70"
         }`}
       >
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex h-20 items-center justify-between">
@@ -117,11 +118,14 @@ export function CareNovaNavbar() {
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] hover:bg-[#E7EEE8] border border-transparent hover:border-[#E0E4DF] transition-all"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] border border-transparent hover:border-[#E0E4DF] dark:hover:border-[#2D4235] transition-all"
               aria-label="Search CarePoint services, specialists, and FAQs"
             >
-              <Search className="w-4 h-4 text-[#101512]" />
+              <Search className="w-4 h-4 text-[#101512] dark:text-[#EAEFEA]" />
             </button>
+
+            {/* Theme Toggle */}
+            <CarePointThemeToggle />
 
             {/* Log In Link */}
             <Link
@@ -145,11 +149,13 @@ export function CareNovaNavbar() {
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] hover:bg-[#E7EEE8] transition-colors"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] transition-colors"
               aria-label="Search"
             >
-              <Search className="w-5 h-5 text-[#101512]" />
+              <Search className="w-5 h-5 text-[#101512] dark:text-[#EAEFEA]" />
             </button>
+
+            <CarePointThemeToggle />
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -174,7 +180,7 @@ export function CareNovaNavbar() {
           />
 
           <div
-            className="md:hidden fixed inset-x-0 top-20 z-40 bg-[#FAFAF7] border-b border-[#E0E4DF] shadow-2xl p-6 animate-in slide-in-from-top-4 duration-200 max-h-[calc(100vh-5rem)] overflow-y-auto"
+            className="md:hidden fixed inset-x-0 top-20 z-40 bg-[#FAFAF7] dark:bg-[#0D1511] border-b border-[#E0E4DF] dark:border-[#22352B] shadow-2xl p-6 animate-in slide-in-from-top-4 duration-200 max-h-[calc(100vh-5rem)] overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
