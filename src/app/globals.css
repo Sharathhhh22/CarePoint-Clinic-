@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
-@import "tailwindcss/utilities";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -222,16 +220,6 @@ html, body {
   --color-carepoint-border: var(--carepoint-border);
   --color-carepoint-accent: var(--carepoint-accent);
 
-  /* Typography Scale Tokens */
-  --text-xs: var(--type-scale-xs);
-  --text-sm: var(--type-scale-sm);
-  --text-base: var(--type-scale-base);
-  --text-lg: var(--type-scale-lg);
-  --text-xl: var(--type-scale-xl);
-  --text-2xl: var(--type-scale-2xl);
-  --text-3xl: var(--type-scale-3xl);
-  --text-4xl: var(--type-scale-4xl);
-  --text-5xl: var(--type-scale-5xl);
 
   /* Radii Tokens */
   --radius-xs: var(--radius-xs);
@@ -442,10 +430,9 @@ html, body {
     line-height: 1.2 !important;
   }
 
-  .btn-text, button, .button {
-    font-family: var(--font-primary) !important;
-    font-weight: var(--font-weight-bold) !important;
-    letter-spacing: -0.015em !important;
+  .btn-text {
+    font-family: var(--font-primary);
+    letter-spacing: -0.015em;
   }
 
   .card-title {
@@ -495,7 +482,7 @@ html, body {
    UI & INTERACTION STANDARD: UNIVERSAL INTERACTIVE STATES (WCAG 2.2 AA)
    ========================================================================= */
 
-/* High-visibility keyboard focus indicators for all interactive elements */
+/* High-visibility keyboard focus indicators for interactive elements */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
@@ -506,8 +493,8 @@ textarea:focus-visible,
 [role="checkbox"]:focus-visible,
 [role="radio"]:focus-visible,
 [tabindex="0"]:focus-visible {
-  outline: 2px solid var(--carepoint-forest) !important;
-  outline-offset: 2px !important;
+  outline: 2px solid var(--carepoint-forest);
+  outline-offset: 2px;
 }
 
 .dark button:focus-visible,
@@ -520,15 +507,8 @@ textarea:focus-visible,
 .dark [role="checkbox"]:focus-visible,
 .dark [role="radio"]:focus-visible,
 .dark [tabindex="0"]:focus-visible {
-  outline: 2px solid var(--carepoint-sage) !important;
-  outline-offset: 2px !important;
-}
-
-/* Tactile feedback for active button taps/clicks */
-button:active:not(:disabled),
-[role="button"]:active:not([aria-disabled="true"]),
-.button:active:not(:disabled) {
-  transform: scale(0.985);
+  outline: 2px solid var(--carepoint-sage);
+  outline-offset: 2px;
 }
 
 /* Accessible disabled states */

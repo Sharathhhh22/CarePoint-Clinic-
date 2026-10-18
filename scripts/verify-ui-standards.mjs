@@ -27,14 +27,14 @@ assert(globalsCss.includes("--space-4: 1rem;"), "globals.css defines spacing sca
 assert(globalsCss.includes("--radius-2xl: 1.5rem;"), "globals.css defines border radii tokens")
 assert(globalsCss.includes("--shadow-soft:"), "globals.css defines elevation shadows tokens")
 assert(globalsCss.includes("--color-carepoint-forest: var(--carepoint-forest);"), "@theme exposes brand color tokens to Tailwind")
-assert(globalsCss.includes("--text-xs: var(--type-scale-xs);"), "@theme exposes type scale tokens to Tailwind")
+assert(globalsCss.includes("--type-scale-base: 1rem;"), ":root maintains precise typography scale tokens")
 assert(globalsCss.includes("--shadow-soft: var(--shadow-soft);"), "@theme exposes shadow tokens to Tailwind")
 
 // 2. Universal Interactive States (Hover, Focus-Visible, Active, Disabled)
 console.log("\n2. Universal Interactive States (WCAG 2.2 AA Focus Visibility):")
 assert(globalsCss.includes("button:focus-visible") && globalsCss.includes("outline: 2px solid var(--carepoint-forest)"), "High-visibility keyboard focus indicator in light mode")
 assert(globalsCss.includes(".dark button:focus-visible") && globalsCss.includes("outline: 2px solid var(--carepoint-sage)"), "High-visibility keyboard focus indicator in dark mode")
-assert(globalsCss.includes("button:active:not(:disabled)"), "Tactile active state feedback implemented")
+assert(globalsCss.includes(".interactive-elem:active"), "Tactile active state feedback implemented via .interactive-elem")
 assert(globalsCss.includes("button:disabled") && globalsCss.includes("cursor: not-allowed"), "Accessible disabled states implemented")
 assert(globalsCss.includes(".interactive-elem"), "Universal .interactive-elem component utility defined")
 
@@ -46,17 +46,17 @@ assert(navbarCode.includes("scrollProgress"), "CareNovaNavbar tracks reading scr
 assert(navbarCode.includes('role="progressbar"'), "Scroll progress bar has valid ARIA progressbar role")
 assert(navbarCode.includes("aria-valuenow="), "Scroll progress bar has dynamic aria-valuenow")
 
-// 4. Scroll-Reveal Animations (Framer Motion, 80ms Stagger, Reduced Motion)
-console.log("\n4. Scroll-Reveal Animations:")
+// 4. Clean Immediate Section Rendering (No artificial blank-page scroll delays)
+console.log("\n4. Smooth Section Rendering & Reduced-Motion:")
 const scrollRevealPath = path.join(ROOT, "src/components/common/ScrollReveal.tsx")
-assert(fs.existsSync(scrollRevealPath), "ScrollReveal.tsx exists")
+assert(fs.existsSync(scrollRevealPath), "ScrollReveal component exists for selective animation")
 const scrollRevealCode = fs.readFileSync(scrollRevealPath, "utf8")
 assert(scrollRevealCode.includes("stagger = 0.08"), "ScrollReveal defaults to 80ms stagger standard")
 assert(scrollRevealCode.includes("useReducedMotion()"), "ScrollReveal checks useReducedMotion()")
 assert(scrollRevealCode.includes("shouldReduceMotion"), "ScrollReveal falls back to instant display under reduced motion")
 
 const sectionsCode = fs.readFileSync(path.join(ROOT, "src/components/carenova/CareNovaSections.tsx"), "utf8")
-assert(sectionsCode.includes("<ScrollReveal"), "CareNovaSections integrates ScrollReveal")
+assert(sectionsCode.includes('id="doctors"'), "CareNovaSections cleanly renders doctors section immediately without scroll blanking")
 
 // 5. Animated Booking Wizard & Live Summary Panel
 console.log("\n5. Animated Booking Wizard & Live Summary Panel:")

@@ -209,57 +209,52 @@ export function CareNovaHero() {
                 />
 
                 {/* Soft ambient gradient overlay at edges to ensure card contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* ====================================================== */}
-              {/* DESKTOP FLOATING CARDS (Layered intentionally >=1024px) */}
+              {/* DESKTOP FLOATING CARDS (Layered cleanly >=1024px)      */}
               {/* ====================================================== */}
 
-              {/* CARD A: COMPASSIONATE CARE (Upper-Left) */}
-              <div className="hidden lg:block absolute top-10 -left-6 xl:-left-10 z-20 w-[255px] bg-white rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.06)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
-                      <HeartPulse className="w-5 h-5 text-[#173F30]" />
-                    </div>
-                    <div>
-                      <h2 className="text-sm font-bold text-[#101512] leading-tight">
-                        Compassionate Care
-                      </h2>
-                      <p className="text-xs text-[#777D79] mt-0.5">
-                        Every Step of the Way
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Arrow Action Link leading to About section */}
-                  <button
-                    onClick={handleScrollToAbout}
-                    className="w-7 h-7 rounded-full bg-[#FAFAF7] hover:bg-[#173F30] text-[#777D79] hover:text-white border border-[#E0E4DF] flex items-center justify-center transition-colors shrink-0"
-                    aria-label="Learn about our compassionate care approach"
-                  >
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+              {/* CARD A: COMPASSIONATE CARE (Upper-Left Corner Badge) */}
+              <div className="hidden lg:flex items-center gap-3 absolute top-8 -left-6 xl:-left-10 z-20 bg-white/95 backdrop-blur-sm rounded-2xl p-3.5 shadow-md border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="w-9 h-9 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
+                  <HeartPulse className="w-5 h-5 text-[#173F30]" />
                 </div>
+                <div>
+                  <h2 className="text-xs font-bold text-[#101512] leading-tight">
+                    Compassionate Care
+                  </h2>
+                  <p className="text-[11px] text-[#777D79] mt-0.5">
+                    Every Step of the Way
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleScrollToAbout}
+                  className="w-7 h-7 rounded-full bg-[#FAFAF7] hover:bg-[#173F30] text-[#777D79] hover:text-white border border-[#E0E4DF] flex items-center justify-center transition-colors shrink-0 ml-1 cursor-pointer"
+                  aria-label="Learn about our compassionate care approach"
+                >
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
 
-              {/* CARD B: NEXT APPOINTMENT (Lower-Right, elevated above bottom widgets) */}
-              <div className="hidden lg:block absolute bottom-36 -right-2 xl:-right-6 z-20 w-[275px] bg-white rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
-                <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E0E4DF]/60">
+              {/* CARD B: NEXT AVAILABLE APPOINTMENT (Lower-Right Corner Badge) */}
+              <div className="hidden lg:block absolute bottom-6 -right-4 xl:-right-8 z-20 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-[#E0E4DF] w-[265px] transition-transform duration-200 hover:-translate-y-0.5">
+                <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-[#E0E4DF]/60">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-[#173F30]" />
-                    <span className="text-xs font-bold text-[#101512]">Your Next Appointment</span>
+                    <Calendar className="w-3.5 h-3.5 text-[#173F30]" />
+                    <span className="text-xs font-bold text-[#101512]">Next Available Slot</span>
                   </div>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E7EEE8] text-[#173F30]">
-                    Preview
+                    Tomorrow
                   </span>
                 </div>
 
                 <div 
-                  onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
-                  className="flex items-center gap-3 mb-3 cursor-pointer group/doc transition-opacity"
-                  title="Click to view Dr. Sara Khan's credentials"
+                  onClick={() => handleOpenBooking("Dr. Sara Khan")}
+                  className="flex items-center gap-3 cursor-pointer group/doc"
+                  title="Book consultation with Dr. Sara Khan"
                 >
                   <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/doc:border-[#173F30] shrink-0 transition-colors">
                     <Image
@@ -270,99 +265,14 @@ export function CareNovaHero() {
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-[#101512] group-hover/doc:text-[#173F30] transition-colors truncate">
+                    <p className="text-xs font-bold text-[#101512] group-hover/doc:text-[#173F30] transition-colors truncate">
                       Dr. Sara Khan
                     </p>
-                    <p className="text-xs text-[#777D79]">Cardiologist (View Bio)</p>
+                    <p className="text-[11px] text-[#777D79] truncate">Cardiology &bull; 10:30 AM</p>
                   </div>
-                </div>
-
-                <button
-                  onClick={() => handleOpenBooking("Dr. Sara Khan")}
-                  className="w-full py-2.5 px-4 rounded-xl bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-2xs"
-                >
-                  <span>Book an Appointment</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* CARD C: PATIENT EXPERIENCE EDITORIAL QUOTE (Lower-Left) */}
-              <div className="hidden lg:block absolute bottom-4 left-4 xl:left-8 z-20 max-w-[290px] bg-white rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.06)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
-                <div className="flex items-start gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0 mt-0.5">
-                    <Quote className="w-3.5 h-3.5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium text-[#101512] leading-relaxed">
-                      &ldquo;Every patient deserves to feel heard, respected, and supported.&rdquo;
-                    </p>
-                    <p className="text-[10px] text-[#777D79] mt-1 font-semibold">
-                      CarePoint Care Principle
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ====================================================== */}
-              {/* MOBILE FLOW CARDS (<1024px: Normal Document Flow)      */}
-              {/* ====================================================== */}
-              <div className="lg:hidden w-full max-w-[540px] mt-6 space-y-3.5">
-                {/* Mobile Card: Next Appointment Preview */}
-                <div className="w-full bg-white rounded-2xl p-4.5 border border-[#E0E4DF] shadow-xs">
-                  <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E0E4DF]/60">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-[#173F30]" />
-                      <span className="text-xs font-bold text-[#101512]">Your Next Appointment</span>
-                    </div>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E7EEE8] text-[#173F30]">
-                      Illustrative Preview
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-3">
-                    <div 
-                      onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
-                      className="flex items-center gap-3 cursor-pointer group/mobdoc"
-                    >
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/mobdoc:border-[#173F30] shrink-0 transition-colors">
-                        <Image
-                          src="/images/carenova/dr-sara-khan.jpg"
-                          alt="Dr. Sara Khan"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-[#101512] group-hover/mobdoc:text-[#173F30] transition-colors">
-                          Dr. Sara Khan
-                        </p>
-                        <p className="text-xs text-[#777D79]">Cardiologist (Bio)</p>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => handleOpenBooking("Dr. Sara Khan")}
-                      className="py-2 px-4 rounded-full bg-[#173F30] text-white text-xs font-semibold flex items-center gap-1.5 shrink-0"
-                    >
-                      <span>Book Slot</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Mobile Editorial Quote Card */}
-                <div className="w-full bg-white rounded-2xl p-4 border border-[#E0E4DF] shadow-xs flex items-start gap-2.5">
-                  <div className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0 mt-0.5">
-                    <Quote className="w-3.5 h-3.5" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium text-[#101512] leading-relaxed italic">
-                      &ldquo;Every patient deserves to feel heard, respected, and supported.&rdquo;
-                    </p>
-                    <p className="text-[10px] text-[#777D79] mt-1 font-semibold not-italic">
-                      CarePoint Care Principle
-                    </p>
-                  </div>
+                  <span className="w-7 h-7 rounded-full bg-[#FAFAF7] group-hover/doc:bg-[#173F30] text-[#777D79] group-hover/doc:text-white border border-[#E0E4DF] flex items-center justify-center transition-colors shrink-0">
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
               </div>
 
