@@ -5,17 +5,17 @@
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://slot-yourself-7afv.vercel.app'
 
 export const siteConfig = {
-  name: 'SlotUrSelf',
-  title: 'SlotUrSelf | Book Doctors Instantly',
-  description: 'Healthcare booking platform connecting patients directly with verified clinical specialists. Real-time slot reservation, zero waiting rooms.',
+  name: 'CarePoint Clinic',
+  title: 'CarePoint Clinic | Compassionate Modern Healthcare',
+  description: 'Outpatient clinical care connecting patients directly with verified medical specialists. Real-time appointments, modern facilities, zero friction.',
   url: siteUrl,
   ogImage: `${siteUrl}/opengraph-image`,
   contact: {
-    email: 'support@sloturself.com',
-    phone: '+91 80 4567 8900',
-    emergencyPhone: '108',
-    hours: 'Mon - Sat: 9:00 AM - 7:00 PM IST',
-    address: 'Indiranagar, Bengaluru, Karnataka 560038, India',
+    email: 'care@carepointclinic.com',
+    phone: '+1 (800) 289-2273',
+    emergencyPhone: '911',
+    hours: 'Mon - Fri: 8:00 AM - 8:00 PM EST, Sat: 9:00 AM - 4:00 PM',
+    address: '452 Healthcare Boulevard, Suite 300, Boston, MA 02115',
   },
   links: {
     privacy: '/privacy',

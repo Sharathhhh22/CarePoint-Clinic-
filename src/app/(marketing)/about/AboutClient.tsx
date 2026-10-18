@@ -109,9 +109,11 @@ export function AboutClient() {
       <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E7EEE8] text-[#173F30] text-xs font-semibold mb-6">
+            <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
-              <span>Our Mission & Brand Story</span>
+              <span className="text-xs uppercase tracking-[0.16em] font-bold text-[#173F30]">
+                Our Mission &amp; Brand Story
+              </span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#101512] tracking-tight leading-[1.1] mb-6">
               Healthcare built around people, <br />
@@ -155,7 +157,7 @@ export function AboutClient() {
               A Higher Standard of Outpatient Medicine
             </h3>
             <p className="text-base text-[#777D79] mt-4">
-              Everything in our clinic—from architecture to scheduling software—is designed to eliminate friction and foster genuine healing.
+              Everything in our clinic, from architecture to scheduling software, is designed to eliminate friction and foster genuine healing.
             </p>
           </div>
 
@@ -285,9 +287,11 @@ export function AboutClient() {
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="bg-[#173F30] text-white rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden">
             <div className="relative z-10 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-medium mb-4">
-                <Award className="w-3.5 h-3.5 text-[#A9C2B2]" />
-                <span>Accreditation & Safety Standards</span>
+              <div className="flex items-center gap-2 mb-4">
+                <Award className="w-4 h-4 text-[#A9C2B2]" />
+                <span className="text-xs uppercase tracking-[0.16em] font-bold text-white/90">
+                  Accreditation &amp; Safety Standards
+                </span>
               </div>
               <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
                 Clinical safety without compromise.

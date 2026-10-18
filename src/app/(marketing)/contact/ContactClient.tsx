@@ -158,13 +158,13 @@ export function ContactClient() {
         {/* LEFT COLUMN: CONTACT DETAILS & CLINIC INFO */}
         <div className="lg:col-span-5 space-y-8">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E7EEE8] text-[#173F30] text-xs font-semibold mb-4">
+            <div className="flex items-center gap-2 mb-4">
               <span
                 className={`w-2 h-2 rounded-full ${
                   isOpenNow ? "bg-[#25D366] animate-pulse" : "bg-[#777D79]"
                 }`}
               ></span>
-              <span>
+              <span className="text-xs uppercase tracking-[0.16em] font-bold text-[#173F30]">
                 {isOpenNow ? "Clinic Open for Consultations" : "Clinic Currently Closed (Opens 8 AM)"}
               </span>
             </div>

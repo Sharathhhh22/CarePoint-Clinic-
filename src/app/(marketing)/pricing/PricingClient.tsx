@@ -111,16 +111,18 @@ export function PricingClient() {
       <section className="pt-12 pb-16 md:pt-20 md:pb-24 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E7EEE8] text-[#173F30] text-xs font-semibold mb-6">
+            <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
-              <span>Transparent Healthcare Pricing</span>
+              <span className="text-xs uppercase tracking-[0.16em] font-bold text-[#173F30]">
+                Transparent Healthcare Pricing
+              </span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#101512] tracking-tight leading-[1.1] mb-6">
               Predictable costs, <br />
               <span className="text-[#173F30]">no surprise invoices.</span>
             </h1>
             <p className="text-lg sm:text-xl text-[#777D79] leading-relaxed font-normal">
-              We publish our consultation fees openly and verify your insurance coverage upfront. What you see is what you pay—no surprise facility fees, no confusing bills months later.
+              We publish our consultation fees openly and verify your insurance coverage upfront. What you see is what you pay: no surprise facility fees, no confusing bills months later.
             </p>
           </div>
         </div>

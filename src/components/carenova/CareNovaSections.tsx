@@ -352,7 +352,7 @@ export function CareNovaSections() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E0E4DF] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white border border-[#E0E4DF] shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-bold text-[#101512]">Calm, Private Clinical Environments</p>
                   <p className="text-[11px] text-[#777D79] mt-0.5">Designed intentionally to eliminate clinical anxiety and encourage open dialogue.</p>
@@ -745,7 +745,7 @@ export function CareNovaSections() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
                       className="object-cover object-top group-hover:scale-103 transition-transform duration-300"
                     />
-                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-semibold text-[#173F30] border border-[#E0E4DF]">
+                    <div className="absolute top-3 right-3 bg-white px-2.5 py-1 rounded-full text-[10px] font-semibold text-[#173F30] border border-[#E0E4DF] shadow-xs">
                       {doc.availability}
                     </div>
                   </div>

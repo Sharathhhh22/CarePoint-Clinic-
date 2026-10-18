@@ -21,9 +21,11 @@ export default function ContactPage() {
     <div className="min-h-screen pt-12 pb-24 bg-[#FAFAF7] text-[#101512]">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E7EEE8] text-[#173F30] text-xs font-semibold mb-6">
+          <div className="flex items-center gap-2 mb-6">
             <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
-            <span>Get in Touch</span>
+            <span className="text-xs uppercase tracking-[0.16em] font-bold text-[#173F30]">
+              Get in Touch
+            </span>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#101512] tracking-tight leading-[1.1] mb-4">
             Contact & Location

@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   manifest: "/manifest.webmanifest",
   title: {
-    default: "SlotUrSelf | Book Doctors Instantly",
-    template: "%s | SlotUrSelf",
+    default: "CarePoint Clinic | Compassionate Modern Healthcare",
+    template: "%s | CarePoint Clinic",
   },
   description: siteConfig.description,
   alternates: {

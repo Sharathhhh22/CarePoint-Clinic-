@@ -38,7 +38,7 @@ export function CarePointMobileActionBar({ onOpenBooking }: CarePointMobileActio
   return (
     <aside
       aria-label="CarePoint Quick Mobile Actions"
-      className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-[#E0E4DF] px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-[0_-8px_24px_rgba(16,21,18,0.08)] animate-in slide-in-from-bottom duration-300"
+      className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-[#E0E4DF] px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-[0_-8px_24px_rgba(16,21,18,0.08)] animate-in slide-in-from-bottom duration-300"
     >
       <div className="max-w-md mx-auto flex items-center gap-2.5">
         

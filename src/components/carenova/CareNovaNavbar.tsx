@@ -7,7 +7,6 @@ import { Search, ArrowRight, Menu, X } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
 import { CareNovaSearchModal } from "./CareNovaSearchModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
-import { ShiningText } from "@/components/ui/shining-text"
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
@@ -61,19 +60,18 @@ export function CareNovaNavbar() {
 
   return (
     <>
-      {/* Top Shining Status Announcement Bar */}
+      {/* Top Status Announcement Bar */}
       <div className="w-full bg-[#101512] py-2 px-4 text-center border-b border-[#252c27] relative z-40 hidden sm:block">
         <div className="max-w-[1440px] mx-auto flex items-center justify-center gap-2.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#A9C2B2] animate-pulse" />
-          <ShiningText
-            text="CarePoint Clinic • Same-Day Telehealth & In-Person Appointments Available"
-            className="!text-xs font-medium tracking-wide inline-block !m-0"
-          />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#A9C2B2]" aria-hidden="true" />
+          <span className="text-xs font-medium tracking-wide text-white/90">
+            CarePoint Clinic &bull; Same-Day Telehealth &amp; In-Person Appointments Available
+          </span>
         </div>
       </div>
 
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-200 bg-[#FAFAF7]/95 backdrop-blur-md border-b ${
+        className={`sticky top-0 z-40 w-full transition-all duration-200 bg-[#FAFAF7] border-b ${
           isScrolled ? "border-[#E0E4DF] shadow-xs" : "border-[#E0E4DF]/70"
         }`}
       >

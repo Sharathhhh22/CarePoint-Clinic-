@@ -54,10 +54,10 @@ export function CareNovaHero() {
             {/* ======================================================== */}
             <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-center z-10">
               
-              {/* Eyebrow - Clean, refined sage-tinted pill */}
-              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#E7EEE8] border border-[#A9C2B2]/40 text-[#173F30] mb-6 shadow-2xs w-fit">
-                <span className="w-2 h-2 rounded-full bg-[#173F30] shrink-0" aria-hidden="true" />
-                <span className="text-xs tracking-wider uppercase font-bold text-[#173F30]">
+              {/* Eyebrow - Clean, unbordered typographic kicker */}
+              <div className="flex items-center gap-2.5 mb-6">
+                <span className="w-2 h-2 rounded-full bg-[#173F30]" aria-hidden="true" />
+                <span className="text-xs tracking-[0.16em] uppercase font-bold text-[#173F30]/90">
                   Better Care. Brighter Tomorrows.
                 </span>
               </div>
@@ -217,7 +217,7 @@ export function CareNovaHero() {
               {/* ====================================================== */}
 
               {/* CARD A: COMPASSIONATE CARE (Upper-Left) */}
-              <div className="hidden lg:block absolute top-10 -left-6 xl:-left-10 z-20 w-[255px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+              <div className="hidden lg:block absolute top-10 -left-6 xl:-left-10 z-20 w-[255px] bg-white rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.06)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
@@ -245,7 +245,7 @@ export function CareNovaHero() {
               </div>
 
               {/* CARD B: NEXT APPOINTMENT (Lower-Right, elevated above bottom widgets) */}
-              <div className="hidden lg:block absolute bottom-36 -right-2 xl:-right-6 z-20 w-[275px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.12)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+              <div className="hidden lg:block absolute bottom-36 -right-2 xl:-right-6 z-20 w-[275px] bg-white rounded-2xl p-4 shadow-[0_12px_36px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[#E0E4DF]/60">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[#173F30]" />
@@ -258,7 +258,7 @@ export function CareNovaHero() {
 
                 <div 
                   onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
-                  className="flex items-center gap-3 mb-3 cursor-pointer group/doc hover:opacity-90 transition-opacity"
+                  className="flex items-center gap-3 mb-3 cursor-pointer group/doc transition-opacity"
                   title="Click to view Dr. Sara Khan's credentials"
                 >
                   <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/doc:border-[#173F30] shrink-0 transition-colors">
@@ -287,30 +287,20 @@ export function CareNovaHero() {
               </div>
 
               {/* CARD C: PATIENT EXPERIENCE EDITORIAL QUOTE (Lower-Left) */}
-              <div className="hidden lg:block absolute bottom-4 left-4 xl:left-8 z-20 max-w-[290px] bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.08)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
+              <div className="hidden lg:block absolute bottom-4 left-4 xl:left-8 z-20 max-w-[290px] bg-white rounded-2xl p-4 shadow-[0_12px_32px_rgba(16,21,18,0.06)] border border-[#E0E4DF] transition-transform duration-200 hover:-translate-y-0.5">
                 <div className="flex items-start gap-2.5">
                   <div className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0 mt-0.5">
                     <Quote className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <p className="text-xs font-medium text-[#101512] leading-relaxed italic">
+                    <p className="text-xs font-medium text-[#101512] leading-relaxed">
                       &ldquo;Every patient deserves to feel heard, respected, and supported.&rdquo;
                     </p>
-                    <p className="text-[10px] text-[#777D79] mt-1 font-semibold not-italic">
+                    <p className="text-[10px] text-[#777D79] mt-1 font-semibold">
                       CarePoint Care Principle
                     </p>
                   </div>
                 </div>
-              </div>
-
-              {/* Handwritten Brand Accent & Curved SVG Line (Bottom-Left Corner) */}
-              <div className="hidden lg:flex absolute -bottom-10 left-8 z-10 items-center gap-2 pointer-events-none">
-                <svg width="48" height="24" viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 18C14 2 34 2 46 22" stroke="#A9C2B2" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 3"/>
-                </svg>
-                <span className="text-xs font-serif italic text-[#777D79] tracking-wider select-none">
-                  Healthier Days, Happier You
-                </span>
               </div>
 
               {/* ====================================================== */}
