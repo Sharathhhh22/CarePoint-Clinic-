@@ -3,23 +3,22 @@
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Search, ArrowRight, Menu, X, User } from "lucide-react"
+import { Search, ArrowRight, Menu, X } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
 import { CareNovaSearchModal } from "./CareNovaSearchModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 
 const NAV_ITEMS = [
-  { label: "Home", href: "/#hero", id: "hero" },
-  { label: "Services", href: "/#services", id: "services" },
-  { label: "Find Doctor", href: "/#symptom-matcher", id: "symptom-matcher" },
-  { label: "About", href: "/#about", id: "about" },
-  { label: "Pricing", href: "/#pricing", id: "pricing" },
-  { label: "Resources", href: "/#faq", id: "faq" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Contact", href: "/contact" },
 ]
 
 export function CareNovaNavbar() {
   const pathname = usePathname()
-  const [activeSection, setActiveSection] = useState("hero")
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -29,40 +28,34 @@ export function CareNovaNavbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
-
-      // Section spy
-      const sections = ["hero", "services", "symptom-matcher", "about", "pricing", "faq"]
-      for (const section of sections) {
-        const el = document.getElementById(section)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 120 && rect.bottom >= 120) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    if (pathname === "/") {
-      e.preventDefault()
-      const el = document.getElementById(targetId)
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" })
-        setActiveSection(targetId)
-      }
-      setIsMobileMenuOpen(false)
+  // Listen for custom open-carenova-booking events from any page
+  useEffect(() => {
+    const handleOpenBooking = (e: any) => {
+      const detail = e.detail || {}
+      setPreselectedBooking(detail.service || detail.doctor)
+      setIsBookingOpen(true)
     }
-  }
+
+    window.addEventListener("open-carenova-booking", handleOpenBooking)
+    return () => window.removeEventListener("open-carenova-booking", handleOpenBooking)
+  }, [])
 
   const openBookingWithItem = (item?: string) => {
     setPreselectedBooking(item)
     setIsBookingOpen(true)
+  }
+
+  const isLinkActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/"
+    }
+    return pathname.startsWith(href)
   }
 
   return (
@@ -80,31 +73,30 @@ export function CareNovaNavbar() {
 
           {/* CENTRE: Desktop Navigation */}
           <nav
-            className="hidden md:flex items-center gap-7 lg:gap-9"
+            className="hidden md:flex items-center gap-6 lg:gap-8"
             aria-label="CarePoint Main Navigation"
           >
             {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.id
+              const active = isLinkActive(item.href)
               return (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.id)}
                   className={`relative text-sm tracking-tight font-medium transition-colors py-1 ${
-                    isActive
+                    active
                       ? "text-[#173F30] font-semibold"
                       : "text-[#777D79] hover:text-[#101512]"
                   }`}
-                  aria-current={isActive ? "true" : undefined}
+                  aria-current={active ? "page" : undefined}
                 >
                   {item.label}
-                  {isActive && (
+                  {active && (
                     <span
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#173F30] rounded-full"
                       aria-hidden="true"
                     />
                   )}
-                </a>
+                </Link>
               )
             })}
           </nav>
@@ -169,16 +161,21 @@ export function CareNovaNavbar() {
           aria-label="Mobile Navigation"
         >
           <nav className="flex flex-col space-y-4">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.id)}
-                className="text-base font-semibold text-[#101512] hover:text-[#173F30] py-2 border-b border-[#E0E4DF]/60"
-              >
-                {item.label}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const active = isLinkActive(item.href)
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`text-base font-semibold py-2 border-b border-[#E0E4DF]/60 transition-colors ${
+                    active ? "text-[#173F30] font-bold" : "text-[#101512] hover:text-[#173F30]"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
 
             <div className="pt-2 flex flex-col gap-3">
               <Link

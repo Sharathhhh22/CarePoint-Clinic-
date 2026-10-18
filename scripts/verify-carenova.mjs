@@ -6,7 +6,7 @@ const ARTIFACTS_DIR = "C:/Users/shara/.gemini/antigravity/brain/f91a00f6-91bd-40
 fs.mkdirSync(ARTIFACTS_DIR, { recursive: true })
 
 async function runVerification() {
-  console.log("Launching browser for visual verification...")
+  console.log("Launching browser for multi-page visual verification...")
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage()
 
@@ -25,153 +25,97 @@ async function runVerification() {
     }
   })
 
-  async function scrollToBottomAndBack(p) {
-    await p.evaluate(async () => {
-      await new Promise(resolve => {
-        let totalHeight = 0
-        const distance = 400
-        const timer = setInterval(() => {
-          const scrollHeight = document.body.scrollHeight
-          window.scrollBy(0, distance)
-          totalHeight += distance
-          if (totalHeight >= scrollHeight) {
-            clearInterval(timer)
-            window.scrollTo(0, 0)
-            resolve()
-          }
-        }, 100)
-      })
-    })
-    await p.waitForTimeout(600)
-  }
-
-  // 1. Desktop Viewport (1440px)
-  console.log("Testing 1440px Desktop...")
+  // 1. Desktop Viewport (1440px) Homepage
+  console.log("1. Testing 1440px Desktop Homepage...")
   await page.setViewportSize({ width: 1440, height: 900 })
   const res = await page.goto("http://localhost:3000/", { waitUntil: "networkidle" })
   console.log("Homepage status:", res.status())
-  await scrollToBottomAndBack(page)
+  await page.waitForTimeout(600)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-1440-desktop.png"), fullPage: false })
 
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-1440-desktop-hero.png"), fullPage: false })
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-1440-desktop-full.png"), fullPage: true })
-
-  // 2. Tablet Landscape / Small Desktop (1024px)
-  console.log("Testing 1024px Tablet Landscape...")
-  await page.setViewportSize({ width: 1024, height: 768 })
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-1024-tablet.png"), fullPage: false })
-
-  // 3. Tablet Portrait (768px)
-  console.log("Testing 768px Tablet Portrait...")
-  await page.setViewportSize({ width: 768, height: 1024 })
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-768-portrait.png"), fullPage: false })
-
-  // 4. Mobile (390px) & Test Sticky Action Bar
-  console.log("Testing 390px Mobile with Sticky Quick-Booking Bar...")
-  await page.setViewportSize({ width: 390, height: 844 })
-  await page.evaluate(() => window.scrollTo(0, 500))
-  await page.waitForTimeout(400)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-mobile-action-bar.png"), fullPage: false })
-  await scrollToBottomAndBack(page)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-390-mobile-hero.png"), fullPage: false })
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-390-mobile-full.png"), fullPage: true })
-
-  // 5. Small Mobile (360px)
-  console.log("Testing 360px Small Mobile...")
-  await page.setViewportSize({ width: 360, height: 780 })
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-360-small-mobile.png"), fullPage: false })
-
-  // 6. Test Interactive Symptom Matcher
-  console.log("Testing Interactive Symptom Matcher...")
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto("http://localhost:3000/#symptom-matcher", { waitUntil: "networkidle" })
-  await page.waitForTimeout(400)
-  // Select a different symptom chip: "Annual Executive Physical & Bloodwork"
-  const annualChip = await page.locator('button:has-text("Annual Executive Physical & Bloodwork")').first()
-  if (await annualChip.isVisible()) {
-    await annualChip.click()
+  // Test WhatsApp popup
+  console.log("Testing WhatsApp enquiry popup...")
+  const waBtn = await page.locator('button[aria-label*="WhatsApp"]').first()
+  if (await waBtn.isVisible()) {
+    await waBtn.click()
+    await page.waitForTimeout(400)
+    await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-whatsapp-popup.png") })
+    await waBtn.click()
     await page.waitForTimeout(300)
   }
-  const matcherSection = await page.locator('#symptom-matcher').first()
-  await matcherSection.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-symptom-matcher.png") })
 
-  // 7. Test Doctor Bio Modal
-  console.log("Testing Doctor Bio & Credentials Modal...")
-  const viewBioBtn = await page.locator('button:has-text("View Credentials & Bio")').first()
-  await viewBioBtn.click()
-  await page.waitForTimeout(400)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-modal-doctor-bio.png") })
-  await page.keyboard.press("Escape")
-  await page.waitForTimeout(300)
+  // 2. Testing About Page (/about)
+  console.log("2. Testing About Us Page (/about)...")
+  await page.goto("http://localhost:3000/about", { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-page-about.png"), fullPage: false })
 
-  // 8. Interactive Modal Tests (Desktop 1440px)
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto("http://localhost:3000/", { waitUntil: "networkidle" })
+  // 3. Testing Services Page (/services)
+  console.log("3. Testing Services Page (/services)...")
+  await page.goto("http://localhost:3000/services", { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  // Test category filter click
+  const cardioTab = await page.locator('button:has-text("Cardiovascular")').first()
+  if (await cardioTab.isVisible()) {
+    await cardioTab.click()
+    await page.waitForTimeout(300)
+  }
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-page-services.png"), fullPage: false })
 
-  // Test Search Modal
-  console.log("Testing Search Modal...")
-  const searchBtn = await page.locator('header button[aria-label*="Search"]').first()
-  await searchBtn.click()
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-search.png") })
-  await page.keyboard.press("Escape")
-  await page.waitForTimeout(300)
+  // 4. Testing Facilities & Gallery Page (/gallery)
+  console.log("4. Testing Gallery Page (/gallery)...")
+  await page.goto("http://localhost:3000/gallery", { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-page-gallery.png"), fullPage: false })
 
-  // Test Watch Video Modal
-  console.log("Testing Video Modal...")
-  const videoBtn = await page.locator('text=Watch Our Video').first()
-  await videoBtn.click()
-  await page.waitForTimeout(400)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-video.png") })
-  await page.keyboard.press("Escape")
-  await page.waitForTimeout(300)
+  // Test Gallery Lightbox Modal
+  console.log("Testing Gallery Lightbox Modal...")
+  const galleryCard = await page.locator('h3:has-text("Advanced Cardiac")').first()
+  if (await galleryCard.isVisible()) {
+    await galleryCard.click()
+    await page.waitForTimeout(500)
+    await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-gallery-lightbox.png") })
+    await page.keyboard.press("Escape")
+    await page.waitForTimeout(300)
+  }
 
-  // Test Booking Modal
-  console.log("Testing Booking Modal...")
-  const bookBtn = await page.locator('header button:has-text("Book an Appointment")').first()
-  await bookBtn.click()
-  await page.waitForTimeout(400)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-booking-step1.png") })
+  // 5. Testing Pricing & Insurance Page (/pricing)
+  console.log("5. Testing Pricing Page (/pricing)...")
+  await page.goto("http://localhost:3000/pricing", { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  // Select an insurance network
+  const selectInsurance = await page.locator("select").first()
+  if (await selectInsurance.isVisible()) {
+    await selectInsurance.selectOption("aetna")
+    await page.waitForTimeout(300)
+  }
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-page-pricing.png"), fullPage: false })
 
-  // Advance to Step 2
-  await page.click('button:has-text("Continue")')
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-booking-step2.png") })
+  // 6. Testing Contact Page (/contact) & Form Validation/Submission
+  console.log("6. Testing Contact Page (/contact)...")
+  await page.goto("http://localhost:3000/contact", { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-page-contact.png"), fullPage: false })
 
-  // Advance to Step 3
-  await page.click('button:has-text("Continue")')
-  await page.waitForTimeout(300)
+  console.log("Testing Contact Form submission...")
+  await page.fill('input[name="firstName"]', "Jonathan")
+  await page.fill('input[name="lastName"]', "Hayes")
+  await page.fill('input[name="email"]', "jonathan.hayes@example.com")
+  await page.fill('input[name="phone"]', "+1 617 555 0192")
+  await page.fill('textarea[name="message"]', "Looking to transfer medical records and schedule a comprehensive cardiovascular checkup.")
+  await page.click('button:has-text("Submit Consultation Enquiry")')
+  await page.waitForTimeout(1000)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-contact-confirmed.png") })
 
-  // Fill patient details
-  await page.fill('input[placeholder="e.g. Jane Doe"]', "Eleanor Vance")
-  await page.fill('input[placeholder="jane@example.com"]', "eleanor.vance@example.com")
-  await page.fill('input[placeholder="+1 (555) 000-0000"]', "+1 555 423 8899")
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-booking-step3.png") })
-
-  // Submit appointment
-  await page.click('button:has-text("Confirm Appointment")')
-  await page.waitForTimeout(800)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-booking-confirmed.png") })
-  await page.click('button:has-text("Done")')
-  await page.waitForTimeout(300)
-
-  // Test FAQ Accordion
-  console.log("Testing FAQ Accordion...")
-  const faqItem = await page.locator('button:has-text("Can I reschedule an appointment?")').first()
-  await faqItem.click()
-  await page.waitForTimeout(300)
-
-  // Test Legal Modal
-  console.log("Testing Privacy Policy Modal...")
-  const privacyBtn = await page.locator('footer button:has-text("Privacy Policy")').first()
-  await privacyBtn.click()
-  await page.waitForTimeout(300)
-  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-modal-privacy.png") })
+  // 7. Testing Mobile Viewport (390px)
+  console.log("7. Testing Mobile Responsive Viewport (390px)...")
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("http://localhost:3000/services", { waitUntil: "networkidle" })
+  await page.waitForTimeout(500)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-mobile-services.png"), fullPage: false })
 
   await browser.close()
-  console.log("Verification finished successfully!")
+  console.log("Multi-page verification finished successfully!")
   console.log("Console errors detected:", consoleErrors.length, consoleErrors)
 }
 

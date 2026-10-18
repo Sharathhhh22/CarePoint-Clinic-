@@ -4,7 +4,7 @@ import { Resend } from "resend"
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { firstName, lastName, email, message } = body
+    const { firstName, lastName, email, phone, department, urgency, message } = body
 
     // 1. Validation
     if (!firstName || !email || !message) {
@@ -28,38 +28,44 @@ export async function POST(req: Request) {
     // 2. Transmit via Resend if API key is configured
     if (apiKey && apiKey !== "re_dummy_key") {
       const resend = new Resend(apiKey)
-      const recipient = process.env.SUPPORT_EMAIL || "support@sloturself.com"
+      const recipient = process.env.SUPPORT_EMAIL || "care@carepointclinic.com"
 
       await resend.emails.send({
-        from: "SlotUrSelf Contact <notifications@sloturself.com>",
+        from: "CarePoint Clinic Contact <notifications@carepointclinic.com>",
         to: recipient,
         replyTo: email,
-        subject: `[Contact Form] New Clinical Inquiry from ${fullName}`,
+        subject: `[CarePoint Enquiry] ${department || "General"} from ${fullName}`,
         html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded: 12px;">
-            <h2 style="color: #0f766e; margin-bottom: 16px;">New Contact Form Message</h2>
-            <p><strong>From:</strong> ${fullName} (&lt;${email}&gt;)</p>
-            <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-            <h3 style="color: #0f172a; margin-bottom: 8px;">Message:</h3>
-            <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; color: #334155; white-space: pre-wrap;">${message}</div>
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #64748b;">This notification was sent automatically by SlotUrSelf Medical Operations.</p>
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e0e4df; border-radius: 16px; background-color: #fafaf7;">
+            <h2 style="color: #173f30; margin-bottom: 16px;">New CarePoint Consultation Enquiry</h2>
+            <p><strong>Patient Name:</strong> ${fullName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
+            <p><strong>Department:</strong> ${department || "General Consultation"}</p>
+            <p><strong>Urgency:</strong> ${urgency || "Routine"}</p>
+            <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
+            <hr style="border: none; border-top: 1px solid #e0e4df; margin: 20px 0;" />
+            <h3 style="color: #101512; margin-bottom: 8px;">Enquiry Details:</h3>
+            <div style="background-color: #ffffff; padding: 16px; border-radius: 12px; color: #101512; border: 1px solid #e0e4df; white-space: pre-wrap;">${message}</div>
+            <hr style="border: none; border-top: 1px solid #e0e4df; margin: 20px 0;" />
+            <p style="font-size: 12px; color: #777d79;">CarePoint Clinic Patient Coordination Desk &bull; Boston, MA</p>
           </div>
         `,
       })
     } else {
-      console.log(`[Contact Form Received]: From ${fullName} (${email}): ${message.slice(0, 80)}...`)
+      console.log(
+        `[CarePoint Clinic Enquiry]: From ${fullName} (${email}, ${phone}): Department: ${department}, Message: ${message.slice(0, 80)}...`
+      )
     }
 
     return NextResponse.json({
       success: true,
-      message: "Thank you for contacting us. Our clinical operations team will respond promptly.",
+      message: "Thank you for contacting CarePoint Clinic. Our clinical team will respond promptly.",
     })
   } catch (error: any) {
     console.error("Error processing contact form notification:", error)
     return NextResponse.json(
-      { error: "Failed to send message. Please try again or email support directly." },
+      { error: "Failed to send message. Please try again or email care@carepointclinic.com directly." },
       { status: 500 }
     )
   }

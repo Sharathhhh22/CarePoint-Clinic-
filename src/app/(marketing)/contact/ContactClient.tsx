@@ -1,40 +1,106 @@
 "use client"
 
-import { useState } from "react"
-import { Mail, MapPin, Phone, CheckCircle2, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ErrorMessage } from "@/components/ui/ErrorMessage"
-import { toast } from "@/components/ui/toast"
-import { trackEvent } from "@/lib/analytics"
+import React, { useState, useEffect } from "react"
+import {
+  Mail,
+  MapPin,
+  Phone,
+  CheckCircle2,
+  Loader2,
+  Clock,
+  MessageCircle,
+  ShieldAlert,
+  ArrowRight,
+  Car,
+  Navigation,
+  ExternalLink,
+} from "lucide-react"
+import { openBookingModal } from "@/lib/booking-events"
 
 export function ContactClient() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
+    department: "General Consultation",
+    urgency: "Routine (Within 48h)",
     message: "",
   })
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-  const [errorMsg, setErrorMsg] = useState("")
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle")
+  const [errorMsg, setErrorMsg] = useState("")
+  const [confirmationToken, setConfirmationToken] = useState("")
+  const [isOpenNow, setIsOpenNow] = useState(true)
+
+  useEffect(() => {
+    // Check if open (Mon-Sat 8:00 - 19:00)
+    const now = new Date()
+    const day = now.getDay()
+    const hour = now.getHours()
+    const isOpen = day >= 1 && day <= 6 && hour >= 8 && hour < 19
+    setIsOpenNow(isOpen)
+  }, [])
+
+  const validate = () => {
+    const errors: Record<string, string> = {}
+    if (!formData.firstName.trim()) {
+      errors.firstName = "First name is required"
+    } else if (formData.firstName.trim().length < 2) {
+      errors.firstName = "First name must be at least 2 characters"
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "Email address is required"
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      errors.email = "Please enter a valid email address"
+    }
+
+    if (!formData.phone.trim()) {
+      errors.phone = "Phone number is required for appointment confirmations"
+    } else if (!/^[0-9+()\s-]{7,20}$/.test(formData.phone.trim())) {
+      errors.phone = "Please enter a valid telephone number"
+    }
+
+    if (!formData.message.trim()) {
+      errors.message = "Please describe your reason for enquiry or symptoms"
+    } else if (formData.message.trim().length < 10) {
+      errors.message = "Message must be at least 10 characters long"
+    }
+
+    return errors
+  }
+
+  const errors = validate()
+  const isValid = Object.keys(errors).length === 0
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!formData.firstName.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setErrorMsg("Please fill in all required fields.")
-      setStatus('error')
-      toast({
-        title: "Required Fields Missing",
-        description: "Please provide your first name, email, and message.",
-        variant: "destructive"
-      })
+    setTouched({
+      firstName: true,
+      email: true,
+      phone: true,
+      message: true,
+    })
+
+    if (!isValid) {
+      setErrorMsg("Please correct the highlighted fields before submitting.")
+      setStatus("error")
       return
     }
 
-    setStatus('sending')
+    setStatus("sending")
     setErrorMsg("")
 
     try {
@@ -47,191 +113,397 @@ export function ContactClient() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to send message.")
+        throw new Error(data.error || "Failed to submit enquiry.")
       }
 
-      setStatus('success')
-      toast({
-        title: "Message Transmitted",
-        description: "Your inquiry has been sent to our clinical operations team.",
-        variant: "success",
-      })
-      trackEvent("contact_form_submitted", { emailDomain: formData.email.split("@")[1] })
+      // Generate a mock reference token
+      const randomToken = "CP-ENQ-" + Math.floor(10000 + Math.random() * 90000)
+      setConfirmationToken(randomToken)
+      setStatus("success")
     } catch (err: any) {
-      const msg = err.message || "An unexpected error occurred. Please try again."
-      setErrorMsg(msg)
-      setStatus('error')
-      toast({
-        title: "Submission Error",
-        description: msg,
-        variant: "destructive",
-      })
+      setErrorMsg(err.message || "An unexpected network error occurred. Please try again.")
+      setStatus("error")
     }
   }
 
   const handleReset = () => {
-    setFormData({ firstName: "", lastName: "", email: "", message: "" })
-    setStatus('idle')
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      department: "General Consultation",
+      urgency: "Routine (Within 48h)",
+      message: "",
+    })
+    setTouched({})
+    setStatus("idle")
+    setErrorMsg("")
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-      <div className="flex-1 space-y-10">
-        <h2 className="text-2xl font-bold text-foreground">Contact Information</h2>
-        <div className="space-y-6 text-muted-foreground">
-          
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-              <Mail className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-bold text-foreground">Email Us</p>
-              <p className="mt-1">
-                <a href="mailto:support@sloturself.com" className="text-primary hover:underline">
-                  support@sloturself.com
-                </a>
-              </p>
-              <p>
-                <a href="mailto:partnerships@sloturself.com" className="text-muted-foreground hover:text-primary hover:underline">
-                  partnerships@sloturself.com
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-              <Phone className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-bold text-foreground">Call Us Directly</p>
-              <p className="mt-1">
-                <a href="tel:+918045678900" className="text-primary font-medium hover:underline">
-                  +91 80 4567 8900
-                </a>
-              </p>
-              <p className="text-xs text-muted-foreground">Mon-Sat, 9:00 AM - 7:00 PM IST (Emergency: 108)</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-bold text-foreground">Headquarters</p>
-              <p className="mt-1">100 Feet Road, Indiranagar</p>
-              <p>Bengaluru, Karnataka 560038, India</p>
-            </div>
-          </div>
-
+    <div className="w-full">
+      {/* 1. EMERGENCY CALLOUT */}
+      <div className="mb-12 p-4 sm:p-5 rounded-2xl bg-[#FFF8F0] border border-[#FBE0C6] flex items-start gap-3.5">
+        <ShieldAlert className="w-5 h-5 text-[#E25C3D] shrink-0 mt-0.5" />
+        <div className="text-xs text-[#777D79] leading-relaxed">
+          <p className="font-bold text-[#101512] text-sm mb-0.5">
+            Important Medical Notice: Non-Emergency Enquiries Only
+          </p>
+          This communication channel is monitored during business hours for non-urgent appointments and medical enquiries. If you are experiencing acute chest discomfort, shortness of breath, sudden numbness, or a medical crisis, please call <strong>911</strong> or go to the nearest emergency department immediately.
         </div>
       </div>
 
-      <div className="flex-1 bg-card p-8 md:p-10 rounded-2xl shadow-sm border border-border">
-        {status === 'success' ? (
-          <div className="h-full flex flex-col items-center justify-center text-center py-12 space-y-4">
-            <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center">
-              <CheckCircle2 className="w-8 h-8" />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* LEFT COLUMN: CONTACT DETAILS & CLINIC INFO */}
+        <div className="lg:col-span-5 space-y-8">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E7EEE8] text-[#173F30] text-xs font-semibold mb-4">
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isOpenNow ? "bg-[#25D366] animate-pulse" : "bg-[#777D79]"
+                }`}
+              ></span>
+              <span>
+                {isOpenNow ? "Clinic Open for Consultations" : "Clinic Currently Closed (Opens 8 AM)"}
+              </span>
             </div>
-            <h2 className="text-2xl font-bold text-foreground">Message Sent Successfully!</h2>
-            <p className="text-muted-foreground max-w-sm leading-relaxed">
-              Thank you for reaching out, {formData.firstName}. Our medical operations team will get back to you within 24 business hours.
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#101512] tracking-tight">
+              We are here to support your health journey.
+            </h2>
+            <p className="text-sm text-[#777D79] mt-3 leading-relaxed">
+              Have a question about scheduling, specialist consultations, insurance billing, or diagnostic lab tests? Reach our clinical team directly.
             </p>
-            <div className="pt-4">
-              <Button 
-                onClick={handleReset}
-                variant="outline"
-                className="border-border text-foreground font-medium"
+          </div>
+
+          {/* CONTACT INFO CARDS */}
+          <div className="space-y-4">
+            {/* Phone */}
+            <div className="p-5 rounded-2xl bg-white border border-[#E0E4DF] flex items-start gap-4 shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
+                <Phone className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#777D79]">
+                  Call Clinic Directly
+                </p>
+                <a
+                  href="tel:+18002892273"
+                  className="text-base font-bold text-[#173F30] hover:underline"
+                >
+                  +1 (800) 289-2273
+                </a>
+                <p className="text-xs text-[#777D79] mt-0.5">
+                  Mon – Sat, 8:00 AM – 7:00 PM EST
+                </p>
+              </div>
+            </div>
+
+            {/* Email */}
+            <div className="p-5 rounded-2xl bg-white border border-[#E0E4DF] flex items-start gap-4 shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#777D79]">
+                  Email Patient Support
+                </p>
+                <a
+                  href="mailto:care@carepointclinic.com"
+                  className="text-base font-bold text-[#173F30] hover:underline"
+                >
+                  care@carepointclinic.com
+                </a>
+                <p className="text-xs text-[#777D79] mt-0.5">
+                  Average response time: under 4 business hours
+                </p>
+              </div>
+            </div>
+
+            {/* WhatsApp */}
+            <div className="p-5 rounded-2xl bg-[#E7EEE8]/70 border border-[#A9C2B2]/60 flex items-start justify-between gap-4">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <MessageCircle className="w-5 h-5 fill-white" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#101512]">
+                    WhatsApp Direct Enquiry
+                  </p>
+                  <p className="text-xs text-[#777D79] mt-0.5">
+                    Fast chat with our patient care coordinator
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://wa.me/18002892273?text=Hi%20CarePoint%20Clinic,%20I%20would%20like%20to%20enquire%20about%20a%20consultation."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
               >
-                Send Another Message
-              </Button>
+                <span>Chat</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            {/* Address & Parking */}
+            <div className="p-5 rounded-2xl bg-white border border-[#E0E4DF] space-y-3 shadow-xs">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#E7EEE8] text-[#173F30] flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[#777D79]">
+                    Clinic Address
+                  </p>
+                  <p className="text-sm font-bold text-[#101512]">CarePoint Clinic</p>
+                  <p className="text-xs text-[#777D79]">
+                    450 Medical Heights Blvd, Suite 300, Boston, MA 02115
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-[#E0E4DF] text-xs text-[#777D79] space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <Car className="w-3.5 h-3.5 text-[#173F30]" />
+                  <span>Complimentary 2-hr validated parking in East Medical Garage.</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Navigation className="w-3.5 h-3.5 text-[#173F30]" />
+                  <span>Subway: Green Line "E" Branch to Medical Center Station.</span>
+                </div>
+              </div>
+
+              <a
+                href="https://maps.google.com/?q=450+Medical+Heights+Blvd+Boston+MA+02115"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#173F30] hover:underline pt-1"
+              >
+                <span>Open in Google Maps</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {status === 'error' && (
-              <ErrorMessage 
-                title="Could not submit message"
-                message={errorMsg}
-                onRetry={() => setStatus('idle')}
-              />
-            )}
+        </div>
 
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
-                  First Name <span className="text-primary">*</span>
-                </label>
-                <input 
-                  required 
-                  type="text" 
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  placeholder="Jane"
-                  className="w-full h-11 px-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" 
-                />
+        {/* RIGHT COLUMN: INTERACTIVE FORM */}
+        <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-[#E0E4DF] shadow-md">
+          {status === "success" ? (
+            <div className="py-12 flex flex-col items-center justify-center text-center space-y-5 animate-in fade-in duration-300">
+              <div className="w-16 h-16 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center">
+                <CheckCircle2 className="w-10 h-10" />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Last Name</label>
-                <input 
-                  type="text" 
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  placeholder="Doe"
-                  className="w-full h-11 px-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" 
-                />
+
+              <div className="space-y-2">
+                <span className="px-3 py-1 rounded-full bg-[#E7EEE8] text-[#173F30] text-xs font-bold">
+                  Reference Token: {confirmationToken}
+                </span>
+                <h3 className="text-2xl font-extrabold text-[#101512] tracking-tight">
+                  Enquiry Received Successfully!
+                </h3>
+                <p className="text-sm text-[#777D79] max-w-md mx-auto leading-relaxed">
+                  Thank you, <strong>{formData.firstName}</strong>. Our clinical coordinator has received your message regarding <strong>{formData.department}</strong> and will follow up with you at <strong>{formData.email}</strong> within 4 business hours.
+                </p>
+              </div>
+
+              <div className="pt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <button
+                  onClick={() => openBookingModal({ service: formData.department })}
+                  className="px-6 py-3 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold transition-all shadow-xs"
+                >
+                  Schedule Appointment Directly
+                </button>
+                <button
+                  onClick={handleReset}
+                  className="px-6 py-3 rounded-full border border-[#E0E4DF] text-[#777D79] hover:text-[#101512] text-xs font-bold transition-colors"
+                >
+                  Send Another Message
+                </button>
               </div>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <h3 className="text-2xl font-extrabold text-[#101512] tracking-tight">
+                  Send a Consultation Enquiry
+                </h3>
+                <p className="text-xs text-[#777D79] mt-1">
+                  Fill in your details below. All clinical submissions are protected under strict patient confidentiality standards.
+                </p>
+              </div>
 
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-foreground">
-                Email Address <span className="text-primary">*</span>
-              </label>
-              <input 
-                required 
-                type="email" 
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="jane@example.com"
-                className="w-full h-11 px-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" 
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-foreground">
-                Message <span className="text-primary">*</span>
-              </label>
-              <textarea 
-                required 
-                rows={4} 
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="How can we assist you?"
-                className="w-full p-3.5 rounded-lg border border-border bg-input/20 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" 
-              />
-            </div>
-
-            <Button 
-              type="submit" 
-              disabled={status === 'sending'} 
-              className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors shadow-sm"
-            >
-              {status === 'sending' ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Sending Message...
-                </>
-              ) : (
-                "Send Message"
+              {errorMsg && (
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700">
+                  {errorMsg}
+                </div>
               )}
-            </Button>
-          </form>
-        )}
+
+              {/* Name Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-[#101512]">
+                    First Name <span className="text-[#E25C3D]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    onBlur={() => handleBlur("firstName")}
+                    placeholder="e.g. Sarah"
+                    className={`w-full h-11 px-3.5 rounded-xl border bg-[#FAFAF7] text-sm text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30] ${
+                      touched.firstName && errors.firstName
+                        ? "border-red-400 bg-red-50/30"
+                        : "border-[#E0E4DF]"
+                    }`}
+                  />
+                  {touched.firstName && errors.firstName && (
+                    <p className="text-[11px] text-red-600 font-medium">{errors.firstName}</p>
+                  )}
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-[#101512]">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="e.g. Jenkins"
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#E0E4DF] bg-[#FAFAF7] text-sm text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30]"
+                  />
+                </div>
+              </div>
+
+              {/* Email & Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-[#101512]">
+                    Email Address <span className="text-[#E25C3D]">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onBlur={() => handleBlur("email")}
+                    placeholder="sarah@example.com"
+                    className={`w-full h-11 px-3.5 rounded-xl border bg-[#FAFAF7] text-sm text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30] ${
+                      touched.email && errors.email
+                        ? "border-red-400 bg-red-50/30"
+                        : "border-[#E0E4DF]"
+                    }`}
+                  />
+                  {touched.email && errors.email && (
+                    <p className="text-[11px] text-red-600 font-medium">{errors.email}</p>
+                  )}
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-[#101512]">
+                    Phone Number <span className="text-[#E25C3D]">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    onBlur={() => handleBlur("phone")}
+                    placeholder="+1 (555) 000-0000"
+                    className={`w-full h-11 px-3.5 rounded-xl border bg-[#FAFAF7] text-sm text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30] ${
+                      touched.phone && errors.phone
+                        ? "border-red-400 bg-red-50/30"
+                        : "border-[#E0E4DF]"
+                    }`}
+                  />
+                  {touched.phone && errors.phone && (
+                    <p className="text-[11px] text-red-600 font-medium">{errors.phone}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Department & Urgency */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-[#101512]">
+                    Relevant Specialty / Department
+                  </label>
+                  <select
+                    name="department"
+                    value={formData.department}
+                    onChange={handleChange}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#E0E4DF] bg-[#FAFAF7] text-xs font-semibold text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30]"
+                  >
+                    <option value="Primary Care & Family Medicine">Primary Care & Family Medicine</option>
+                    <option value="Cardiovascular Health">Cardiovascular Health</option>
+                    <option value="Pediatrics & Child Care">Pediatrics & Child Care</option>
+                    <option value="Neurology & Migraine">Neurology & Migraine</option>
+                    <option value="Diagnostic Ultrasound & Lab">Diagnostic Ultrasound & Lab</option>
+                    <option value="Telehealth Consultation">Telehealth Consultation</option>
+                    <option value="General Question / Billing">General Question / Billing</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-[#101512]">Urgency of Request</label>
+                  <select
+                    name="urgency"
+                    value={formData.urgency}
+                    onChange={handleChange}
+                    className="w-full h-11 px-3.5 rounded-xl border border-[#E0E4DF] bg-[#FAFAF7] text-xs font-semibold text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30]"
+                  >
+                    <option value="Routine (Within 48h)">Routine (Within 48h)</option>
+                    <option value="Priority (Within 24h)">Priority (Within 24h)</option>
+                    <option value="Same-Day Callback Needed">Same-Day Callback Needed</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Message textarea */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-[#101512]">
+                  How can we help? (Symptoms or Details) <span className="text-[#E25C3D]">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  onBlur={() => handleBlur("message")}
+                  placeholder="Please describe your health query or any specific appointment preferences..."
+                  className={`w-full p-3.5 rounded-xl border bg-[#FAFAF7] text-xs text-[#101512] focus:outline-none focus:ring-2 focus:ring-[#173F30] resize-none ${
+                    touched.message && errors.message
+                      ? "border-red-400 bg-red-50/30"
+                      : "border-[#E0E4DF]"
+                  }`}
+                />
+                {touched.message && errors.message && (
+                  <p className="text-[11px] text-red-600 font-medium">{errors.message}</p>
+                )}
+              </div>
+
+              {/* Submit CTA */}
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="w-full h-12 bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold rounded-full transition-all shadow-xs flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-70"
+              >
+                {status === "sending" ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Transmitting Enquiry...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Submit Consultation Enquiry</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   )

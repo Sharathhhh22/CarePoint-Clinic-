@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
-import { Mail, Phone, Clock, MapPin, Heart, Shield } from "lucide-react"
+import { Mail, Phone, Clock, MapPin, Heart, Shield, ArrowUpRight } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
 import { CareNovaLegalModal } from "./CareNovaLegalModals"
 
@@ -13,9 +13,7 @@ export function CareNovaFooter() {
     <>
       <footer className="bg-white border-t border-[#E0E4DF] text-[#777D79] pt-16 pb-12">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-[#E0E4DF]/70">
-            
             {/* BRAND SUMMARY */}
             <div className="lg:col-span-4 space-y-4">
               <CareNovaLogo href="/" />
@@ -31,29 +29,73 @@ export function CareNovaFooter() {
             {/* NAVIGATION LINKS */}
             <div className="lg:col-span-2 space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#101512]">
-                Navigation
+                Explore Clinic
               </h4>
               <ul className="space-y-2.5 text-sm">
-                <li><a href="#hero" className="hover:text-[#173F30] transition-colors">Home</a></li>
-                <li><a href="#about" className="hover:text-[#173F30] transition-colors">Our Approach</a></li>
-                <li><a href="#services" className="hover:text-[#173F30] transition-colors">Clinical Services</a></li>
-                <li><a href="#doctors" className="hover:text-[#173F30] transition-colors">Medical Specialists</a></li>
-                <li><a href="#pricing" className="hover:text-[#173F30] transition-colors">Consultation Fees</a></li>
-                <li><a href="#faq" className="hover:text-[#173F30] transition-colors">Patient FAQs</a></li>
+                <li>
+                  <Link href="/" className="hover:text-[#173F30] transition-colors">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="hover:text-[#173F30] transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-[#173F30] transition-colors">
+                    Clinical Services
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/gallery" className="hover:text-[#173F30] transition-colors">
+                    Facilities & Labs
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/pricing" className="hover:text-[#173F30] transition-colors">
+                    Pricing & Insurance
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="hover:text-[#173F30] transition-colors">
+                    Contact & Location
+                  </Link>
+                </li>
               </ul>
             </div>
 
             {/* SERVICES */}
             <div className="lg:col-span-3 space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#101512]">
-                Services
+                Key Specialties
               </h4>
               <ul className="space-y-2.5 text-sm">
-                <li><a href="#services" className="hover:text-[#173F30] transition-colors">General Consultation</a></li>
-                <li><a href="#services" className="hover:text-[#173F30] transition-colors">Preventive Health</a></li>
-                <li><a href="#services" className="hover:text-[#173F30] transition-colors">Specialist Consultation</a></li>
-                <li><a href="#services" className="hover:text-[#173F30] transition-colors">Follow-up Care & Reviews</a></li>
-                <li><a href="#services" className="hover:text-[#173F30] transition-colors">Routine Vital Assessments</a></li>
+                <li>
+                  <Link href="/services" className="hover:text-[#173F30] transition-colors">
+                    Primary Care & Family Medicine
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-[#173F30] transition-colors">
+                    Cardiovascular Health
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-[#173F30] transition-colors">
+                    Pediatric & Child Care
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-[#173F30] transition-colors">
+                    Neurology & Migraine Clinic
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="hover:text-[#173F30] transition-colors">
+                    Diagnostic Ultrasound & Labs
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -75,46 +117,48 @@ export function CareNovaFooter() {
                     +1 (800) 289-2273
                   </a>
                 </div>
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-[#173F30] shrink-0 mt-0.5" />
+                  <span className="text-xs">
+                    450 Medical Heights Blvd, Suite 300, Boston, MA 02115
+                  </span>
+                </div>
                 <div className="flex items-start gap-2.5 pt-1">
                   <Clock className="w-4 h-4 text-[#173F30] shrink-0 mt-0.5" />
                   <div className="text-xs">
-                    <p className="font-semibold text-[#101512]">Consultation Hours:</p>
+                    <p className="font-semibold text-[#101512]">Hours:</p>
                     <p>Mon – Sat: 8:00 AM – 7:00 PM</p>
-                    <p>Sun: Closed for patient rest</p>
+                    <p>Sun: Urgent Care & Telehealth Only</p>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
 
           {/* BOTTOM COPYRIGHT & LEGAL MODAL TRIGGERS */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#777D79]">
-            <p>
-              &copy; {new Date().getFullYear()} CarePoint Clinic. All rights reserved.
-            </p>
+            <p>&copy; {new Date().getFullYear()} CarePoint Clinic. All rights reserved.</p>
 
             <div className="flex items-center gap-6">
               <button
                 onClick={() => setLegalModal("privacy")}
-                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors"
+                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors cursor-pointer"
               >
                 Privacy Policy
               </button>
               <span>&bull;</span>
               <button
                 onClick={() => setLegalModal("terms")}
-                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors"
+                className="hover:text-[#101512] underline-offset-4 hover:underline transition-colors cursor-pointer"
               >
                 Terms of Use
               </button>
               <span>&bull;</span>
               <span className="flex items-center gap-1.5 text-[#173F30] font-medium">
-                <Shield className="w-3.5 h-3.5" /> Secure Clinic
+                <Shield className="w-3.5 h-3.5" /> HIPAA Compliant
               </span>
             </div>
           </div>
-
         </div>
       </footer>
 

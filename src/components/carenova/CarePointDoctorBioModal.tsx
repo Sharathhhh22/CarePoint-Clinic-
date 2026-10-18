@@ -178,7 +178,7 @@ interface CarePointDoctorBioModalProps {
   doctorName?: string
   isOpen: boolean
   onClose: () => void
-  onBookDoctor: (doctorName: string) => void
+  onBookDoctor?: (doctorName: string) => void
 }
 
 export function CarePointDoctorBioModal({
@@ -388,7 +388,9 @@ export function CarePointDoctorBioModal({
             <button
               onClick={() => {
                 onClose()
-                onBookDoctor(doctor.name)
+                if (onBookDoctor) {
+                  onBookDoctor(doctor.name)
+                }
               }}
               className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold px-6 py-2.5 rounded-full transition-all shadow-xs hover:shadow-sm"
             >

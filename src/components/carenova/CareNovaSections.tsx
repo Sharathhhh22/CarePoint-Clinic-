@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { 
   Stethoscope, 
   Heart, 
@@ -351,9 +352,17 @@ export function CareNovaSections() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E0E4DF]">
-                <p className="text-xs font-bold text-[#101512]">Calm, Private Clinical Environments</p>
-                <p className="text-[11px] text-[#777D79] mt-0.5">Designed intentionally to eliminate clinical anxiety and encourage open dialogue.</p>
+              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E0E4DF] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold text-[#101512]">Calm, Private Clinical Environments</p>
+                  <p className="text-[11px] text-[#777D79] mt-0.5">Designed intentionally to eliminate clinical anxiety and encourage open dialogue.</p>
+                </div>
+                <Link
+                  href="/gallery"
+                  className="shrink-0 px-3.5 py-1.5 rounded-full bg-[#173F30] text-white text-[11px] font-bold hover:bg-[#123326] transition-colors text-center"
+                >
+                  View Facility Gallery
+                </Link>
               </div>
             </div>
 
@@ -393,6 +402,16 @@ export function CareNovaSections() {
                 <p className="text-sm text-[#777D79] leading-relaxed">
                   From initial diagnosis through recovery check-ins, your primary physician and specialists coordinate together under one cohesive care standard.
                 </p>
+              </div>
+
+              <div className="pt-2">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#173F30] hover:underline"
+                >
+                  <span>Learn more about our clinical standards & medical leadership</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </div>
           </div>
@@ -473,6 +492,16 @@ export function CareNovaSections() {
                 </div>
               )
             })}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
+            >
+              <span>Explore All Clinical Specialties & Preparation Guides</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
         </div>
@@ -761,6 +790,16 @@ export function CareNovaSections() {
             ))}
           </div>
 
+          <div className="mt-12 text-center">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
+            >
+              <span>Meet Full Medical Team & Accreditations</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
@@ -836,6 +875,16 @@ export function CareNovaSections() {
             ))}
           </div>
 
+          <div className="mt-12 text-center">
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
+            >
+              <span>Check Insurance Network Coverage & Complete Fee Schedule</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
@@ -870,12 +919,19 @@ export function CareNovaSections() {
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 text-[#173F30]" />
                 </button>
 
-                <a
-                  href="#services"
+                <Link
+                  href="/services"
                   className="inline-flex items-center justify-center gap-2 border border-white/30 hover:border-white text-white text-sm font-semibold px-7 py-3.5 rounded-full transition-all hover:bg-white/10"
                 >
-                  <span>Explore Our Services</span>
-                </a>
+                  <span>Explore All Services</span>
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 border border-white/30 hover:border-white text-white text-sm font-semibold px-7 py-3.5 rounded-full transition-all hover:bg-white/10"
+                >
+                  <span>Contact & Location</span>
+                </Link>
               </div>
             </div>
           </div>

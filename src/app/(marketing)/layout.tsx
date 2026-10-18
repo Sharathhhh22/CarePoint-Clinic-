@@ -1,6 +1,7 @@
 import { CareNovaNavbar } from "@/components/carenova/CareNovaNavbar";
 import { CareNovaFooter } from "@/components/carenova/CareNovaFooter";
 import { CarePointMobileActionBar } from "@/components/carenova/CarePointMobileActionBar";
+import { CarePointWhatsAppButton } from "@/components/carenova/CarePointWhatsAppButton";
 
 export default function MarketingLayout({
   children,
@@ -12,6 +13,7 @@ export default function MarketingLayout({
       <CareNovaNavbar />
       <main className="flex-1 flex flex-col">{children}</main>
       <CareNovaFooter />
+      <CarePointWhatsAppButton />
       <CarePointMobileActionBar />
     </div>
   );
