@@ -48,7 +48,7 @@ async function runVerification() {
   // 1. Desktop Viewport (1440px)
   console.log("Testing 1440px Desktop...")
   await page.setViewportSize({ width: 1440, height: 900 })
-  const res = await page.goto("http://localhost:3002/", { waitUntil: "networkidle" })
+  const res = await page.goto("http://localhost:3000/", { waitUntil: "networkidle" })
   console.log("Homepage status:", res.status())
   await scrollToBottomAndBack(page)
 
@@ -67,9 +67,12 @@ async function runVerification() {
   await page.waitForTimeout(300)
   await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-768-portrait.png"), fullPage: false })
 
-  // 4. Mobile (390px)
-  console.log("Testing 390px Mobile...")
+  // 4. Mobile (390px) & Test Sticky Action Bar
+  console.log("Testing 390px Mobile with Sticky Quick-Booking Bar...")
   await page.setViewportSize({ width: 390, height: 844 })
+  await page.evaluate(() => window.scrollTo(0, 500))
+  await page.waitForTimeout(400)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-mobile-action-bar.png"), fullPage: false })
   await scrollToBottomAndBack(page)
   await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-390-mobile-hero.png"), fullPage: false })
   await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-390-mobile-full.png"), fullPage: true })
@@ -80,9 +83,32 @@ async function runVerification() {
   await page.waitForTimeout(300)
   await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carenova-360-small-mobile.png"), fullPage: false })
 
-  // 6. Interactive Modal Tests (Desktop 1440px)
+  // 6. Test Interactive Symptom Matcher
+  console.log("Testing Interactive Symptom Matcher...")
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto("http://localhost:3002/", { waitUntil: "networkidle" })
+  await page.goto("http://localhost:3000/#symptom-matcher", { waitUntil: "networkidle" })
+  await page.waitForTimeout(400)
+  // Select a different symptom chip: "Annual Executive Physical & Bloodwork"
+  const annualChip = await page.locator('button:has-text("Annual Executive Physical & Bloodwork")').first()
+  if (await annualChip.isVisible()) {
+    await annualChip.click()
+    await page.waitForTimeout(300)
+  }
+  const matcherSection = await page.locator('#symptom-matcher').first()
+  await matcherSection.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-symptom-matcher.png") })
+
+  // 7. Test Doctor Bio Modal
+  console.log("Testing Doctor Bio & Credentials Modal...")
+  const viewBioBtn = await page.locator('button:has-text("View Credentials & Bio")').first()
+  await viewBioBtn.click()
+  await page.waitForTimeout(400)
+  await page.screenshot({ path: path.join(ARTIFACTS_DIR, "carepoint-modal-doctor-bio.png") })
+  await page.keyboard.press("Escape")
+  await page.waitForTimeout(300)
+
+  // 8. Interactive Modal Tests (Desktop 1440px)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto("http://localhost:3000/", { waitUntil: "networkidle" })
 
   // Test Search Modal
   console.log("Testing Search Modal...")

@@ -100,6 +100,30 @@ const SEARCH_ITEMS: SearchItem[] = [
     description: "Photo ID, previous medical records, and current medication list.",
     actionUrl: "#faq",
     badge: "FAQ"
+  },
+  {
+    id: "matcher-triage",
+    title: "Clinical Triage & Specialist Matcher",
+    category: "Information",
+    description: "Interactive tool to match your symptoms with the ideal doctor and consultation tier.",
+    actionUrl: "#symptom-matcher",
+    badge: "Matcher"
+  },
+  {
+    id: "symptom-cardio",
+    title: "Chest Tightness & Palpitations Triage",
+    category: "Service",
+    description: "Cardiovascular evaluation and resting ECG review with Dr. Sara Khan.",
+    actionUrl: "#symptom-matcher",
+    badge: "Cardiology"
+  },
+  {
+    id: "symptom-fatigue",
+    title: "Chronic Fatigue & Thyroid Evaluation",
+    category: "Service",
+    description: "Diagnostic metabolic investigation and endocrine panel review with Dr. Elena Rostova.",
+    actionUrl: "#symptom-matcher",
+    badge: "Internal Medicine"
   }
 ]
 

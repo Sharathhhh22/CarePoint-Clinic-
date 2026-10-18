@@ -15,15 +15,23 @@ import {
 } from "lucide-react"
 import { CareNovaVideoModal } from "./CareNovaVideoModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
+import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
 
 export function CareNovaHero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false)
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [selectedDoctor, setSelectedDoctor] = useState<string | undefined>()
+  const [isBioOpen, setIsBioOpen] = useState(false)
+  const [bioDoctor, setBioDoctor] = useState("Dr. Sara Khan")
 
   const handleOpenBooking = (doc?: string) => {
     setSelectedDoctor(doc)
     setIsBookingOpen(true)
+  }
+
+  const handleOpenDoctorBio = (docName: string) => {
+    setBioDoctor(docName)
+    setIsBioOpen(true)
   }
 
   const handleScrollToAbout = () => {
@@ -247,8 +255,12 @@ export function CareNovaHero() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] shrink-0">
+                <div 
+                  onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
+                  className="flex items-center gap-3 mb-3 cursor-pointer group/doc hover:opacity-90 transition-opacity"
+                  title="Click to view Dr. Sara Khan's credentials"
+                >
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/doc:border-[#173F30] shrink-0 transition-colors">
                     <Image
                       src="/images/carenova/dr-sara-khan.jpg"
                       alt="Dr. Sara Khan"
@@ -257,8 +269,10 @@ export function CareNovaHero() {
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-[#101512] truncate">Dr. Sara Khan</p>
-                    <p className="text-xs text-[#777D79]">Cardiologist</p>
+                    <p className="text-sm font-bold text-[#101512] group-hover/doc:text-[#173F30] transition-colors truncate">
+                      Dr. Sara Khan
+                    </p>
+                    <p className="text-xs text-[#777D79]">Cardiologist (View Bio)</p>
                   </div>
                 </div>
 
@@ -326,8 +340,11 @@ export function CareNovaHero() {
                   </div>
 
                   <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] shrink-0">
+                    <div 
+                      onClick={() => handleOpenDoctorBio("Dr. Sara Khan")}
+                      className="flex items-center gap-3 cursor-pointer group/mobdoc"
+                    >
+                      <div className="relative w-10 h-10 rounded-full overflow-hidden border border-[#E0E4DF] group-hover/mobdoc:border-[#173F30] shrink-0 transition-colors">
                         <Image
                           src="/images/carenova/dr-sara-khan.jpg"
                           alt="Dr. Sara Khan"
@@ -336,8 +353,10 @@ export function CareNovaHero() {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-[#101512]">Dr. Sara Khan</p>
-                        <p className="text-xs text-[#777D79]">Cardiologist</p>
+                        <p className="text-sm font-bold text-[#101512] group-hover/mobdoc:text-[#173F30] transition-colors">
+                          Dr. Sara Khan
+                        </p>
+                        <p className="text-xs text-[#777D79]">Cardiologist (Bio)</p>
                       </div>
                     </div>
 
@@ -385,6 +404,17 @@ export function CareNovaHero() {
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
         initialDoctor={selectedDoctor}
+      />
+
+      {/* Doctor Credentials & Bio Modal */}
+      <CarePointDoctorBioModal
+        isOpen={isBioOpen}
+        onClose={() => setIsBioOpen(false)}
+        doctorName={bioDoctor}
+        onBookDoctor={(doc) => {
+          setIsBioOpen(false)
+          handleOpenBooking(doc)
+        }}
       />
     </>
   )

@@ -11,6 +11,7 @@ import { CareNovaBookingModal } from "./CareNovaBookingModal"
 const NAV_ITEMS = [
   { label: "Home", href: "/#hero", id: "hero" },
   { label: "Services", href: "/#services", id: "services" },
+  { label: "Find Doctor", href: "/#symptom-matcher", id: "symptom-matcher" },
   { label: "About", href: "/#about", id: "about" },
   { label: "Pricing", href: "/#pricing", id: "pricing" },
   { label: "Resources", href: "/#faq", id: "faq" },
@@ -30,7 +31,7 @@ export function CareNovaNavbar() {
       setIsScrolled(window.scrollY > 20)
 
       // Section spy
-      const sections = ["hero", "services", "about", "pricing", "faq"]
+      const sections = ["hero", "services", "symptom-matcher", "about", "pricing", "faq"]
       for (const section of sections) {
         const el = document.getElementById(section)
         if (el) {

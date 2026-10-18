@@ -14,15 +14,31 @@ import {
   Sparkles,
   Users,
   Compass,
-  FileCheck
+  FileCheck,
+  User,
+  Activity,
+  HeartPulse,
+  Info,
+  BadgeCheck
 } from "lucide-react"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
+import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
 
 export function CareNovaSections() {
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [bookingService, setBookingService] = useState<string | undefined>()
   const [bookingDoctor, setBookingDoctor] = useState<string | undefined>()
+  
+  // State for Doctor Bio Drawer & Symptom Matcher
+  const [selectedBioDoctor, setSelectedBioDoctor] = useState<string | undefined>()
+  const [isBioOpen, setIsBioOpen] = useState(false)
+  const [selectedConcernId, setSelectedConcernId] = useState("cardio-palpitations")
+
+  const handleOpenDoctorBio = (docName: string) => {
+    setSelectedBioDoctor(docName)
+    setIsBioOpen(true)
+  }
 
   const handleBookService = (serviceName: string) => {
     setBookingService(serviceName)
@@ -125,6 +141,121 @@ export function CareNovaSections() {
       image: "/images/carenova/dr-anita-chen.jpg",
       qualification: "MD, FAAP Pediatric Specialist",
       availability: "Wed, Fri, Sat"
+    }
+  ]
+
+  const SYMPTOM_CONCERNS = [
+    {
+      id: "cardio-palpitations",
+      label: "Chest Tightness & Palpitations",
+      category: "Cardiovascular Health",
+      description: "Occasional chest tightness, flutter, elevated resting heart rate, or exertional shortness of breath.",
+      matchedDoctor: "Dr. Sara Khan",
+      matchedDoctorTitle: "Cardiologist (MD, FACC)",
+      doctorImage: "/images/carenova/dr-sara-khan.jpg",
+      matchedService: "Specialist Consultation",
+      tierPrice: "$130",
+      duration: "45 min consultation",
+      reason: "Dr. Sara Khan specializes in cardiovascular risk evaluation, resting ECG reviews, and preventative cardiac care to investigate palpitations and discomfort thoroughly.",
+      recommendedPlan: "In-depth cardiovascular examination + vital monitoring"
+    },
+    {
+      id: "cardio-hypertension",
+      label: "High Blood Pressure & Lipids",
+      category: "Cardiovascular Health",
+      description: "Persistent elevated home blood pressure readings, cholesterol optimization, or family history of heart disease.",
+      matchedDoctor: "Dr. Sara Khan",
+      matchedDoctorTitle: "Cardiologist (MD, FACC)",
+      doctorImage: "/images/carenova/dr-sara-khan.jpg",
+      matchedService: "Specialist Consultation",
+      tierPrice: "$130",
+      duration: "45 min consultation",
+      reason: "Dr. Sara Khan crafts bespoke cardiovascular roadmaps, combining vascular health markers with evidence-based lifestyle medicine.",
+      recommendedPlan: "Cardiovascular risk profiling + lipid management plan"
+    },
+    {
+      id: "primary-annual",
+      label: "Annual Executive Physical & Bloodwork",
+      category: "Preventive Primary Care",
+      description: "Proactive annual health checkup, complete metabolic biomarker screening, and long-term vitality planning.",
+      matchedDoctor: "Dr. Marcus Vance",
+      matchedDoctorTitle: "Family Medicine (MD, FAAFP)",
+      doctorImage: "/images/carenova/dr-marcus-vance.jpg",
+      matchedService: "Comprehensive Wellness",
+      tierPrice: "$195",
+      duration: "60 min consultation",
+      reason: "Dr. Marcus Vance conducts rigorous whole-person preventive evaluations, metabolic profiling, and personalized health roadmaps.",
+      recommendedPlan: "Full systemic physical examination + multi-biomarker review"
+    },
+    {
+      id: "primary-routine",
+      label: "Acute Illness, Cough or Prescription Refill",
+      category: "General Practice",
+      description: "Persistent flu or cold symptoms, respiratory congestion, minor infections, or routine medication adjustments.",
+      matchedDoctor: "Dr. Marcus Vance",
+      matchedDoctorTitle: "Family Medicine (MD, FAAFP)",
+      doctorImage: "/images/carenova/dr-marcus-vance.jpg",
+      matchedService: "General Consultation",
+      tierPrice: "$75",
+      duration: "30 min consultation",
+      reason: "Dr. Marcus Vance delivers rapid diagnostic assessments and compassionate outpatient relief for acute ailments and prescription reviews.",
+      recommendedPlan: "Thorough vital assessment + acute diagnosis & care plan"
+    },
+    {
+      id: "internal-fatigue",
+      label: "Chronic Fatigue, Brain Fog & Metabolism",
+      category: "Internal Medicine",
+      description: "Unexplained low energy, sluggish metabolism, thyroid fluctuations, or sudden changes in weight.",
+      matchedDoctor: "Dr. Elena Rostova",
+      matchedDoctorTitle: "Internal Medicine (MD, FACP)",
+      doctorImage: "/images/carenova/dr-elena-rostova.jpg",
+      matchedService: "Specialist Consultation",
+      tierPrice: "$130",
+      duration: "45 min consultation",
+      reason: "Dr. Elena Rostova excels at complex diagnostic investigations, endocrine balance, and uncovering root clinical causes of chronic exhaustion.",
+      recommendedPlan: "Specialist diagnostic review + endocrine panel analysis"
+    },
+    {
+      id: "internal-digestive",
+      label: "Digestive Discomfort & Acid Reflux",
+      category: "Internal Medicine",
+      description: "Persistent gastrointestinal irritation, acid reflux, stomach discomfort, or food sensitivity questions.",
+      matchedDoctor: "Dr. Elena Rostova",
+      matchedDoctorTitle: "Internal Medicine (MD, FACP)",
+      doctorImage: "/images/carenova/dr-elena-rostova.jpg",
+      matchedService: "Specialist Consultation",
+      tierPrice: "$130",
+      duration: "45 min consultation",
+      reason: "Dr. Elena Rostova provides structured gastrointestinal reviews, diagnostic assessments, and gut-friendly clinical strategies.",
+      recommendedPlan: "Targeted clinical examination + gastrointestinal plan"
+    },
+    {
+      id: "pediatric-fever",
+      label: "Child Fever, Cough & Ear Irritation",
+      category: "Pediatric Care",
+      description: "Sudden childhood fever, ear pain, persistent cough, or infant irritability requiring gentle examination.",
+      matchedDoctor: "Dr. Anita Chen",
+      matchedDoctorTitle: "Pediatrician (MD, FAAP)",
+      doctorImage: "/images/carenova/dr-anita-chen.jpg",
+      matchedService: "Specialist Consultation",
+      tierPrice: "$130",
+      duration: "45 min consultation",
+      reason: "Dr. Anita Chen creates an empathetic, comforting clinical space to evaluate and treat acute childhood illnesses with calm guidance for parents.",
+      recommendedPlan: "Gentle pediatric assessment + comforting treatment plan"
+    },
+    {
+      id: "pediatric-wellchild",
+      label: "Well-Child Checkup & Milestone Tracking",
+      category: "Pediatric Care",
+      description: "Routine infant growth curves, developmental milestones, adolescent wellness, and vaccination roadmaps.",
+      matchedDoctor: "Dr. Anita Chen",
+      matchedDoctorTitle: "Pediatrician (MD, FAAP)",
+      doctorImage: "/images/carenova/dr-anita-chen.jpg",
+      matchedService: "General Consultation",
+      tierPrice: "$75",
+      duration: "30 min consultation",
+      reason: "Dr. Anita Chen partners closely with families to support healthy developmental milestones and immunization schedules with zero pressure.",
+      recommendedPlan: "Developmental milestone check + pediatric wellness guidance"
     }
   ]
 
@@ -348,24 +479,218 @@ export function CareNovaSections() {
       </section>
 
       {/* ======================================================== */}
+      {/* SECTION: SYMPTOM CHECKER & SPECIALIST MATCHING TOOL       */}
+      {/* ======================================================== */}
+      <section id="symptom-matcher" className="py-20 md:py-28 bg-white border-t border-[#E0E4DF]">
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+          
+          <div className="max-w-3xl mb-12 sm:mb-16">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-[#173F30]" />
+              <span>Clinical Triage & Specialist Matching</span>
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#101512] leading-[1.08] mb-3">
+              Find the right doctor for your health concern.
+            </h2>
+            <p className="text-base sm:text-lg text-[#777D79] leading-relaxed">
+              Select what you are experiencing or looking for, and our clinical routing guide will match you with the ideal specialist and consultation format.
+            </p>
+          </div>
+
+          {/* Interactive Two-Column Matcher Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            {/* Left Column: Symptom Concern Selectors */}
+            <div className="lg:col-span-7 space-y-3">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#777D79] mb-4">
+                Select Your Primary Health Focus:
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {SYMPTOM_CONCERNS.map((concern) => {
+                  const isSelected = selectedConcernId === concern.id
+                  return (
+                    <button
+                      key={concern.id}
+                      onClick={() => setSelectedConcernId(concern.id)}
+                      className={`text-left p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group ${
+                        isSelected
+                          ? "bg-[#173F30] text-white border-[#173F30] shadow-md ring-2 ring-[#173F30]/30 -translate-y-0.5"
+                          : "bg-[#FAFAF7] hover:bg-[#E7EEE8]/60 text-[#101512] border-[#E0E4DF] hover:border-[#A9C2B2]"
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-1.5">
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                            isSelected 
+                              ? "bg-white/20 text-white" 
+                              : "bg-[#E7EEE8] text-[#173F30]"
+                          }`}>
+                            {concern.category}
+                          </span>
+                          {isSelected && (
+                            <span className="w-2 h-2 rounded-full bg-[#A9C2B2] animate-pulse" />
+                          )}
+                        </div>
+
+                        <h3 className={`text-sm font-bold leading-tight mb-1 ${
+                          isSelected ? "text-white" : "text-[#101512] group-hover:text-[#173F30]"
+                        }`}>
+                          {concern.label}
+                        </h3>
+
+                        <p className={`text-xs line-clamp-2 leading-relaxed ${
+                          isSelected ? "text-white/80" : "text-[#777D79]"
+                        }`}>
+                          {concern.description}
+                        </p>
+                      </div>
+
+                      <div className="mt-3 pt-2.5 border-t border-current/15 flex items-center justify-between text-[11px]">
+                        <span className={isSelected ? "text-white/90 font-medium" : "text-[#173F30] font-semibold"}>
+                          Matches {concern.matchedDoctor}
+                        </span>
+                        <ArrowRight className={`w-3.5 h-3.5 transition-transform ${
+                          isSelected ? "translate-x-0.5" : "group-hover:translate-x-0.5 text-[#777D79]"
+                        }`} />
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Right Column: Matched Specialist Recommendation Card (Sticky) */}
+            <div className="lg:col-span-5 lg:sticky lg:top-28">
+              {(() => {
+                const active = SYMPTOM_CONCERNS.find(c => c.id === selectedConcernId) || SYMPTOM_CONCERNS[0]
+                return (
+                  <div className="bg-[#FAFAF7] rounded-[32px] p-6 sm:p-7 border border-[#E0E4DF] shadow-lg space-y-6">
+                    
+                    {/* Header: Match Tag */}
+                    <div className="flex items-center justify-between pb-4 border-b border-[#E0E4DF]">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#173F30]" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#173F30]">
+                          Recommended Specialist Match
+                        </span>
+                      </div>
+                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-white border border-[#E0E4DF] text-[#777D79]">
+                        {active.duration}
+                      </span>
+                    </div>
+
+                    {/* Doctor Info Group */}
+                    <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-[#E0E4DF] shadow-2xs">
+                      <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-[#E0E4DF] shrink-0 bg-[#E7EEE8]">
+                        <Image
+                          src={active.doctorImage}
+                          alt={`${active.matchedDoctor} at CarePoint Clinic`}
+                          fill
+                          className="object-cover object-top"
+                          sizes="80px"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[11px] font-bold text-[#A9C2B2] uppercase tracking-wider">
+                          {active.category}
+                        </span>
+                        <h4 className="text-lg font-bold text-[#101512] truncate">
+                          {active.matchedDoctor}
+                        </h4>
+                        <p className="text-xs text-[#777D79] truncate">
+                          {active.matchedDoctorTitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Why this match? */}
+                    <div className="p-4 rounded-2xl bg-white border border-[#E0E4DF] space-y-2">
+                      <div className="flex items-center gap-1.5 text-[#173F30] text-xs font-bold uppercase tracking-wider">
+                        <Info className="w-3.5 h-3.5" />
+                        <span>Clinical Rationale</span>
+                      </div>
+                      <p className="text-xs text-[#777D79] leading-relaxed">
+                        {active.reason}
+                      </p>
+                    </div>
+
+                    {/* Recommended Consultation Format & Tier */}
+                    <div className="p-4 rounded-2xl bg-[#E7EEE8]/60 border border-[#A9C2B2]/40 flex items-center justify-between">
+                      <div>
+                        <p className="text-[11px] font-semibold text-[#777D79] uppercase tracking-wider">
+                          Consultation Tier
+                        </p>
+                        <p className="text-sm font-bold text-[#101512]">
+                          {active.matchedService}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-extrabold text-[#173F30]">
+                          {active.tierPrice}
+                        </p>
+                        <p className="text-[10px] text-[#777D79]">
+                          Transparent rate
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* CTAs */}
+                    <div className="space-y-2.5 pt-1">
+                      <button
+                        onClick={() => handleBookDoctor(active.matchedDoctor)}
+                        className="w-full py-3.5 px-6 rounded-full bg-[#173F30] hover:bg-[#123326] active:scale-[0.98] text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
+                      >
+                        <Calendar className="w-4 h-4" />
+                        <span>Book with {active.matchedDoctor.split(" ")[1]}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => handleOpenDoctorBio(active.matchedDoctor)}
+                        className="w-full py-2.5 px-4 rounded-full border border-[#E0E4DF] hover:border-[#173F30]/40 hover:bg-white text-xs font-semibold text-[#101512] flex items-center justify-center gap-2 transition-colors"
+                      >
+                        <User className="w-3.5 h-3.5 text-[#173F30]" />
+                        <span>View Specialist Qualifications & Bio</span>
+                      </button>
+                    </div>
+
+                  </div>
+                )
+              })()}
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ======================================================== */}
       {/* SECTION C: MEET OUR DOCTORS                              */}
       {/* ======================================================== */}
       <section id="doctors" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           
-          <div className="max-w-2xl mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-block mb-3">
-              Clinical Team
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#101512] leading-[1.08] mb-3">
-              Meet the people behind your care.
-            </h2>
-            <p className="text-base text-[#777D79] leading-relaxed">
-              Our multidisciplinary clinicians combine deep medical training with authentic empathy.
-              <span className="block text-xs text-[#777D79]/80 mt-1 italic">
-                * Illustrative demonstration clinical profiles.
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-block mb-3">
+                Clinical Team
               </span>
-            </p>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#101512] leading-[1.08] mb-3">
+                Meet the people behind your care.
+              </h2>
+              <p className="text-base text-[#777D79] leading-relaxed">
+                Our multidisciplinary clinicians combine deep medical training with authentic empathy.
+                <span className="block text-xs text-[#777D79]/80 mt-1 italic">
+                  * Illustrative demonstration clinical profiles.
+                </span>
+              </p>
+            </div>
+
+            <div className="text-xs text-[#777D79] flex items-center gap-2">
+              <BadgeCheck className="w-4 h-4 text-[#173F30]" />
+              <span>All physicians board-certified & credentialed</span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -375,8 +700,15 @@ export function CareNovaSections() {
                 className="bg-white rounded-3xl overflow-hidden border border-[#E0E4DF] hover:border-[#173F30]/40 transition-all shadow-xs hover:shadow-md flex flex-col justify-between group"
               >
                 <div>
-                  {/* Doctor Portrait */}
-                  <div className="relative aspect-[4/4.5] w-full bg-[#E7EEE8] overflow-hidden">
+                  {/* Doctor Portrait - Clickable to open bio */}
+                  <div 
+                    onClick={() => handleOpenDoctorBio(doc.name)}
+                    className="relative aspect-[4/4.5] w-full bg-[#E7EEE8] overflow-hidden cursor-pointer"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`View clinical profile of ${doc.name}`}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleOpenDoctorBio(doc.name) }}
+                  >
                     <Image
                       src={doc.image}
                       alt={`${doc.name}, ${doc.specialty} at CarePoint Clinic`}
@@ -393,7 +725,10 @@ export function CareNovaSections() {
                     <span className="text-xs font-semibold text-[#A9C2B2] uppercase tracking-wider">
                       {doc.specialty}
                     </span>
-                    <h3 className="text-lg font-bold text-[#101512] mt-0.5 mb-1">
+                    <h3 
+                      onClick={() => handleOpenDoctorBio(doc.name)}
+                      className="text-lg font-bold text-[#101512] mt-0.5 mb-1 hover:text-[#173F30] cursor-pointer transition-colors"
+                    >
                       {doc.name}
                     </h3>
                     <p className="text-xs text-[#777D79] font-medium mb-2">
@@ -405,7 +740,15 @@ export function CareNovaSections() {
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
+                {/* Card Action Buttons: View Bio & Book Consultation */}
+                <div className="p-5 pt-0 space-y-2">
+                  <button
+                    onClick={() => handleOpenDoctorBio(doc.name)}
+                    className="w-full py-2 px-3 rounded-full border border-[#E0E4DF] hover:border-[#173F30]/40 hover:bg-[#E7EEE8]/60 text-xs font-semibold text-[#101512] flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <User className="w-3.5 h-3.5 text-[#173F30]" />
+                    <span>View Credentials & Bio</span>
+                  </button>
                   <button
                     onClick={() => handleBookDoctor(doc.name)}
                     className="w-full py-2.5 px-4 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors shadow-2xs"
@@ -607,6 +950,17 @@ export function CareNovaSections() {
         onClose={() => setIsBookingOpen(false)}
         initialService={bookingService}
         initialDoctor={bookingDoctor}
+      />
+
+      {/* Doctor Credentials & Bio Modal */}
+      <CarePointDoctorBioModal
+        isOpen={isBioOpen}
+        onClose={() => setIsBioOpen(false)}
+        doctorName={selectedBioDoctor}
+        onBookDoctor={(doc) => {
+          setIsBioOpen(false)
+          handleBookDoctor(doc)
+        }}
       />
     </>
   )
