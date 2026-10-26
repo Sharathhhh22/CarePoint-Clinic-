@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client"
 import { DoctorApplicationStatus } from "@/components/doctor/DoctorApplicationStatus"
 import { DoctorOnboardingForm } from "@/components/doctor/DoctorOnboardingForm"
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Activity, ArrowLeft, CheckCircle2, ArrowRight } from "lucide-react"
 
 export default function DoctorApplicationStatusPage() {

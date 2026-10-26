@@ -22,6 +22,8 @@ import {
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Container } from "@/components/ui/Container"
+import { Button } from "@/components/ui/Button"
 
 interface ServiceItem {
   id: string
@@ -233,7 +235,7 @@ export function ServicesClient() {
     <div className="w-full">
       {/* 1. HERO SECTION */}
       <section className="pt-12 pb-16 md:pt-20 md:pb-24 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
@@ -266,7 +268,6 @@ export function ServicesClient() {
               }`}
             </div>
 
-            {/* Keyword Search Input */}
             {/* Keyword Search Input */}
             <div className="max-w-xl relative">
               <label htmlFor="services-search" className="sr-only">
@@ -304,7 +305,7 @@ export function ServicesClient() {
               >
                 <button
                   onClick={() => handleCategoryClick("all")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "all"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -314,7 +315,7 @@ export function ServicesClient() {
                 </button>
                 <button
                   onClick={() => handleCategoryClick("primary")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "primary"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -324,7 +325,7 @@ export function ServicesClient() {
                 </button>
                 <button
                   onClick={() => handleCategoryClick("cardio")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "cardio"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -334,7 +335,7 @@ export function ServicesClient() {
                 </button>
                 <button
                   onClick={() => handleCategoryClick("pediatrics")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "pediatrics"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -344,7 +345,7 @@ export function ServicesClient() {
                 </button>
                 <button
                   onClick={() => handleCategoryClick("neuro")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "neuro"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -354,7 +355,7 @@ export function ServicesClient() {
                 </button>
                 <button
                   onClick={() => handleCategoryClick("diagnostics")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "diagnostics"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -364,7 +365,7 @@ export function ServicesClient() {
                 </button>
                 <button
                   onClick={() => handleCategoryClick("telehealth")}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                  className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer ${
                     selectedCategory === "telehealth"
                       ? "bg-[#173F30] text-white shadow-xs"
                       : "bg-white dark:bg-[#121B16] text-[#777D79] dark:text-[#9BAAA0] border border-[#E0E4DF] dark:border-[#4E6C5D] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -381,7 +382,7 @@ export function ServicesClient() {
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="no-print inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-[#E0E4DF] dark:border-[#4E6C5D] bg-white dark:bg-[#121B16] text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921] transition-all shadow-2xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30]"
+                  className="no-print min-h-11 px-4 py-2.5 inline-flex items-center gap-1.5 rounded-full border border-[#E0E4DF] dark:border-[#4E6C5D] bg-white dark:bg-[#121B16] text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921] transition-all shadow-2xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30]"
                   title="Print or save this clinical specialties directory as PDF"
                 >
                   <Printer className="w-3.5 h-3.5" />
@@ -390,12 +391,12 @@ export function ServicesClient() {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 2. SERVICES GRID */}
       <section className="py-16 md:py-24 bg-white dark:bg-[#0E1713] border-b border-[#E0E4DF]/60 dark:border-[#4E6C5D]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           {/* PRINT-ONLY OFFICIAL DIRECTORY HEADER */}
           <div className="hidden print:block mb-8 pb-4 border-b-2 border-black">
@@ -443,7 +444,7 @@ export function ServicesClient() {
               return (
                 <div
                   key={service.id}
-                  className="service-card rounded-3xl bg-[#FAFAF7] dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] p-7 flex flex-col justify-between hover:border-[#173F30]/40 dark:hover:border-[#A9C2B2]/40 transition-all hover:shadow-lg group"
+                  className="service-card card-grid-item h-full rounded-3xl bg-[#FAFAF7] dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] p-7 flex flex-col justify-between hover:border-[#173F30]/40 dark:hover:border-[#A9C2B2]/40 transition-all hover:shadow-lg group"
                 >
                   <div>
                     {/* Top row */}
@@ -490,7 +491,7 @@ export function ServicesClient() {
                   </div>
 
                   {/* Pricing & Booking Action */}
-                  <div className="pt-6 border-t border-[#E0E4DF] dark:border-[#4E6C5D] flex items-center justify-between">
+                  <div className="pt-6 border-t border-[#E0E4DF] dark:border-[#4E6C5D] flex items-center justify-between mt-auto">
                     <div>
                       <p className="text-[11px] text-[#777D79] dark:text-[#9BAAA0] uppercase font-bold tracking-wider">
                         Consultation
@@ -503,13 +504,15 @@ export function ServicesClient() {
                       </p>
                     </div>
 
-                    <button
+                    <Button
                       onClick={() => openBookingModal({ service: service.name })}
-                      className="no-print inline-flex items-center gap-1.5 bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold px-4 py-2.5 rounded-full transition-all shadow-xs active:scale-95 cursor-pointer"
+                      variant="primary"
+                      size="sm"
+                      className="no-print rounded-full shadow-xs active:scale-95"
                     >
                       <span>Book Visit</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                      <ArrowRight className="size-4" aria-hidden="true" />
+                    </Button>
                     <p className="hidden print:block text-[11px] font-semibold text-gray-700">
                       Book: (800) 289-CARE
                     </p>
@@ -519,12 +522,12 @@ export function ServicesClient() {
             })}
           </div>
         )}
-        </div>
+        </Container>
       </section>
 
       {/* 3. PATIENT JOURNEY / WHAT TO EXPECT */}
       <section className="py-20 md:py-28 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-2">
               The Consultation Experience
@@ -542,7 +545,7 @@ export function ServicesClient() {
               <span className="w-10 h-10 rounded-full bg-[#E7EEE8] text-[#173F30] font-black text-lg flex items-center justify-center mb-6">
                 1
               </span>
-              <h4 className="text-xl font-bold text-[#101512] mb-3">On-Time Reception & Vitals</h4>
+              <h4 className="text-xl font-bold text-[#101512] mb-3">On-Time Reception &amp; Vitals</h4>
               <p className="text-sm text-[#777D79] leading-relaxed">
                 Step into a quiet, sunlit environment. You are guided to your private suite without waiting hall congestion. A registered nurse records vital signs and initial context.
               </p>
@@ -562,18 +565,18 @@ export function ServicesClient() {
               <span className="w-10 h-10 rounded-full bg-[#E7EEE8] text-[#173F30] font-black text-lg flex items-center justify-center mb-6">
                 3
               </span>
-              <h4 className="text-xl font-bold text-[#101512] mb-3">Instant Plan & Prescriptions</h4>
+              <h4 className="text-xl font-bold text-[#101512] mb-3">Instant Plan &amp; Prescriptions</h4>
               <p className="text-sm text-[#777D79] leading-relaxed">
                 Receive clear treatment options, digital prescriptions routed directly to your preferred pharmacy, and immediate booking for any follow-up tests or lab requisitions.
               </p>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 4. EMERGENCY TRIAGE ADVISORY */}
       <section className="py-12 bg-[#FFF8F0] border-b border-[#FBE0C6]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <Container className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-[#E25C3D]/10 text-[#E25C3D] flex items-center justify-center shrink-0">
               <ShieldAlert className="w-6 h-6" />
@@ -588,13 +591,12 @@ export function ServicesClient() {
             </div>
           </div>
 
-          <Link
-            href="/contact"
-            className="shrink-0 px-5 py-2.5 rounded-full bg-white border border-[#FBE0C6] text-xs font-bold text-[#101512] hover:bg-[#FAFAF7] transition-all"
-          >
-            Emergency Guidance & Contact
-          </Link>
-        </div>
+          <Button asChild variant="outline" size="sm" className="shrink-0 rounded-full bg-white border-[#FBE0C6] text-[#101512] hover:bg-[#FAFAF7]">
+            <Link href="/contact">
+              <span>Emergency Guidance &amp; Contact</span>
+            </Link>
+          </Button>
+        </Container>
       </section>
     </div>
   )

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -32,8 +32,8 @@ export function EditProfileModal({ profile, userEmail }: { profile: any, userEma
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-border bg-card hover:bg-surface-elevated text-foreground h-9 px-4 py-2 transition-colors">
-        <Pencil className="w-4 h-4 mr-2" />
+      <DialogTrigger className="inline-flex items-center justify-center rounded-xl text-xs sm:text-sm font-semibold border border-border bg-surface-elevated hover:bg-surface-elevated/80 hover:border-primary/40 text-foreground h-9 px-4 py-2 shadow-xs transition-all cursor-pointer">
+        <Pencil className="w-3.5 h-3.5 mr-2 text-primary" />
         Edit Profile
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">

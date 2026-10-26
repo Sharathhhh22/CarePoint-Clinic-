@@ -1,7 +1,7 @@
 "use client"
 
 import { Printer, X, CheckCircle2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import type { PrescriptionData } from "./PrescriptionModal"
 
 interface PrescriptionViewerProps {

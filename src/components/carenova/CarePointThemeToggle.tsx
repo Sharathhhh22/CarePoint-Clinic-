@@ -21,7 +21,7 @@ export function CarePointThemeToggle({ className = "", showLabel = false }: Care
   if (!mounted) {
     return (
       <div 
-        className={`w-10 h-10 rounded-full border border-transparent bg-transparent ${className}`}
+        className={`w-11 h-11 min-h-11 min-w-11 rounded-full border border-transparent bg-transparent ${className}`}
         aria-hidden="true"
       />
     )
@@ -37,7 +37,7 @@ export function CarePointThemeToggle({ className = "", showLabel = false }: Care
     <button
       type="button"
       onClick={toggleTheme}
-      className={`w-10 h-10 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] border border-transparent hover:border-[#E0E4DF] dark:hover:border-[#2D4235] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2] ${className}`}
+      className={`w-11 h-11 min-h-11 min-w-11 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] border border-transparent hover:border-[#E0E4DF] dark:hover:border-[#2D4235] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2] ${className}`}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Textarea } from "@/components/ui/textarea"
 import { AlertCircle, ArrowRight, Loader2, HeartPulse, Stethoscope, AlertTriangle } from "lucide-react"
 import { motion } from "framer-motion"

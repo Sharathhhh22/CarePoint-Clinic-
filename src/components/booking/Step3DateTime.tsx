@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Calendar as CalendarIcon, Clock, Loader2, ArrowRight, ArrowLeft } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { motion } from "framer-motion"

@@ -5,7 +5,7 @@ import { useParams } from "next/navigation"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Building2, CalendarDays, CheckCircle2, User, Phone, Mail, MapPin, Activity, Download } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { CountdownTimer } from "@/components/ui/CountdownTimer"
 import { QRCodeSVG } from 'qrcode.react'
 import { formatDoctorName, formatAiSummary } from "@/lib/utils"

@@ -3,11 +3,15 @@
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Search, ArrowRight, Menu, X, Phone, Mail, Shield } from "lucide-react"
+import { Search, ArrowRight, Menu, X, Phone, Mail, Shield, User } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
 import { CareNovaSearchModal } from "./CareNovaSearchModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointThemeToggle } from "./CarePointThemeToggle"
+import { CarePointUserNav } from "./CarePointUserNav"
+import { CarePointUserProfileModal } from "./CarePointUserProfileModal"
+import { Button } from "@/components/ui/Button"
+import { Container } from "@/components/ui/Container"
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
@@ -88,7 +92,7 @@ export function CareNovaNavbar() {
             : "bg-[#FAFAF7] dark:bg-[#0D1511] border-[#E0E4DF]/70 dark:border-[#4E6C5D]/70"
         }`}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 flex h-20 items-center justify-between">
+        <Container className="flex h-20 items-center justify-between">
           {/* LEFT: Logo & Wordmark */}
           <div className="flex items-center shrink-0">
             <CareNovaLogo href="/" />
@@ -129,55 +133,52 @@ export function CareNovaNavbar() {
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] border border-transparent hover:border-[#E0E4DF] dark:hover:border-[#2D4235] transition-all"
+              className="w-11 h-11 min-h-11 min-w-11 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] border border-transparent hover:border-[#E0E4DF] dark:hover:border-[#2D4235] transition-all cursor-pointer"
               aria-label="Search CarePoint services, specialists, and FAQs"
             >
-              <Search className="w-4 h-4 text-[#101512] dark:text-[#EAEFEA]" />
+              <Search className="size-4 text-[#101512] dark:text-[#EAEFEA]" aria-hidden="true" />
             </button>
 
             {/* Theme Toggle */}
             <CarePointThemeToggle />
 
-            {/* Log In Link */}
-            <Link
-              href="/login"
-              className="text-sm font-medium text-[#777D79] hover:text-[#101512] transition-colors px-2 py-1"
-            >
-              Log in
-            </Link>
+            {/* User Profile / Auth Nav */}
+            <CarePointUserNav />
 
             {/* Primary Dark-Green Button */}
-            <button
+            <Button
               onClick={() => openBookingWithItem()}
-              className="inline-flex items-center gap-2 bg-[#173F30] hover:bg-[#123326] text-white text-sm font-semibold px-5 lg:px-6 py-2.5 rounded-full transition-all shadow-xs hover:shadow-sm active:scale-[0.98] group"
+              variant="primary"
+              size="sm"
+              className="rounded-full shadow-xs hover:shadow-sm active:scale-[0.98] group"
             >
               <span>Book an Appointment</span>
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </button>
+              <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+            </Button>
           </div>
 
           {/* MOBILE CONTROLS: Search + Hamburger */}
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] transition-colors"
+              className="w-11 h-11 min-h-11 min-w-11 rounded-full flex items-center justify-center text-[#101512] dark:text-[#EAEFEA] hover:bg-[#E7EEE8] dark:hover:bg-[#1E2E25] transition-colors cursor-pointer"
               aria-label="Search"
             >
-              <Search className="w-5 h-5 text-[#101512] dark:text-[#EAEFEA]" />
+              <Search className="size-5 text-[#101512] dark:text-[#EAEFEA]" aria-hidden="true" />
             </button>
 
             <CarePointThemeToggle />
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-10 h-10 rounded-full flex items-center justify-center text-[#101512] hover:bg-[#E7EEE8] transition-colors"
+              className="w-11 h-11 min-h-11 min-w-11 rounded-full flex items-center justify-center text-[#101512] hover:bg-[#E7EEE8] transition-colors cursor-pointer"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
             </button>
           </div>
-        </div>
+        </Container>
 
         {/* Scroll Reading Progress Bar */}
         <div
@@ -231,42 +232,79 @@ export function CareNovaNavbar() {
 
               {/* Clickable Mobile Direct Contacts */}
               <div className="pt-2 grid grid-cols-2 gap-2.5">
-                <a
-                  href="tel:+18002892273"
-                  className="flex items-center justify-center gap-1.5 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
-                  aria-label="Call CarePoint Clinic directly"
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="sm"
+                  className="rounded-full text-xs font-bold text-[#173F30] shadow-2xs"
                 >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>Call Clinic</span>
-                </a>
-                <a
-                  href="mailto:care@carepointclinic.com"
-                  className="flex items-center justify-center gap-1.5 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-semibold text-[#101512] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
-                  aria-label="Email CarePoint Clinic care team"
+                  <a
+                    href="tel:+18002892273"
+                    aria-label="Call CarePoint Clinic directly"
+                  >
+                    <Phone className="size-4" aria-hidden="true" />
+                    <span>Call Clinic</span>
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="sm"
+                  className="rounded-full text-xs font-semibold text-[#101512] shadow-2xs"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#173F30]" />
-                  <span>Email Care</span>
-                </a>
+                  <a
+                    href="mailto:care@carepointclinic.com"
+                    aria-label="Email CarePoint Clinic care team"
+                  >
+                    <Mail className="size-4 text-[#173F30]" aria-hidden="true" />
+                    <span>Email Care</span>
+                  </a>
+                </Button>
               </div>
 
               <div className="pt-2 flex flex-col gap-2.5">
-                <Link
-                  href="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-full text-center py-3 rounded-full border border-[#E0E4DF] text-sm font-semibold text-[#101512] hover:bg-[#E7EEE8] transition-colors"
+                <Button
+                  asChild
+                  variant="outline"
+                  size="md"
+                  fullWidth
+                  className="rounded-full border-[#173F30]/30 text-[#173F30] dark:text-[#A9C2B2] hover:bg-[#E7EEE8]"
                 >
-                  Log in to Patient Portal
-                </Link>
-                <button
+                  <Link
+                    href="/profile"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <User className="size-4 mr-2" aria-hidden="true" />
+                    <span>My Profile &amp; Records</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="secondary"
+                  size="md"
+                  fullWidth
+                  className="rounded-full"
+                >
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <span>Patient &amp; Staff Login</span>
+                  </Link>
+                </Button>
+                <Button
                   onClick={() => {
                     setIsMobileMenuOpen(false)
                     openBookingWithItem()
                   }}
-                  className="w-full flex items-center justify-center gap-2 bg-[#173F30] text-white text-sm font-semibold py-3.5 rounded-full hover:bg-[#123326] transition-colors shadow-xs"
+                  variant="primary"
+                  size="md"
+                  fullWidth
+                  className="rounded-full shadow-xs"
                 >
                   <span>Book an Appointment</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Button>
               </div>
             </nav>
           </div>
@@ -286,6 +324,8 @@ export function CareNovaNavbar() {
         initialService={preselectedBooking}
         initialDoctor={preselectedBooking?.startsWith("Dr.") ? preselectedBooking : undefined}
       />
+
+      <CarePointUserProfileModal />
     </>
   )
 }

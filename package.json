@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "test": "node scripts/test-routes.mjs",
-    "test:routes": "node scripts/test-routes.mjs"
+    "test:routes": "node scripts/test-routes.mjs",
+    "test:layout": "playwright test tests/layout.spec.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -41,6 +43,7 @@
     "twilio": "^6.1.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@reticlehq/next": "^3.7.0",
     "@reticlehq/react": "^3.7.0",
     "@tailwindcss/postcss": "^4",

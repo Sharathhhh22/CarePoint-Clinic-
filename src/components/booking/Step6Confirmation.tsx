@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { CheckCircle2, Calendar, MapPin, FileText, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"

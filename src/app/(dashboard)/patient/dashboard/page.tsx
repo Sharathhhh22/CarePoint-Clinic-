@@ -3,7 +3,7 @@ import { Calendar, Clock, Activity, FileText, PlusCircle, ArrowRight, Stethoscop
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import EmergencyButton from "@/components/telephony/EmergencyButton"
 import { StatusBadge } from "@/components/ui/StatusBadge"
 import { formatDoctorName } from "@/lib/utils"

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Plus, Trash2, CheckCircle2, X, AlertCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { createClient } from "@/utils/supabase/client"
 
 export interface PrescriptionMedicine {

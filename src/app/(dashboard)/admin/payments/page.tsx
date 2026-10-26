@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { CreditCard, DollarSign, Wallet, ArrowLeft, ArrowUpRight, CheckCircle2, Clock, AlertCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"

@@ -19,6 +19,8 @@ import {
 import { openBookingModal } from "@/lib/booking-events"
 import { CarePointDoctorBioModal } from "@/components/carenova/CarePointDoctorBioModal"
 import { AnimatedStatsCounter } from "@/components/common/AnimatedStatsCounter"
+import { Container } from "@/components/ui/Container"
+import { Button, ButtonGroup } from "@/components/ui/Button"
 
 const CLINICAL_PILLARS = [
   {
@@ -108,7 +110,7 @@ export function AboutClient() {
     <div className="w-full">
       {/* 1. HERO SECTION */}
       <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
@@ -144,12 +146,12 @@ export function AboutClient() {
               <p className="text-xs font-medium text-[#777D79] mt-1">Patient Satisfaction</p>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 2. OUR PHILOSOPHY & CLINICAL PILLARS */}
       <section className="py-20 md:py-28 bg-white border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-3">
               The Four Standards
@@ -168,7 +170,7 @@ export function AboutClient() {
               return (
                 <div
                   key={idx}
-                  className="p-7 rounded-2xl bg-[#FAFAF7] border border-[#E0E4DF] flex flex-col justify-between hover:border-[#173F30]/40 transition-all hover:shadow-md group"
+                  className="card-grid-item h-full p-7 rounded-2xl bg-[#FAFAF7] border border-[#E0E4DF] flex flex-col justify-between hover:border-[#173F30]/40 transition-all hover:shadow-md group"
                 >
                   <div>
                     <div className="w-12 h-12 rounded-xl bg-[#E7EEE8] text-[#173F30] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
@@ -185,12 +187,12 @@ export function AboutClient() {
               )
             })}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 3. CLINICAL TEAM SHOWCASE */}
       <section className="py-20 md:py-28 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
               <h2 className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-2">
@@ -203,20 +205,22 @@ export function AboutClient() {
                 Every physician at CarePoint Clinic holds active board certification, university faculty appointments, and extensive clinical practice experience.
               </p>
             </div>
-            <button
+            <Button
               onClick={() => openBookingModal()}
-              className="inline-flex items-center gap-2 bg-[#173F30] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#123326] transition-all self-start md:self-auto shadow-xs"
+              variant="primary"
+              size="sm"
+              className="rounded-full shadow-xs self-start md:self-auto"
             >
               <span>Book with a Specialist</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PHYSICIANS.map((doc, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-2xl border border-[#E0E4DF] overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between"
+                className="card-grid-item h-full bg-white rounded-2xl border border-[#E0E4DF] overflow-hidden shadow-xs hover:shadow-md transition-all group flex flex-col justify-between"
               >
                 <div>
                   <div className="relative h-64 w-full bg-[#E7EEE8] overflow-hidden">
@@ -241,24 +245,27 @@ export function AboutClient() {
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
-                  <button
+                <div className="p-5 pt-0 mt-auto">
+                  <Button
                     onClick={() => setSelectedDoctor(doc.name)}
-                    className="w-full py-2.5 px-4 text-xs font-bold rounded-xl border border-[#E0E4DF] text-[#173F30] hover:bg-[#E7EEE8] transition-colors flex items-center justify-center gap-1.5"
+                    variant="outline"
+                    size="sm"
+                    fullWidth
+                    className="rounded-xl border-[#E0E4DF] text-[#173F30] hover:bg-[#E7EEE8]"
                   >
-                    <GraduationCap className="w-4 h-4" />
-                    <span>View Credentials & Bio</span>
-                  </button>
+                    <GraduationCap className="size-4" aria-hidden="true" />
+                    <span>View Credentials &amp; Bio</span>
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 4. CLINIC MILESTONES & JOURNEY */}
       <section className="py-20 md:py-28 bg-white border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-2">
               Our Journey
@@ -280,12 +287,12 @@ export function AboutClient() {
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 5. FACILITY & ACCREDITATION STANDARDS */}
       <section className="py-20 bg-[#FAFAF7]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="bg-[#173F30] text-white rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden">
             <div className="relative z-10 max-w-2xl">
               <div className="flex items-center gap-2 mb-4">
@@ -301,23 +308,29 @@ export function AboutClient() {
                 CarePoint Clinic operates under strict JCAHO guidelines with medical-grade HEPA air filtration, digitized electronic health records (HIPAA Grade 256-bit AES encryption), and daily sterile protocol audits.
               </p>
 
-              <div className="flex flex-wrap gap-4">
-                <button
+              <ButtonGroup>
+                <Button
                   onClick={() => openBookingModal()}
-                  className="bg-white text-[#173F30] hover:bg-[#FAFAF7] text-sm font-bold px-6 py-3 rounded-full transition-all shadow-md"
+                  variant="secondary"
+                  size="md"
+                  className="w-full sm:w-auto rounded-full bg-white text-[#173F30] hover:bg-[#FAFAF7] shadow-md font-bold"
                 >
-                  Book an In-Person Consultation
-                </button>
-                <Link
-                  href="/gallery"
-                  className="bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all border border-white/20"
+                  <span>Book an In-Person Consultation</span>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="md"
+                  className="w-full sm:w-auto rounded-full bg-white/10 hover:bg-white/20 text-white border-white/20"
                 >
-                  Explore Clinic Facilities
-                </Link>
-              </div>
+                  <Link href="/gallery">
+                    <span>Explore Clinic Facilities</span>
+                  </Link>
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* DOCTOR BIO MODAL */}

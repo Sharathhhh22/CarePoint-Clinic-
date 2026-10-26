@@ -17,6 +17,7 @@ import {
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
 import { getStoredUtmParams } from "@/components/common/UtmTracker"
+import { Button, ButtonGroup } from "@/components/ui/Button"
 
 export function ContactClient() {
   const [formData, setFormData] = useState({
@@ -238,15 +239,20 @@ export function ContactClient() {
                   </p>
                 </div>
               </div>
-              <a
-                href="https://wa.me/18002892273?text=Hi%20CarePoint%20Clinic,%20I%20would%20like%20to%20enquire%20about%20a%20consultation."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+              <Button
+                asChild
+                size="sm"
+                className="shrink-0 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs"
               >
-                <span>Chat</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+                <a
+                  href="https://wa.me/18002892273?text=Hi%20CarePoint%20Clinic,%20I%20would%20like%20to%20enquire%20about%20a%20consultation."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Chat</span>
+                  <ExternalLink className="size-3.5" aria-hidden="true" />
+                </a>
+              </Button>
             </div>
 
             {/* Address & Parking */}
@@ -310,20 +316,24 @@ export function ContactClient() {
                 </p>
               </div>
 
-              <div className="pt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <button
+              <ButtonGroup className="pt-6 w-full sm:w-auto">
+                <Button
                   onClick={() => openBookingModal({ service: formData.department })}
-                  className="px-6 py-3 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold transition-all shadow-xs"
+                  variant="primary"
+                  size="md"
+                  className="rounded-full shadow-xs"
                 >
-                  Schedule Appointment Directly
-                </button>
-                <button
+                  <span>Schedule Appointment Directly</span>
+                </Button>
+                <Button
                   onClick={handleReset}
-                  className="px-6 py-3 rounded-full border border-[#E0E4DF] text-[#777D79] hover:text-[#101512] text-xs font-bold transition-colors"
+                  variant="outline"
+                  size="md"
+                  className="rounded-full"
                 >
-                  Send Another Message
-                </button>
-              </div>
+                  <span>Send Another Message</span>
+                </Button>
+              </ButtonGroup>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -508,23 +518,26 @@ export function ContactClient() {
               </div>
 
               {/* Submit CTA */}
-              <button
+              <Button
                 type="submit"
+                variant="primary"
+                size="lg"
+                fullWidth
                 disabled={status === "sending"}
-                className="w-full h-12 bg-[#173F30] hover:bg-[#123326] text-white text-xs font-bold rounded-full transition-all shadow-xs flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-70"
+                className="rounded-full shadow-xs flex items-center justify-center gap-2 active:scale-[0.99]"
               >
                 {status === "sending" ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="size-4 animate-spin" aria-hidden="true" />
                     <span>Transmitting Enquiry...</span>
                   </>
                 ) : (
                   <>
                     <span>Submit Consultation Enquiry</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="size-4" aria-hidden="true" />
                   </>
                 )}
-              </button>
+              </Button>
             </form>
           )}
         </div>

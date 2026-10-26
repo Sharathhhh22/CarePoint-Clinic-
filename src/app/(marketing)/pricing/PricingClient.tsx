@@ -14,6 +14,8 @@ import {
   Sparkles,
 } from "lucide-react"
 import { openBookingModal } from "@/lib/booking-events"
+import { Container } from "@/components/ui/Container"
+import { Button } from "@/components/ui/Button"
 
 interface InsuranceOption {
   id: string
@@ -110,7 +112,7 @@ export function PricingClient() {
     <div className="w-full">
       {/* 1. HERO SECTION */}
       <section className="pt-12 pb-16 md:pt-20 md:pb-24 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
@@ -126,12 +128,12 @@ export function PricingClient() {
               We publish our consultation fees openly and verify your insurance coverage upfront. What you see is what you pay: no surprise facility fees, no confusing bills months later.
             </p>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 2. THREE PRICING TIERS & BILLING TOGGLE */}
       <section className="py-16 md:py-24 bg-white dark:bg-[#0E1713] border-b border-[#E0E4DF]/60 dark:border-[#4E6C5D]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           {/* Monthly vs Annual Billing Toggle */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
@@ -144,11 +146,11 @@ export function PricingClient() {
               aria-checked={billingCycle === "annual"}
               aria-label="Toggle between monthly and annual membership plans"
               onClick={() => setBillingCycle(billingCycle === "monthly" ? "annual" : "monthly")}
-              className="relative w-16 h-9 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
+              className="relative w-20 min-h-11 h-11 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
             >
               <span
-                className={`block w-7 h-7 rounded-full bg-[#173F30] dark:bg-[#A9C2B2] shadow-sm transform transition-transform duration-200 ${
-                  billingCycle === "annual" ? "translate-x-7" : "translate-x-0"
+                className={`block w-9 h-9 rounded-full bg-[#173F30] dark:bg-[#A9C2B2] shadow-sm transform transition-transform duration-200 ${
+                  billingCycle === "annual" ? "translate-x-9" : "translate-x-0"
                 }`}
               />
             </button>
@@ -164,7 +166,7 @@ export function PricingClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {/* TIER 1 */}
-            <div className="rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
+            <div className="card-grid-item h-full rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
               <div>
                 <span className="px-3 py-1 rounded-full bg-white text-[#777D79] text-xs font-bold border border-[#E0E4DF]">
                   Standard Care
@@ -204,16 +206,22 @@ export function PricingClient() {
                 </ul>
               </div>
 
-              <button
-                onClick={() => openBookingModal({ service: "Primary Care & Family Medicine" })}
-                className="w-full py-3 px-5 rounded-full border border-[#E0E4DF] text-[#173F30] font-bold text-xs hover:bg-[#E7EEE8] transition-colors"
-              >
-                Book Primary Care
-              </button>
+              <div className="mt-auto pt-6">
+                <Button
+                  onClick={() => openBookingModal({ service: "Primary Care & Family Medicine" })}
+                  variant="outline"
+                  size="md"
+                  fullWidth
+                  className="rounded-full border-[#E0E4DF] text-[#173F30] hover:bg-[#E7EEE8]"
+                >
+                  <span>Book Primary Care</span>
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Button>
+              </div>
             </div>
 
             {/* TIER 2 - FEATURED */}
-            <div className="rounded-3xl bg-[#173F30] text-white p-8 flex flex-col justify-between shadow-xl relative scale-100 md:-translate-y-2">
+            <div className="card-grid-item h-full rounded-3xl bg-[#173F30] text-white p-8 flex flex-col justify-between shadow-xl relative scale-100 md:-translate-y-2">
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#A9C2B2] text-[#173F30] text-[11px] font-black uppercase tracking-wider shadow-sm">
                 Most Popular
               </div>
@@ -242,7 +250,7 @@ export function PricingClient() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
-                    <span>Prior medical chart & ECG review</span>
+                    <span>Prior medical chart &amp; ECG review</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-[#A9C2B2] shrink-0" />
@@ -255,16 +263,22 @@ export function PricingClient() {
                 </ul>
               </div>
 
-              <button
-                onClick={() => openBookingModal({ service: "Specialist Clinical Consultation" })}
-                className="w-full py-3.5 px-5 rounded-full bg-white text-[#173F30] hover:bg-[#FAFAF7] font-bold text-xs transition-all shadow-md active:scale-95"
-              >
-                Book Specialist Review
-              </button>
+              <div className="mt-auto pt-6">
+                <Button
+                  onClick={() => openBookingModal({ service: "Specialist Clinical Consultation" })}
+                  variant="secondary"
+                  size="md"
+                  fullWidth
+                  className="rounded-full bg-white text-[#173F30] hover:bg-[#FAFAF7] shadow-md active:scale-95 font-bold"
+                >
+                  <span>Book Specialist Review</span>
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Button>
+              </div>
             </div>
 
             {/* TIER 3 */}
-            <div className="rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
+            <div className="card-grid-item h-full rounded-3xl bg-[#FAFAF7] border border-[#E0E4DF] p-8 flex flex-col justify-between hover:border-[#173F30]/40 transition-all shadow-xs">
               <div>
                 <span className="px-3 py-1 rounded-full bg-white text-[#777D79] text-xs font-bold border border-[#E0E4DF]">
                   Executive Health
@@ -293,7 +307,7 @@ export function PricingClient() {
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-[#173F30] shrink-0" />
-                    <span>Complete blood chemistry & lipid profile</span>
+                    <span>Complete blood chemistry &amp; lipid profile</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-[#173F30] shrink-0" />
@@ -302,20 +316,26 @@ export function PricingClient() {
                 </ul>
               </div>
 
-              <button
-                onClick={() => openBookingModal({ service: "Executive Longevity & Metabolic Review" })}
-                className="w-full py-3 px-5 rounded-full border border-[#E0E4DF] text-[#173F30] font-bold text-xs hover:bg-[#E7EEE8] transition-colors"
-              >
-                Book Executive Longevity
-              </button>
+              <div className="mt-auto pt-6">
+                <Button
+                  onClick={() => openBookingModal({ service: "Executive Longevity & Metabolic Review" })}
+                  variant="outline"
+                  size="md"
+                  fullWidth
+                  className="rounded-full border-[#E0E4DF] text-[#173F30] hover:bg-[#E7EEE8]"
+                >
+                  <span>Book Executive Longevity</span>
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 3. INSURANCE COVERAGE CHECKER */}
       <section className="py-20 md:py-28 bg-[#FAFAF7] border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-2">
               Insurance Verification Tool
@@ -377,12 +397,12 @@ export function PricingClient() {
               </span>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* 4. BILLING FAQS */}
       <section className="py-20 md:py-28 bg-white border-b border-[#E0E4DF]/60">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-xs font-bold uppercase tracking-wider text-[#173F30] mb-2">
               Common Questions
@@ -420,7 +440,7 @@ export function PricingClient() {
               )
             })}
           </div>
-        </div>
+        </Container>
       </section>
     </div>
   )

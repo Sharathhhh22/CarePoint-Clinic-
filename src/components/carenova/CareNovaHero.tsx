@@ -17,6 +17,8 @@ import { CareNovaVideoModal } from "./CareNovaVideoModal"
 import { CareNovaBookingModal } from "./CareNovaBookingModal"
 import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
 import { ShiningText } from "@/components/ui/shining-text"
+import { Button, ButtonGroup } from "@/components/ui/Button"
+import { Container } from "@/components/ui/Container"
 
 export function CareNovaHero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false)
@@ -46,7 +48,7 @@ export function CareNovaHero() {
         id="hero"
         className="relative overflow-hidden bg-[#FAFAF7] pt-6 pb-16 md:pt-10 md:pb-24 lg:pt-12 lg:pb-28"
       >
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-14 items-center">
             
             {/* ======================================================== */}
@@ -74,28 +76,30 @@ export function CareNovaHero() {
                 Accessible, compassionate, personalised healthcare for you and your loved ones.
               </p>
 
-              {/* Primary and Secondary Action Buttons - Identical height & perfect alignment */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-                {/* Primary Button */}
-                <button
+              {/* Primary and Secondary Action Buttons - Identical height & perfect alignment via unified Button & ButtonGroup */}
+              <ButtonGroup data-hero-cta="true" className="mb-10 sm:flex-nowrap">
+                <Button
                   onClick={() => handleOpenBooking()}
-                  className="h-14 inline-flex items-center justify-center gap-2.5 bg-[#173F30] hover:bg-[#123326] text-white text-base font-semibold px-8 rounded-full transition-all shadow-md hover:shadow-lg active:scale-[0.98] group shrink-0"
+                  size="lg"
+                  variant="primary"
+                  className="w-full sm:w-auto rounded-full group shadow-md hover:shadow-lg active:scale-[0.98]"
                 >
                   <span>Book an Appointment</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                </button>
+                  <ArrowRight className="size-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                </Button>
 
-                {/* Secondary Button */}
-                <button
+                <Button
                   onClick={() => setIsVideoOpen(true)}
-                  className="h-14 inline-flex items-center justify-center gap-3 bg-white hover:bg-[#FAFAF7] text-[#101512] border border-[#E0E4DF] hover:border-[#173F30]/40 text-base font-semibold px-7 rounded-full transition-all shadow-2xs hover:shadow-xs active:scale-[0.98] group shrink-0"
+                  size="lg"
+                  variant="secondary"
+                  className="w-full sm:w-auto rounded-full group shadow-2xs hover:shadow-xs active:scale-[0.98]"
                 >
-                  <span className="w-8 h-8 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center group-hover:bg-[#173F30] group-hover:text-white transition-colors shrink-0">
-                    <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
+                  <span className="w-7 h-7 rounded-full bg-[#E7EEE8] text-[#173F30] flex items-center justify-center group-hover:bg-[#173F30] group-hover:text-white transition-colors shrink-0" aria-hidden="true">
+                    <Play className="size-3.5 fill-current translate-x-0.5" aria-hidden="true" />
                   </span>
                   <span>Watch Our Video</span>
-                </button>
-              </div>
+                </Button>
+              </ButtonGroup>
 
               {/* Trust Indicator Group */}
               <div className="flex items-center gap-3.5 pt-1 pb-8 border-b border-[#E0E4DF]/70">
@@ -279,7 +283,7 @@ export function CareNovaHero() {
             </div>
 
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Video Modal */}

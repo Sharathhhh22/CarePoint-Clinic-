@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { ArrowLeft, ArrowRight, Activity, MapPin, Calendar as CalendarIcon, User, CheckCircle2 } from "lucide-react"
 import { BookingProvider, useBooking } from "@/context/BookingContext"
 

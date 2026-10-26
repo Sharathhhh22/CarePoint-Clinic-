@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { MessageSquare, X, Send, Bot, User, ArrowRight, Loader2, ShieldAlert } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import Link from "next/link"
 import { ChatMessage } from "@/services/llm/types"
 

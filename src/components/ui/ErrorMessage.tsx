@@ -1,6 +1,6 @@
 import React from "react"
 import { AlertCircle, RefreshCw } from "lucide-react"
-import { Button } from "./button"
+import { Button } from "./Button"
 
 interface ErrorMessageProps {
   title?: string

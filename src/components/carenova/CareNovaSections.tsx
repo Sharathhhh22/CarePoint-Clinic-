@@ -27,6 +27,8 @@ import { CarePointDoctorBioModal } from "./CarePointDoctorBioModal"
 import { AnimatedStatsCounter } from "@/components/common/AnimatedStatsCounter"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/components/ui/toast"
+import { Button, ButtonGroup } from "@/components/ui/Button"
+import { Container } from "@/components/ui/Container"
 
 function DoctorsGridSkeleton() {
   return (
@@ -435,7 +437,7 @@ export function CareNovaSections() {
       {/* SECTION A: OUR APPROACH TO CARE & ANIMATED METRICS       */}
       {/* ======================================================== */}
       <section id="about" className="py-20 md:py-28 bg-[#FAFAF7] dark:bg-[#0D1511] border-t border-[#E0E4DF] dark:border-[#4E6C5D]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           {/* INTERACTIVE FEATURE: Animated Stats Counter */}
           <div className="mb-16 p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#121B16] border border-[#E0E4DF] dark:border-[#4E6C5D] shadow-xs">
@@ -498,12 +500,16 @@ export function CareNovaSections() {
                   <p className="text-xs font-bold text-[#101512]">Calm, Private Clinical Environments</p>
                   <p className="text-[11px] text-[#777D79] mt-0.5">Designed intentionally to eliminate clinical anxiety and encourage open dialogue.</p>
                 </div>
-                <Link
-                  href="/gallery"
-                  className="shrink-0 px-4 py-2 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold transition-colors text-center shadow-2xs"
+                <Button
+                  asChild
+                  variant="primary"
+                  size="sm"
+                  className="rounded-full shadow-2xs shrink-0"
                 >
-                  View Facility Gallery
-                </Link>
+                  <Link href="/gallery">
+                    View Facility Gallery
+                  </Link>
+                </Button>
               </div>
             </div>
 
@@ -557,14 +563,14 @@ export function CareNovaSections() {
             </div>
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION B: SERVICES                                      */}
       {/* ======================================================== */}
       <section id="services" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
             <div className="max-w-2xl">
@@ -579,13 +585,15 @@ export function CareNovaSections() {
               </p>
             </div>
 
-            <button
+            <Button
               onClick={handleOpenGeneralBooking}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#173F30] hover:text-[#123326] underline-offset-4 hover:underline shrink-0"
+              variant="link"
+              size="sm"
+              className="font-semibold text-[#173F30] hover:text-[#123326] p-0 shrink-0"
             >
               <span>View all available consultation slots</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -594,7 +602,7 @@ export function CareNovaSections() {
               return (
                 <div
                   key={service.title}
-                  className="bg-white rounded-3xl p-7 border border-[#E0E4DF] hover:border-[#173F30]/40 transition-all shadow-xs hover:shadow-md flex flex-col justify-between group"
+                  className="card-grid-item h-full bg-white rounded-3xl p-7 border border-[#E0E4DF] hover:border-[#173F30]/40 transition-all shadow-xs hover:shadow-md flex flex-col justify-between group"
                 >
                   <div>
                     <div className="w-12 h-12 rounded-2xl bg-[#E7EEE8] text-[#173F30] flex items-center justify-center mb-6 group-hover:bg-[#173F30] group-hover:text-white transition-colors shrink-0">
@@ -621,14 +629,17 @@ export function CareNovaSections() {
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E0E4DF]">
-                    <button
+                  <div className="card-grid-footer pt-4 border-t border-[#E0E4DF] mt-auto">
+                    <Button
                       onClick={() => handleBookService(service.title)}
-                      className="w-full py-2.5 px-4 rounded-full bg-[#E7EEE8] hover:bg-[#173F30] text-[#173F30] hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+                      variant="secondary"
+                      size="sm"
+                      fullWidth
+                      className="rounded-full"
                     >
                       <span>Book Consultation</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                      <ArrowRight className="size-3.5" aria-hidden="true" />
+                    </Button>
                   </div>
                 </div>
               )
@@ -636,23 +647,27 @@ export function CareNovaSections() {
           </div>
 
           <div className="mt-12 text-center">
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
+            <Button
+              asChild
+              variant="secondary"
+              size="md"
+              className="rounded-full shadow-2xs"
             >
-              <span>Explore All Clinical Specialties & Preparation Guides</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              <Link href="/services">
+                <span>Explore All Clinical Specialties & Preparation Guides</span>
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION: SYMPTOM CHECKER & SPECIALIST MATCHING TOOL       */}
       {/* ======================================================== */}
       <section id="symptom-matcher" className="py-20 md:py-28 bg-white border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           <div className="max-w-3xl mb-12 sm:mb-16">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-3">
@@ -807,22 +822,28 @@ export function CareNovaSections() {
 
                     {/* CTAs */}
                     <div className="space-y-2.5 pt-1">
-                      <button
+                      <Button
                         onClick={() => handleBookDoctor(active.matchedDoctor)}
-                        className="w-full py-3.5 px-6 rounded-full bg-[#173F30] hover:bg-[#123326] active:scale-[0.98] text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
+                        variant="primary"
+                        size="md"
+                        fullWidth
+                        className="rounded-full shadow-md hover:shadow-lg active:scale-[0.98]"
                       >
-                        <Calendar className="w-4 h-4" />
+                        <Calendar className="size-4" aria-hidden="true" />
                         <span>Book with {active.matchedDoctor.split(" ")[1]}</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+                        <ArrowRight className="size-4" aria-hidden="true" />
+                      </Button>
 
-                      <button
+                      <Button
                         onClick={() => handleOpenDoctorBio(active.matchedDoctor)}
-                        className="w-full py-2.5 px-4 rounded-full border border-[#E0E4DF] hover:border-[#173F30]/40 hover:bg-white text-xs font-semibold text-[#101512] flex items-center justify-center gap-2 transition-colors"
+                        variant="secondary"
+                        size="sm"
+                        fullWidth
+                        className="rounded-full"
                       >
-                        <User className="w-3.5 h-3.5 text-[#173F30]" />
+                        <User className="size-3.5 text-[#173F30]" aria-hidden="true" />
                         <span>View Specialist Qualifications & Bio</span>
-                      </button>
+                      </Button>
                     </div>
 
                   </div>
@@ -832,14 +853,14 @@ export function CareNovaSections() {
 
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION C: MEET OUR DOCTORS                              */}
       {/* ======================================================== */}
       <section id="doctors" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
             <div className="max-w-2xl">
@@ -882,7 +903,7 @@ export function CareNovaSections() {
                     tabIndex={isSelected ? 0 : -1}
                     onClick={() => handleDoctorSpecialtySelect(specialty)}
                     onKeyDown={(e) => handleDoctorTabKeyDown(e, idx)}
-                    className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2] ${
+                    className={`min-h-11 px-4 py-2.5 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2] ${
                       isSelected
                         ? "bg-[#173F30] text-white shadow-xs dark:bg-[#1E4D3B] dark:text-[#EAEFEA]"
                         : "text-[#777D79] dark:text-[#9BAAA0] hover:text-[#101512] dark:hover:text-[#FAFAF7] hover:bg-[#E7EEE8] dark:hover:bg-[#1B2921]"
@@ -954,21 +975,27 @@ export function CareNovaSections() {
                   </div>
 
                   {/* Card Action Buttons: Single Primary CTA + Bio Link */}
-                  <div className="p-5 pt-0 space-y-2">
-                    <button
+                  <div className="p-5 pt-0 space-y-2 mt-auto">
+                    <Button
                       onClick={() => handleBookDoctor(doc.name)}
-                      className="no-print w-full h-11 rounded-full bg-[#173F30] hover:bg-[#123326] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-xs hover:shadow-sm cursor-pointer"
+                      variant="primary"
+                      size="sm"
+                      fullWidth
+                      className="no-print rounded-full shadow-xs hover:shadow-sm"
                     >
                       <span>Book with {doc.name.split(" ")[1]}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    <button
+                      <ArrowRight className="size-4" aria-hidden="true" />
+                    </Button>
+                    <Button
                       onClick={() => handleOpenDoctorBio(doc.name)}
-                      className="w-full py-1 text-center text-[11px] font-medium text-[#777D79] hover:text-[#173F30] dark:text-[#9BAAA0] dark:hover:text-[#A9C2B2] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                      variant="ghost"
+                      size="sm"
+                      fullWidth
+                      className="text-xs font-medium text-[#777D79] hover:text-[#173F30] dark:text-[#9BAAA0] dark:hover:text-[#A9C2B2] rounded-full"
                     >
-                      <User className="w-3 h-3 text-[#173F30] dark:text-[#A9C2B2]" />
+                      <User className="size-3.5 text-[#173F30] dark:text-[#A9C2B2]" aria-hidden="true" />
                       <span>View Credentials &amp; Bio</span>
-                    </button>
+                    </Button>
                     <p className="hidden print:block text-[11px] font-semibold text-gray-700 text-center">
                       Appointments: (800) 289-CARE
                     </p>
@@ -979,23 +1006,22 @@ export function CareNovaSections() {
           )}
 
           <div className="mt-12 text-center">
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
-            >
-              <span>Meet Full Medical Team & Accreditations</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <Button asChild variant="outline" size="sm" className="rounded-full shadow-2xs bg-white text-[#173F30] hover:bg-[#E7EEE8]">
+              <Link href="/about">
+                <span>Meet Full Medical Team &amp; Accreditations</span>
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION D: PRICING & CARE PLANS                          */}
       {/* ======================================================== */}
       <section id="pricing" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-[#173F30] bg-[#E7EEE8] px-3.5 py-1.5 rounded-full inline-block mb-3">
@@ -1020,11 +1046,11 @@ export function CareNovaSections() {
               aria-checked={billingCycle === "annual"}
               aria-label="Toggle between monthly and annual care plans"
               onClick={handleBillingCycleToggle}
-              className="relative w-14 h-8 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
+              className="relative w-20 min-h-11 h-11 rounded-full bg-[#E0E4DF] dark:bg-[#1B2921] border border-[#CBD5E1] dark:border-[#4E6C5D] p-1 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173F30] dark:focus-visible:ring-[#A9C2B2]"
             >
               <span
-                className={`block w-6 h-6 rounded-full bg-[#173F30] dark:bg-[#A9C2B2] shadow-sm transform transition-transform duration-200 ${
-                  billingCycle === "annual" ? "translate-x-6" : "translate-x-0"
+                className={`block w-9 h-9 rounded-full bg-[#173F30] dark:bg-[#A9C2B2] shadow-sm transform transition-transform duration-200 ${
+                  billingCycle === "annual" ? "translate-x-9" : "translate-x-0"
                 }`}
               />
             </button>
@@ -1048,7 +1074,7 @@ export function CareNovaSections() {
               return (
               <div
                 key={tier.name}
-                className={`rounded-3xl p-8 border transition-all flex flex-col justify-between ${
+                className={`card-grid-item h-full rounded-3xl p-8 border transition-all flex flex-col justify-between ${
                   tier.popular
                     ? "bg-white border-[#173F30] shadow-lg ring-2 ring-[#173F30]/10 relative"
                     : "bg-white border-[#E0E4DF] shadow-xs hover:border-[#A9C2B2]"
@@ -1083,40 +1109,40 @@ export function CareNovaSections() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => handleBookService(tier.name)}
-                  className={`w-full py-3 px-4 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${
-                    tier.popular
-                      ? "bg-[#173F30] text-white hover:bg-[#123326] shadow-xs"
-                      : "bg-[#E7EEE8] text-[#173F30] hover:bg-[#173F30] hover:text-white"
-                  }`}
-                >
-                  <span>Select Consultation</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                <div className="mt-auto pt-6">
+                  <Button
+                    onClick={() => handleBookService(tier.name)}
+                    variant={tier.popular ? "primary" : "secondary"}
+                    size="md"
+                    fullWidth
+                    className="rounded-full shadow-xs"
+                  >
+                    <span>Select Consultation</span>
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Button>
+                </div>
               </div>
             )
             })}
           </div>
 
           <div className="mt-12 text-center">
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#E0E4DF] bg-white text-xs font-bold text-[#173F30] hover:bg-[#E7EEE8] transition-colors shadow-2xs"
-            >
-              <span>Check Insurance Network Coverage & Complete Fee Schedule</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <Button asChild variant="outline" size="sm" className="rounded-full shadow-2xs bg-white text-[#173F30] hover:bg-[#E7EEE8]">
+              <Link href="/pricing">
+                <span>Check Insurance Network Coverage &amp; Complete Fee Schedule</span>
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION E: APPOINTMENT CALL TO ACTION                    */}
       {/* ======================================================== */}
       <section className="py-16 md:py-24 bg-[#FAFAF7]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           <div className="relative rounded-[36px] bg-[#173F30] text-white p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
             {/* Subtle background curved decoration */}
@@ -1134,40 +1160,50 @@ export function CareNovaSections() {
                 Take the next step towards a more personal healthcare experience.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                <button
+              <ButtonGroup className="mt-8">
+                <Button
                   onClick={handleOpenGeneralBooking}
-                  className="inline-flex items-center justify-center gap-2 bg-white text-[#173F30] hover:bg-[#FAFAF7] text-sm font-bold px-8 py-3.5 rounded-full transition-all shadow-md active:scale-[0.98] group"
+                  variant="secondary"
+                  size="lg"
+                  className="w-full sm:w-auto rounded-full bg-white text-[#173F30] hover:bg-[#FAFAF7] shadow-md group"
                 >
                   <span>Book an Appointment</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 text-[#173F30]" />
-                </button>
+                  <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                </Button>
 
-                <Link
-                  href="/services"
-                  className="inline-flex items-center justify-center gap-2 border border-white/30 hover:border-white text-white text-sm font-semibold px-7 py-3.5 rounded-full transition-all hover:bg-white/10"
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto rounded-full border-white/30 text-white hover:border-white hover:bg-white/10"
                 >
-                  <span>Explore All Services</span>
-                </Link>
+                  <Link href="/services">
+                    <span>Explore All Services</span>
+                  </Link>
+                </Button>
 
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 border border-white/30 hover:border-white text-white text-sm font-semibold px-7 py-3.5 rounded-full transition-all hover:bg-white/10"
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto rounded-full border-white/30 text-white hover:border-white hover:bg-white/10"
                 >
-                  <span>Contact & Location</span>
-                </Link>
-              </div>
+                  <Link href="/contact">
+                    <span>Contact &amp; Location</span>
+                  </Link>
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* ======================================================== */}
       {/* SECTION F: FREQUENTLY ASKED QUESTIONS                    */}
       {/* ======================================================== */}
       <section id="faq" className="py-20 md:py-28 bg-[#FAFAF7] border-t border-[#E0E4DF]">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
@@ -1221,7 +1257,7 @@ export function CareNovaSections() {
 
           </div>
 
-        </div>
+        </Container>
       </section>
 
       {/* Appointment Booking Modal */}

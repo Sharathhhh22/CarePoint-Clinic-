@@ -1,7 +1,8 @@
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Mail, Phone, MapPin, Calendar, Briefcase, User as UserIcon } from "lucide-react"
+import { Mail, Phone, MapPin, Calendar, Briefcase, User as UserIcon, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 import { EditProfileModal } from "./components/EditProfileModal"
 import { ProfileCompletion } from "./components/ProfileCompletion"
 import { SecuritySection } from "./components/SecuritySection"
@@ -42,48 +43,70 @@ export default async function ProfilePage() {
   const missingFields = fields.filter(f => !f.value).map(f => f.label)
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
+    <div className="max-w-5xl mx-auto space-y-6 pb-12">
+      {/* Top Clinic Breadcrumb */}
+      <div className="flex items-center justify-between pb-1">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] hover:underline transition-all"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Back to CarePoint Clinic Website</span>
+        </Link>
+        <span className="text-xs text-muted-foreground font-medium">
+          Personal Patient Profile &bull; HIPAA Compliant
+        </span>
+      </div>
+
       {/* HEADER SECTION */}
-      <div className="bg-card rounded-2xl shadow-sm border border-border overflow-hidden relative">
-        <div className="h-32 bg-gradient-to-tr from-slate-900 via-teal-950 to-slate-900 border-b border-border/40 absolute top-0 left-0 w-full" />
-        
-        <div className="relative pt-16 px-4 sm:px-6 pb-6 sm:pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-6 md:items-end">
-          <div className="shrink-0 -mt-2">
-            <AvatarUpload userId={user.id} initialUrl={profile?.avatar_url} />
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground truncate">
-                  {profile?.full_name || "Anonymous User"}
-                </h1>
-                <p className="text-muted-foreground font-medium text-sm">{profile?.role === 'admin' ? 'System Administrator' : 'Patient'}</p>
+      <div className="bg-card rounded-3xl shadow-sm border border-border overflow-hidden">
+        {/* Cover Banner */}
+        <div className="h-32 sm:h-40 w-full bg-gradient-to-r from-[#173F30] via-[#1E4D3B] to-[#101512] relative border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent pointer-events-none" />
+        </div>
+
+        {/* Profile Info Details */}
+        <div className="px-6 sm:px-10 pb-8 pt-0 relative bg-card">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 -mt-14 sm:-mt-16 mb-5">
+            <div className="flex flex-col sm:flex-row sm:items-end gap-5">
+              <div className="shrink-0 relative">
+                <AvatarUpload userId={user.id} initialUrl={profile?.avatar_url} />
               </div>
-              <div className="shrink-0">
-                <EditProfileModal profile={profile || {}} userEmail={user.email} />
-              </div>
-            </div>
-            
-            {profile?.bio && (
-              <p className="mt-4 text-muted-foreground max-w-2xl leading-relaxed">
-                {profile.bio}
-              </p>
-            )}
-            
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6 text-sm text-muted-foreground font-medium">
-              {profile?.address && (
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
-                  {profile.address}
+
+              <div className="space-y-1.5 sm:pb-1">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                    {profile?.full_name || "Anonymous User"}
+                  </h1>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                    {profile?.role === 'admin' ? 'System Administrator' : profile?.role === 'doctor' ? 'Verified Physician' : 'Patient'}
+                  </span>
                 </div>
-              )}
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-muted-foreground" />
-                Member since {joinDate}
+
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground font-medium">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Member since {joinDate}</span>
+                </div>
               </div>
             </div>
+
+            <div className="shrink-0 sm:pb-1">
+              <EditProfileModal profile={profile || {}} userEmail={user.email} />
+            </div>
           </div>
+
+          {profile?.bio && (
+            <p className="text-sm sm:text-base text-muted-foreground max-w-3xl leading-relaxed pt-3 border-t border-border/40">
+              {profile.bio}
+            </p>
+          )}
+
+          {profile?.address && (
+            <div className="flex items-center gap-2 mt-4 text-xs sm:text-sm text-muted-foreground">
+              <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
+              <span>{profile.address}</span>
+            </div>
+          )}
         </div>
       </div>
 

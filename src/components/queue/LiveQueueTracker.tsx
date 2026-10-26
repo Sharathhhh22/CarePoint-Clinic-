@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Users, Clock, Bell, CheckCircle2, AlertCircle, RefreshCw, Volume2, VolumeX } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 
 interface LiveQueueTrackerProps {
   appointmentId: string

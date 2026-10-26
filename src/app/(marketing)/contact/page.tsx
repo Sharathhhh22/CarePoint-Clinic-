@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { ContactClient } from "./ContactClient"
+import { Container } from "@/components/ui/Container"
 
 export const metadata: Metadata = {
   title: "Contact & Clinic Location | CarePoint Clinic",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="min-h-screen pt-12 pb-24 bg-[#FAFAF7] text-[#101512]">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+      <Container>
         <div className="max-w-3xl mb-12">
           <div className="flex items-center gap-2 mb-6">
             <span className="w-2 h-2 rounded-full bg-[#173F30]"></span>
@@ -36,7 +37,7 @@ export default function ContactPage() {
         </div>
 
         <ContactClient />
-      </div>
+      </Container>
     </div>
   )
 }

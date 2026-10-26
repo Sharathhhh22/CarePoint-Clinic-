@@ -68,7 +68,7 @@ export function AvatarUpload({ userId, initialUrl }: { userId: string, initialUr
 
   return (
     <div className="relative group">
-      <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-card bg-muted shadow-md flex items-center justify-center relative">
+      <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-card bg-surface-elevated shadow-lg flex items-center justify-center relative">
         {avatarUrl ? (
           <Image 
             src={avatarUrl} 
@@ -77,7 +77,9 @@ export function AvatarUpload({ userId, initialUrl }: { userId: string, initialUr
             className="object-cover"
           />
         ) : (
-          <UserIcon className="w-12 h-12 text-muted-foreground/60" />
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 via-surface-elevated to-primary/5">
+            <UserIcon className="w-12 h-12 text-primary" />
+          </div>
         )}
         
         <div 

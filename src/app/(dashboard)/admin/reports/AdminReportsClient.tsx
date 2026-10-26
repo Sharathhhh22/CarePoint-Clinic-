@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import { Download, FileSpreadsheet, Calendar, TrendingUp, Users, CheckCircle2, XCircle, Stethoscope } from "lucide-react"
 
 interface AppointmentRecord {

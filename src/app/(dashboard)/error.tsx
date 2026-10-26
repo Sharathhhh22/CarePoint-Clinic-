@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { AlertCircle, RefreshCw, LayoutDashboard } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 
 export default function DashboardError({
   error,

@@ -4,12 +4,13 @@ import React from "react"
 import Link from "next/link"
 import { Mail, Phone, Clock, MapPin, Heart, Shield } from "lucide-react"
 import { CareNovaLogo } from "./CareNovaLogo"
+import { Container } from "@/components/ui/Container"
 
 export function CareNovaFooter() {
   return (
     <>
       <footer className="bg-white border-t border-[#E0E4DF] text-[#777D79] pt-16 pb-12">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-[#E0E4DF]/70">
             {/* BRAND SUMMARY */}
             <div className="lg:col-span-4 space-y-4">
@@ -57,6 +58,11 @@ export function CareNovaFooter() {
                 <li>
                   <Link href="/contact" className="hover:text-[#173F30] transition-colors">
                     Contact & Location
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/profile" className="hover:text-[#173F30] transition-colors font-medium">
+                    Patient Profile &amp; Records
                   </Link>
                 </li>
               </ul>
@@ -159,7 +165,7 @@ export function CareNovaFooter() {
               </Link>
             </div>
           </div>
-        </div>
+        </Container>
       </footer>
     </>
   )
