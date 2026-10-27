@@ -1,6 +1,5 @@
-feat(animation): implement smooth scroll reveal animations, scroll progress bar, and back-to-top
+fix(ui): perfect navbar 3-column alignment and signup card spacing/vertical centering
 
-- Add ScrollProgressBar with animated teal gradient at top of viewport
-- Add BackToTop floating action with smooth scroll-to-top transition
-- Add Framer Motion scroll reveal animations (staggered cards, step-by-step reveals, and hover lifts) across Home, Features, and How It Works pages
-- Ensure full compliance with prefers-reduced-motion
+- Reorganize navbar into balanced 3-column layout (Brand left, Nav links centered, Actions right)
+- Center /signup and /login content vertically with balanced top/bottom page padding
+- Align choice cards ("I'm a Patient" and "I'm a Doctor") with equal baseline, matching 48px button heights, and aligned bullet lists

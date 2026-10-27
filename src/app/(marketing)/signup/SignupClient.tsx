@@ -319,49 +319,49 @@ export function SignupClient({ initialType = null, redirectTarget }: SignupClien
   // VIEW 3: Account-Type Selection Screen (Default)
   // =========================================================================
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-8 animate-in fade-in duration-300">
-      <div className="text-center max-w-xl mx-auto space-y-2">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+    <div className="w-full max-w-4xl mx-auto space-y-10 animate-in fade-in duration-300">
+      <div className="text-center max-w-2xl mx-auto space-y-3">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
           How would you like to join?
         </h1>
-        <p className="text-muted-foreground text-base">
+        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
           Choose the account that best matches how you will use our healthcare platform.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
         {/* CARD ONE: PATIENT */}
-        <Card className="border-border hover:border-primary/50 transition-all duration-200 flex flex-col justify-between rounded-2xl bg-card shadow-sm hover:shadow-md group focus-within:ring-2 focus-within:ring-primary/20">
-          <div>
-            <CardHeader className="pb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
+        <Card className="border-border hover:border-primary/60 transition-all duration-200 flex flex-col justify-between rounded-2xl bg-card shadow-xs hover:shadow-md group focus-within:ring-2 focus-within:ring-primary/20">
+          <div className="p-6 sm:p-7">
+            <CardHeader className="p-0 pb-5">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-200">
                 <User className="w-6 h-6" />
               </div>
-              <CardTitle className="text-2xl text-foreground font-bold">I&apos;m a Patient</CardTitle>
-              <CardDescription className="text-muted-foreground text-sm leading-relaxed mt-2">
+              <CardTitle className="text-2xl font-bold text-foreground tracking-tight">I&apos;m a Patient</CardTitle>
+              <CardDescription className="text-muted-foreground text-sm leading-relaxed mt-2 sm:min-h-[44px]">
                 Find trusted doctors, explore specialties, and manage your healthcare appointments.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2.5 text-sm">
-              <div className="flex items-center gap-2.5 text-foreground/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Instant appointment booking with verified doctors</span>
+            <CardContent className="p-0 pt-4 border-t border-border/60 space-y-3 text-sm">
+              <div className="flex items-start gap-3 text-foreground/85">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span className="leading-snug">Instant appointment booking with verified doctors</span>
               </div>
-              <div className="flex items-center gap-2.5 text-foreground/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Digital queue passes and real-time waiting estimates</span>
+              <div className="flex items-start gap-3 text-foreground/85">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span className="leading-snug">Digital queue passes and real-time waiting estimates</span>
               </div>
-              <div className="flex items-center gap-2.5 text-foreground/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Secure access to consultation summaries and tickets</span>
+              <div className="flex items-start gap-3 text-foreground/85">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span className="leading-snug">Secure access to consultation summaries and tickets</span>
               </div>
             </CardContent>
           </div>
-          <CardFooter className="pt-4 pb-6">
+          <CardFooter className="p-6 sm:p-7 pt-2">
             <Button 
               type="button"
               onClick={() => setSelectedType("patient")}
-              className="w-full h-11 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold shadow-sm transition-colors flex items-center justify-center gap-2"
+              className="w-full h-12 min-h-12 bg-primary hover:bg-primary-hover text-primary-foreground font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 group-hover:gap-3"
             >
               <span>Continue as Patient</span>
               <ArrowRight className="w-4 h-4" />
@@ -370,51 +370,51 @@ export function SignupClient({ initialType = null, redirectTarget }: SignupClien
         </Card>
 
         {/* CARD TWO: DOCTOR */}
-        <Card className="border-border hover:border-primary/50 transition-all duration-200 flex flex-col justify-between rounded-2xl bg-card shadow-sm hover:shadow-md group focus-within:ring-2 focus-within:ring-primary/20">
-          <div>
-            <CardHeader className="pb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-105 transition-transform duration-200">
+        <Card className="border-border hover:border-primary/60 transition-all duration-200 flex flex-col justify-between rounded-2xl bg-card shadow-xs hover:shadow-md group focus-within:ring-2 focus-within:ring-primary/20">
+          <div className="p-6 sm:p-7">
+            <CardHeader className="p-0 pb-5">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-200">
                 <Stethoscope className="w-6 h-6" />
               </div>
-              <CardTitle className="text-2xl text-foreground font-bold">I&apos;m a Doctor</CardTitle>
-              <CardDescription className="text-muted-foreground text-sm leading-relaxed mt-2">
+              <CardTitle className="text-2xl font-bold text-foreground tracking-tight">I&apos;m a Doctor</CardTitle>
+              <CardDescription className="text-muted-foreground text-sm leading-relaxed mt-2 sm:min-h-[44px]">
                 Create your professional profile, submit your credentials, and manage your practice.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2.5 text-sm">
-              <div className="flex items-center gap-2.5 text-foreground/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Manage clinical schedule and consultation fees</span>
+            <CardContent className="p-0 pt-4 border-t border-border/60 space-y-3 text-sm">
+              <div className="flex items-start gap-3 text-foreground/85">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span className="leading-snug">Manage clinical schedule and consultation fees</span>
               </div>
-              <div className="flex items-center gap-2.5 text-foreground/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Official medical council verification and badge</span>
+              <div className="flex items-start gap-3 text-foreground/85">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span className="leading-snug">Official medical council verification and badge</span>
               </div>
-              <div className="flex items-center gap-2.5 text-foreground/80">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>AI clinical notes and digital patient history records</span>
+              <div className="flex items-start gap-3 text-foreground/85">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <span className="leading-snug">AI clinical notes and digital patient history records</span>
               </div>
             </CardContent>
           </div>
-          <CardFooter className="pt-4 pb-6">
+          <CardFooter className="p-6 sm:p-7 pt-2">
             <Button 
               type="button"
               onClick={() => setSelectedType("doctor")}
               variant="outline"
-              className="w-full h-11 border-primary/30 hover:border-primary hover:bg-primary/5 text-foreground font-semibold transition-colors flex items-center justify-center gap-2"
+              className="w-full h-12 min-h-12 border-2 border-primary/40 hover:border-primary bg-primary/10 hover:bg-primary/20 text-foreground dark:text-white font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 group-hover:gap-3"
             >
               <span>Register as Doctor</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-primary" />
             </Button>
           </CardFooter>
         </Card>
       </div>
 
       {/* Footer Navigation */}
-      <div className="w-full flex flex-col items-center justify-center text-center space-y-2 pt-6">
+      <div className="w-full flex flex-col items-center justify-center text-center space-y-2 pt-2 pb-4">
         <p className="text-sm text-muted-foreground w-full max-w-none text-center">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary font-semibold hover:underline">
+          <Link href={loginLink} className="text-primary font-semibold hover:underline">
             Log In
           </Link>
         </p>

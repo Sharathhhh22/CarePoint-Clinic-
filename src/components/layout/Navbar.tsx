@@ -80,39 +80,38 @@ export function Navbar() {
   return (
     <>
       <header className={navClasses}>
-        <div className="site-container flex h-[72px] md:h-[80px] items-center justify-between">
+        <div className="site-container flex h-[72px] md:h-[80px] items-center justify-between gap-4">
           
-          {/* Left Brand + Divider + Navigation Links */}
-          <div className="flex items-center gap-3.5 xl:gap-6 shrink-0">
+          {/* Left: Brand Logo */}
+          <div className="flex items-center shrink-0">
             <BrandLogo 
               href="/" 
               iconSize="w-8 h-8" 
               textClassName="text-lg xl:text-xl font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary" 
             />
-
-            <div className="hidden lg:block h-5 w-px bg-border/80 shrink-0" aria-hidden="true" />
-
-            <nav className="hidden lg:flex items-center gap-2.5 xl:gap-5 shrink-0" aria-label="Main Navigation">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
-                
-                return (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className={`text-[13px] xl:text-sm tracking-wide transition-colors whitespace-nowrap px-1 py-1 rounded-md ${
-                      isActive 
-                        ? "text-primary font-semibold" 
-                        : "text-muted-foreground hover:text-foreground font-medium"
-                    }`}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    {link.label}
-                  </Link>
-                )
-              })}
-            </nav>
           </div>
+
+          {/* Center: Main Navigation */}
+          <nav className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 px-2" aria-label="Main Navigation">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+              
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`text-[13px] xl:text-sm tracking-wide transition-all whitespace-nowrap px-2.5 py-1.5 rounded-lg ${
+                    isActive 
+                      ? "text-primary font-semibold bg-primary/10" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-surface-elevated font-medium"
+                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+          </nav>
 
           {/* Right Controls: Theme Toggle & Authentication */}
           <div className="hidden lg:flex items-center gap-2.5 xl:gap-3.5 shrink-0">
@@ -121,13 +120,13 @@ export function Navbar() {
               aria-label="Toggle Dark Mode" 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              {mounted && theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {mounted && theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
             </button>
 
             {user ? (
               <Link 
                 href="/dashboard"
-                className="inline-flex h-9 items-center justify-center rounded-lg bg-primary hover:bg-primary-hover px-3.5 text-xs xl:text-sm font-medium text-primary-foreground shadow-xs transition-colors whitespace-nowrap"
+                className="inline-flex h-10 items-center justify-center rounded-xl bg-primary hover:bg-primary-hover px-4 text-xs xl:text-sm font-semibold text-primary-foreground shadow-xs transition-colors whitespace-nowrap"
               >
                 <User className="w-3.5 h-3.5 mr-1.5" />
                 Dashboard
@@ -136,13 +135,13 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <Link 
                   href="/login"
-                  className="text-xs xl:text-sm font-medium text-muted-foreground transition-colors hover:text-foreground px-2.5 py-1.5 whitespace-nowrap"
+                  className="text-xs xl:text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground px-3 py-2 rounded-lg hover:bg-surface-elevated whitespace-nowrap"
                 >
                   Log In
                 </Link>
                 <Link 
                   href="/signup"
-                  className="inline-flex h-9 items-center justify-center rounded-lg bg-primary hover:bg-primary-hover px-3.5 text-xs xl:text-sm font-medium text-primary-foreground transition-colors shadow-xs whitespace-nowrap"
+                  className="inline-flex h-10 items-center justify-center rounded-xl bg-primary hover:bg-primary-hover px-4 text-xs xl:text-sm font-semibold text-primary-foreground transition-colors shadow-xs whitespace-nowrap active:scale-[0.99]"
                 >
                   Create Account
                 </Link>
