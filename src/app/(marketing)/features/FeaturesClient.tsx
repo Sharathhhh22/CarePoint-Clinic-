@@ -1,5 +1,6 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { CalendarClock, ShieldCheck, HeartPulse, CheckCircle2, Clock, Check } from "lucide-react"
 
 export function FeaturesClient() {
@@ -19,16 +20,16 @@ export function FeaturesClient() {
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="p-2.5 rounded-lg border border-border bg-surface text-muted-foreground text-center">
-              09:30 AM • Taken
+              09:30 AM &bull; Taken
             </div>
             <div className="p-2.5 rounded-lg border-2 border-primary bg-primary/10 text-primary font-bold text-center">
-              10:00 AM • Selected
+              10:00 AM &bull; Selected
             </div>
             <div className="p-2.5 rounded-lg border border-border bg-card text-foreground text-center font-medium">
-              10:30 AM • Available
+              10:30 AM &bull; Available
             </div>
             <div className="p-2.5 rounded-lg border border-border bg-card text-foreground text-center font-medium">
-              11:00 AM • Available
+              11:00 AM &bull; Available
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
@@ -55,8 +56,8 @@ export function FeaturesClient() {
                   <Check className="w-3 h-3" /> Verified
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground">MBBS, MD • General Medicine</p>
-              <p className="text-xs text-muted-foreground">Reg No: MCI-2018-84920</p>
+              <p className="text-xs text-muted-foreground">MBBS, MD &bull; General Medicine</p>
+              <p className="text-xs text-muted-foreground">Reg No: KMC-2018-84920</p>
             </div>
           </div>
           <div className="pt-3 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
@@ -93,8 +94,12 @@ export function FeaturesClient() {
   return (
     <div className="space-y-24">
       {features.map((feature, idx) => (
-        <div 
+        <motion.div 
           key={idx}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className={`flex flex-col md:flex-row gap-8 lg:gap-16 items-center ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
         >
           {/* Functional UI Preview */}
@@ -120,7 +125,7 @@ export function FeaturesClient() {
               ))}
             </ul>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   )

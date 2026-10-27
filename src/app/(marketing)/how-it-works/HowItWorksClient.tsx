@@ -1,7 +1,28 @@
 "use client"
 
 import Link from "next/link"
+import { motion, type Variants } from "framer-motion"
 import { Search, CalendarCheck, CreditCard, Stethoscope, ArrowRight } from "lucide-react"
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.05
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+  }
+}
 
 export function HowItWorksClient() {
   const steps = [
@@ -33,11 +54,19 @@ export function HowItWorksClient() {
 
   return (
     <div className="space-y-16">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={containerVariants}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
         {steps.map((step) => (
-          <div 
+          <motion.div 
             key={step.number}
-            className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between space-y-4"
+            variants={itemVariants}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between space-y-4 shadow-2xs hover:border-primary/50 hover:shadow-sm transition-colors"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -51,11 +80,17 @@ export function HowItWorksClient() {
               <h2 className="text-lg font-bold text-foreground">{step.title}</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="text-center bg-surface border border-border p-8 sm:p-12 rounded-2xl shadow-xs">
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="text-center bg-surface border border-border p-8 sm:p-12 rounded-2xl shadow-xs"
+      >
         <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3">Ready to skip the clinic waiting room?</h2>
         <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto mb-6">
           Create an account to book appointments, manage family medical records, and receive instant digital passes.
@@ -63,7 +98,7 @@ export function HowItWorksClient() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link 
             href="/appointments/new" 
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-primary-foreground px-8 py-3.5 rounded-xl text-base font-semibold transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-primary-foreground px-8 py-3.5 rounded-xl text-base font-semibold transition-colors shadow-xs"
           >
             Book Appointment
             <ArrowRight className="w-4 h-4" />
@@ -75,7 +110,7 @@ export function HowItWorksClient() {
             Create Free Account
           </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

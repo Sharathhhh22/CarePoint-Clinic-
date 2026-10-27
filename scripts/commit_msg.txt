@@ -1,7 +1,6 @@
-fix(marketing): restore original SlotUrSelf website interface, branding, and layout
+feat(animation): implement smooth scroll reveal animations, scroll progress bar, and back-to-top
 
-- Restore original SlotUrSelf hero with search console and trust signals
-- Restore original SlotUrSelf navigation bar and footer with Concept A brand mark
-- Revert marketing layout to clean unmerged design without CarePoint/CareNova overlays
-- Re-align metadata, structured data, sitemap, robots, and open-graph image to SlotUrSelf
-- Retain profile header redesign and active Supabase database records
+- Add ScrollProgressBar with animated teal gradient at top of viewport
+- Add BackToTop floating action with smooth scroll-to-top transition
+- Add Framer Motion scroll reveal animations (staggered cards, step-by-step reveals, and hover lifts) across Home, Features, and How It Works pages
+- Ensure full compliance with prefers-reduced-motion
