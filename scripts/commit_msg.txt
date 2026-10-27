@@ -1,5 +1,9 @@
-fix(ui): perfect navbar 3-column alignment and signup card spacing/vertical centering
+fix(ui): standardize top padding, alignment, and container spacing across all pages
 
-- Reorganize navbar into balanced 3-column layout (Brand left, Nav links centered, Actions right)
-- Center /signup and /login content vertically with balanced top/bottom page padding
-- Align choice cards ("I'm a Patient" and "I'm a Doctor") with equal baseline, matching 48px button heights, and aligned bullet lists
+- Enhance .site-container in globals.css with responsive padding-inline (1rem sm:1.5rem lg:2rem)
+- Standardize top padding to pt-8 sm:pt-12 pb-16 sm:pb-24 across all marketing pages
+- Normalize breadcrumbs margin (mb-6 sm:mb-8) and heading margins (mb-8 to mb-12)
+- Standardize privacy and terms pages into site-container max-w-4xl
+- Align card paddings and min-heights across how-it-works, departments, and about pages
+- Normalize vertical centering and container paddings for signup, login, and forgot-password
+- Update profile cover banner and breadcrumb colors to SlotUrSelf primary teal tokens

@@ -19,15 +19,15 @@ export const metadata: Metadata = {
 
 export default function DepartmentsPage() {
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
+    <div className="min-h-screen pt-8 sm:pt-12 pb-16 sm:pb-24 bg-background text-foreground">
       <div className="site-container">
-        <Breadcrumbs items={[{ label: "Departments" }]} className="mb-8" />
+        <Breadcrumbs items={[{ label: "Departments" }]} className="mb-6 sm:mb-8" />
 
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-3 sm:mb-4">
             Medical Departments & Specialists
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
             Browse verified clinical departments across partner healthcare networks.
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function DepartmentsPage() {
         <DepartmentsClient />
 
         {/* Related Navigation & Internal Links */}
-        <div className="mt-16 pt-10 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mt-12 sm:mt-16 pt-8 sm:pt-10 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Link
             href="/clinics"
             className="p-5 rounded-2xl border border-border bg-surface hover:border-primary/50 transition-colors flex items-center justify-between group shadow-xs"

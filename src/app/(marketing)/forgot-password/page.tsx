@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 
 export default function ForgotPasswordPage() {
   return (
-    <div className="container mx-auto flex min-h-[80vh] flex-col items-center justify-center px-4 py-16 sm:px-6">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-[calc(100vh-160px)] flex flex-col justify-center items-center py-10 sm:py-14 lg:py-16 px-4 sm:px-6">
+      <div className="w-full max-w-md mx-auto space-y-6">
         <Link 
           href="/login" 
           className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
         </Link>
 
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
             Reset Password
           </h1>
           <p className="text-sm text-muted-foreground">

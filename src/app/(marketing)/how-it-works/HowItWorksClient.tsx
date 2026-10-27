@@ -17,8 +17,8 @@ const containerVariants: Variants = {
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
+  visible: { 
+    opacity: 1, 
     y: 0,
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
   }
@@ -53,7 +53,7 @@ export function HowItWorksClient() {
   ]
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-12 sm:space-y-16">
       <motion.div 
         initial="hidden"
         whileInView="visible"
@@ -66,7 +66,7 @@ export function HowItWorksClient() {
             key={step.number}
             variants={itemVariants}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between space-y-4 shadow-2xs hover:border-primary/50 hover:shadow-sm transition-colors"
+            className="p-6 sm:p-7 rounded-2xl bg-card border border-border flex flex-col justify-between space-y-4 shadow-2xs hover:border-primary/50 hover:shadow-sm transition-colors min-h-[220px]"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">

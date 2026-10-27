@@ -38,12 +38,12 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen pt-24 md:pt-32 pb-24 bg-background text-foreground">
+    <div className="min-h-screen pt-8 sm:pt-12 pb-16 sm:pb-24 bg-background text-foreground">
       <div className="site-container">
-        <Breadcrumbs items={[{ label: "About Us" }]} className="mb-8" />
+        <Breadcrumbs items={[{ label: "About Us" }]} className="mb-6 sm:mb-8" />
 
-        <div className="max-w-3xl mb-12">
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground mb-4">
+        <div className="max-w-3xl mb-10 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-3 sm:mb-4">
             Direct clinic appointments. <br />
             Zero waiting rooms.
           </h1>
@@ -52,9 +52,9 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 sm:mb-16">
           {commitments.map((item, i) => (
-            <div key={i} className="p-6 rounded-2xl bg-card border border-border flex flex-col justify-between h-full space-y-2">
+            <div key={i} className="p-6 sm:p-7 rounded-2xl bg-card border border-border flex flex-col justify-between h-full space-y-2">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-primary font-bold text-sm">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />

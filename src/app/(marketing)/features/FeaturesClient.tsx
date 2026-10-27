@@ -92,7 +92,7 @@ export function FeaturesClient() {
   ]
 
   return (
-    <div className="space-y-24">
+    <div className="space-y-16 sm:space-y-20">
       {features.map((feature, idx) => (
         <motion.div 
           key={idx}

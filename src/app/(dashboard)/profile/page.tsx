@@ -48,7 +48,7 @@ export default async function ProfilePage() {
       <div className="flex items-center justify-between pb-1">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] hover:underline transition-all"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:underline transition-all"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to SlotUrSelf Website</span>
@@ -61,7 +61,7 @@ export default async function ProfilePage() {
       {/* HEADER SECTION */}
       <div className="bg-card rounded-3xl shadow-sm border border-border overflow-hidden">
         {/* Cover Banner */}
-        <div className="h-32 sm:h-40 w-full bg-gradient-to-r from-[#173F30] via-[#1E4D3B] to-[#101512] relative border-b border-border/50 overflow-hidden">
+        <div className="h-32 sm:h-40 w-full bg-gradient-to-r from-teal-800 via-teal-900 to-slate-900 relative border-b border-border/50 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent pointer-events-none" />
         </div>
 

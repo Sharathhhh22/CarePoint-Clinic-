@@ -25,18 +25,18 @@ export default function CareersPage() {
   ]
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
+    <div className="min-h-screen pt-8 sm:pt-12 pb-16 sm:pb-24 bg-background text-foreground">
       <div className="site-container">
-        <Breadcrumbs items={[{ label: "Careers" }]} className="mb-8" />
+        <Breadcrumbs items={[{ label: "Careers" }]} className="mb-6 sm:mb-8" />
 
-        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
-          <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-md text-xs font-bold tracking-wide uppercase mb-6">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+          <div className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-md text-xs font-bold tracking-wide uppercase mb-4">
             We are hiring
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-3 sm:mb-4">
             Help us fix healthcare.
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
             Join a team of engineers, designers, and medical professionals dedicated to making healthcare access seamless.
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function CareersPage() {
           ))}
         </div>
 
-        <div className="mt-16 text-center p-8 md:p-10 bg-card rounded-2xl border border-border">
+        <div className="mt-12 sm:mt-16 text-center p-8 md:p-10 bg-card rounded-2xl border border-border">
           <h3 className="text-xl font-bold text-foreground mb-2">Don&apos;t see an exact fit?</h3>
           <p className="text-muted-foreground mb-4 text-sm">We&apos;re always looking for talented engineers and healthcare leaders.</p>
           <a href="mailto:careers@sloturself.com" className="text-primary font-semibold hover:underline text-sm">

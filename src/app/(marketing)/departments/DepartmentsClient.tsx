@@ -70,7 +70,7 @@ export function DepartmentsClient() {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto mb-16">
+      <div className="max-w-2xl mx-auto mb-10 sm:mb-12">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <input 
@@ -108,7 +108,7 @@ export function DepartmentsClient() {
             <Link 
               key={idx} 
               href={`/appointments/new?specialty=${encodeURIComponent(dept.name)}`} 
-              className="group bg-card p-7 rounded-2xl border border-border hover:border-primary hover:shadow-md transition-all flex flex-col justify-between"
+              className="group bg-card p-6 sm:p-7 rounded-2xl border border-border hover:border-primary hover:shadow-md transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-primary transition-colors">
@@ -132,4 +132,3 @@ export function DepartmentsClient() {
     </>
   )
 }
-

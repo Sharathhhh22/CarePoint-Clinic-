@@ -17,15 +17,15 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-background text-foreground">
+    <div className="min-h-screen pt-8 sm:pt-12 pb-16 sm:pb-24 bg-background text-foreground">
       <div className="site-container">
-        <Breadcrumbs items={[{ label: "Contact Us" }]} className="mb-8" />
+        <Breadcrumbs items={[{ label: "Contact Us" }]} className="mb-6 sm:mb-8" />
         
-        <div className="max-w-2xl mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+        <div className="max-w-3xl mb-10 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-3 sm:mb-4">
             We&apos;re here to help.
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
             Have questions about your appointment or interested in onboarding your clinic? Send us a message and our support team will respond promptly.
           </p>
         </div>
