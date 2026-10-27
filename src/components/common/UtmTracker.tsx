@@ -16,7 +16,7 @@ export interface CarePointUtmPayload {
   captured_at: string
 }
 
-const STORAGE_KEY = "carepoint_utm_analytics"
+const STORAGE_KEY = "sloturself_utm_analytics"
 
 export function getStoredUtmParams(): CarePointUtmPayload | null {
   if (typeof window === "undefined") return null

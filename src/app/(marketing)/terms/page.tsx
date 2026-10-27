@@ -3,13 +3,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Read the CarePoint Clinic Terms of Service, emergency medical disclaimers, cancellation policies, and clinical platform terms.",
+  description: "Read the SlotUrSelf Terms of Service, emergency medical disclaimers, cancellation policies, and clinical platform terms.",
   alternates: {
     canonical: "/terms",
   },
   openGraph: {
     title: "Terms of Service",
-    description: "Read the CarePoint Clinic Terms of Service, emergency medical disclaimers, cancellation policies, and clinical platform terms.",
+    description: "Read the SlotUrSelf Terms of Service, emergency medical disclaimers, cancellation policies, and clinical platform terms.",
     url: "/terms",
   },
 }
@@ -29,14 +29,14 @@ export default function TermsOfService() {
             CRITICAL MEDICAL EMERGENCY NOTICE
           </h2>
           <p className="text-sm text-foreground/90">
-            CarePoint Clinic is an appointment coordination and scheduling platform, <strong>NOT</strong> an emergency medical response service. If you are experiencing chest pain, severe shortness of breath, acute trauma, poisoning, severe bleeding, or any life-threatening situation, please call emergency ambulance services immediately by dialing <strong>108</strong> (National Ambulance Service in India) or visit your nearest hospital emergency department.
+            SlotUrSelf is an appointment coordination and scheduling platform, <strong>NOT</strong> an emergency medical response service. If you are experiencing chest pain, severe shortness of breath, acute trauma, poisoning, severe bleeding, or any life-threatening situation, please call emergency ambulance services immediately by dialing <strong>108</strong> (National Ambulance Service in India) or visit your nearest hospital emergency department.
           </p>
         </section>
 
         <section className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">1. Acceptance of Terms & Eligibility</h2>
           <p className="text-muted-foreground">
-            By accessing, browsing, or utilizing the CarePoint Clinic platform (accessible via web and mobile interfaces), you enter into a legally binding agreement with CarePoint Clinic Healthcare Technologies and agree to abide by these Terms of Service.
+            By accessing, browsing, or utilizing the SlotUrSelf platform (accessible via web and mobile interfaces), you enter into a legally binding agreement with SlotUrSelf Healthcare Technologies and agree to abide by these Terms of Service.
           </p>
           <p className="text-muted-foreground">
             You represent that you are at least 18 years of age and possess the legal capacity to enter into binding contracts. Minors may use the service only through a verified parent or legal guardian who acts as the primary account holder.
@@ -46,10 +46,10 @@ export default function TermsOfService() {
         <section className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">2. Nature of Platform & Non-Clinical Status</h2>
           <p className="text-muted-foreground">
-            CarePoint Clinic provides technological tools to facilitate discovery, calendar viewing, slot reservations, and queue coordination between patients and independent clinics or medical practitioners.
+            SlotUrSelf provides technological tools to facilitate discovery, calendar viewing, slot reservations, and queue coordination between patients and independent clinics or medical practitioners.
           </p>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>CarePoint Clinic does not practice medicine, prescribe medication, or provide formal diagnostic opinions.</li>
+            <li>SlotUrSelf does not practice medicine, prescribe medication, or provide formal diagnostic opinions.</li>
             <li>Any automated features, search filters, or the AI Guide provide informational triage suggestions only and do not replace professional physician consultations.</li>
             <li>A doctor-patient relationship is established exclusively between you and your attending healthcare provider at the time of your clinical consultation.</li>
           </ul>
@@ -71,7 +71,7 @@ export default function TermsOfService() {
         <section className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">4. Practitioner Obligations & Credential Verification</h2>
           <p className="text-muted-foreground">
-            Doctors and clinics registering on CarePoint Clinic warrant and agree that:
+            Doctors and clinics registering on SlotUrSelf warrant and agree that:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
             <li>They hold active and unrestricted medical practice registrations from their respective State Medical Council or National Medical Commission (NMC).</li>
@@ -100,7 +100,7 @@ export default function TermsOfService() {
         <section className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">6. Limitation of Liability</h2>
           <p className="text-muted-foreground">
-            To the maximum extent permitted under applicable law, CarePoint Clinic shall not be liable for any indirect, incidental, or consequential damages resulting from clinical diagnoses, treatments prescribed by third-party doctors, clinic delays, power or telecommunication interruptions, or patient failure to arrive on time.
+            To the maximum extent permitted under applicable law, SlotUrSelf shall not be liable for any indirect, incidental, or consequential damages resulting from clinical diagnoses, treatments prescribed by third-party doctors, clinic delays, power or telecommunication interruptions, or patient failure to arrive on time.
           </p>
         </section>
 
@@ -122,8 +122,8 @@ export default function TermsOfService() {
             These Terms of Service are governed by and construed in accordance with the laws of India. Any legal dispute, claim, or proceeding arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the competent courts in Bengaluru, Karnataka, India.
           </p>
           <div className="text-sm space-y-1 text-muted-foreground pt-2 border-t border-border mt-3">
-            <p><strong className="text-foreground">Inquiries:</strong> legal@carepointclinic.com | +91 80 4567 8900</p>
-            <p><strong className="text-foreground">Address:</strong> CarePoint Clinic Healthcare Technologies, Indiranagar, Bengaluru, KA 560038</p>
+            <p><strong className="text-foreground">Inquiries:</strong> legal@sloturself.com | +91 80 4567 8900</p>
+            <p><strong className="text-foreground">Address:</strong> SlotUrSelf Healthcare Technologies, Indiranagar, Bengaluru, KA 560038</p>
           </div>
         </section>
       </div>

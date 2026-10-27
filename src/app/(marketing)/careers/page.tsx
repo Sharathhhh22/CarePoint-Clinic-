@@ -5,13 +5,13 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 
 export const metadata: Metadata = {
   title: "Careers",
-  description: "Join CarePoint Clinic to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
+  description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
   alternates: {
     canonical: "/careers",
   },
   openGraph: {
     title: "Careers",
-    description: "Join CarePoint Clinic to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
+    description: "Join SlotUrSelf to help modernize healthcare access, clinical workflows, and real-time patient scheduling.",
     url: "/careers",
   },
 }
@@ -69,8 +69,8 @@ export default function CareersPage() {
         <div className="mt-16 text-center p-8 md:p-10 bg-card rounded-2xl border border-border">
           <h3 className="text-xl font-bold text-foreground mb-2">Don&apos;t see an exact fit?</h3>
           <p className="text-muted-foreground mb-4 text-sm">We&apos;re always looking for talented engineers and healthcare leaders.</p>
-          <a href="mailto:careers@carepointclinic.com" className="text-primary font-semibold hover:underline text-sm">
-            careers@carepointclinic.com
+          <a href="mailto:careers@sloturself.com" className="text-primary font-semibold hover:underline text-sm">
+            careers@sloturself.com
           </a>
         </div>
       </div>

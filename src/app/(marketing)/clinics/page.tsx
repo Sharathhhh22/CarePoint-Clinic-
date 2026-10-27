@@ -5,14 +5,14 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs"
 import { ClinicMapExplorer } from "@/components/clinics/ClinicMapExplorer"
 
 export const metadata: Metadata = {
-  title: "Find Nearby Clinics & Doctors | CarePoint Clinic",
-  description: "Locate verified outpatient clinics and physicians in your neighborhood with real-time slot availability at CarePoint Clinic.",
+  title: "Find Nearby Clinics & Doctors",
+  description: "Locate verified outpatient clinics and physicians in your neighborhood with real-time slot availability on SlotUrSelf.",
   alternates: {
     canonical: "/clinics",
   },
   openGraph: {
-    title: "Find Nearby Clinics & Doctors | CarePoint Clinic",
-    description: "Locate verified outpatient clinics and physicians in your neighborhood with real-time slot availability at CarePoint Clinic.",
+    title: "Find Nearby Clinics & Doctors",
+    description: "Locate verified outpatient clinics and physicians in your neighborhood with real-time slot availability on SlotUrSelf.",
     url: "/clinics",
   },
 }

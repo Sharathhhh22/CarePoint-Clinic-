@@ -1,45 +1,13 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { Resend } from "resend"
-import { checkRateLimit, getClientIp } from "@/lib/security/rateLimit"
-import { sanitizeText, escapeHtml } from "@/lib/security/sanitize"
 
-export async function POST(req: NextRequest) {
-  // 1. Rate Limiting: max 5 consultation submissions per 10 minutes per IP
-  const ip = getClientIp(req)
-  const rateLimit = checkRateLimit(`contact_${ip}`, { limit: 5, windowMs: 10 * 60 * 1000 })
-  if (!rateLimit.success) {
-    return NextResponse.json(
-      { error: "Too many requests. Please wait a few minutes before submitting another enquiry." },
-      {
-        status: 429,
-        headers: { "Retry-After": String(rateLimit.reset) },
-      }
-    )
-  }
-
+export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { firstName, lastName, email, phone, department, urgency, message, hp_field } = body
+    const { firstName, lastName, email, message } = body
 
-    // 2. Anti-bot honeypot check (hidden field filled only by automated spam bots)
-    if (hp_field) {
-      console.warn(`[Bot Detected]: Honeypot triggered from IP ${ip}`)
-      return NextResponse.json({
-        success: true,
-        message: "Thank you for contacting CarePoint Clinic.",
-      })
-    }
-
-    // 3. Validation & Sanitization
-    const cleanFirstName = sanitizeText(firstName)
-    const cleanLastName = sanitizeText(lastName)
-    const cleanEmail = sanitizeText(email)
-    const cleanPhone = sanitizeText(phone)
-    const cleanDepartment = sanitizeText(department) || "General Consultation"
-    const cleanUrgency = sanitizeText(urgency) || "Routine"
-    const cleanMessage = sanitizeText(message)
-
-    if (!cleanFirstName || !cleanEmail || !cleanMessage) {
+    // 1. Validation
+    if (!firstName || !email || !message) {
       return NextResponse.json(
         { error: "First name, email, and message are required." },
         { status: 400 }
@@ -47,57 +15,51 @@ export async function POST(req: NextRequest) {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(cleanEmail)) {
+    if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: "Please enter a valid email address." },
         { status: 400 }
       )
     }
 
-    const fullName = `${cleanFirstName} ${cleanLastName}`.trim()
+    const fullName = `${firstName} ${lastName || ""}`.trim()
     const apiKey = process.env.RESEND_API_KEY
 
-    // 4. Transmit via Resend if API key is configured with HTML escaping
+    // 2. Transmit via Resend if API key is configured
     if (apiKey && apiKey !== "re_dummy_key") {
       const resend = new Resend(apiKey)
-      const recipient = process.env.SUPPORT_EMAIL || "care@carepointclinic.com"
+      const recipient = process.env.SUPPORT_EMAIL || "support@sloturself.com"
 
       await resend.emails.send({
-        from: "CarePoint Clinic Contact <notifications@carepointclinic.com>",
+        from: "SlotUrSelf Contact <notifications@sloturself.com>",
         to: recipient,
-        replyTo: cleanEmail,
-        subject: `[CarePoint Enquiry] ${cleanDepartment} from ${fullName}`,
+        replyTo: email,
+        subject: `[Contact Form] New Clinical Inquiry from ${fullName}`,
         html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e0e4df; border-radius: 16px; background-color: #fafaf7;">
-            <h2 style="color: #173f30; margin-bottom: 16px;">New CarePoint Consultation Enquiry</h2>
-            <p><strong>Patient Name:</strong> ${escapeHtml(fullName)}</p>
-            <p><strong>Email:</strong> ${escapeHtml(cleanEmail)}</p>
-            <p><strong>Phone:</strong> ${escapeHtml(cleanPhone || "Not provided")}</p>
-            <p><strong>Department:</strong> ${escapeHtml(cleanDepartment)}</p>
-            <p><strong>Urgency:</strong> ${escapeHtml(cleanUrgency)}</p>
-            <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
-            <hr style="border: none; border-top: 1px solid #e0e4df; margin: 20px 0;" />
-            <h3 style="color: #101512; margin-bottom: 8px;">Enquiry Details:</h3>
-            <div style="background-color: #ffffff; padding: 16px; border-radius: 12px; color: #101512; border: 1px solid #e0e4df; white-space: pre-wrap;">${escapeHtml(cleanMessage)}</div>
-            <hr style="border: none; border-top: 1px solid #e0e4df; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #777d79;">CarePoint Clinic Patient Coordination Desk &bull; Boston, MA</p>
+          <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded: 12px;">
+            <h2 style="color: #0f766e; margin-bottom: 16px;">New Contact Form Message</h2>
+            <p><strong>From:</strong> ${fullName} (&lt;${email}&gt;)</p>
+            <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+            <h3 style="color: #0f172a; margin-bottom: 8px;">Message:</h3>
+            <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; color: #334155; white-space: pre-wrap;">${message}</div>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+            <p style="font-size: 12px; color: #64748b;">This notification was sent automatically by SlotUrSelf Medical Operations.</p>
           </div>
         `,
       })
     } else {
-      console.log(
-        `[CarePoint Clinic Enquiry]: From ${fullName} (${cleanEmail}, ${cleanPhone}): Department: ${cleanDepartment}, Message: ${cleanMessage.slice(0, 80)}...`
-      )
+      console.log(`[Contact Form Received]: From ${fullName} (${email}): ${message.slice(0, 80)}...`)
     }
 
     return NextResponse.json({
       success: true,
-      message: "Thank you for contacting CarePoint Clinic. Our clinical team will respond promptly.",
+      message: "Thank you for contacting us. Our clinical operations team will respond promptly.",
     })
   } catch (error: any) {
     console.error("Error processing contact form notification:", error)
     return NextResponse.json(
-      { error: "Failed to send message. Please try again or email care@carepointclinic.com directly." },
+      { error: "Failed to send message. Please try again or email support directly." },
       { status: 500 }
     )
   }

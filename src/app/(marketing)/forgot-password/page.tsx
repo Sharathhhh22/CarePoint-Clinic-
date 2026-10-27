@@ -5,13 +5,13 @@ import { ForgotPasswordClient } from "./ForgotPasswordClient"
 
 export const metadata: Metadata = {
   title: "Reset Password",
-  description: "Reset your CarePoint Clinic account password securely via email verification.",
+  description: "Reset your SlotUrSelf account password securely via email verification.",
   alternates: {
     canonical: "/forgot-password",
   },
   openGraph: {
     title: "Reset Password",
-    description: "Reset your CarePoint Clinic account password securely via email verification.",
+    description: "Reset your SlotUrSelf account password securely via email verification.",
     url: "/forgot-password",
   },
 }

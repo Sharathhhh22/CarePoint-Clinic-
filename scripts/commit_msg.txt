@@ -1,0 +1,7 @@
+fix(marketing): restore original SlotUrSelf website interface, branding, and layout
+
+- Restore original SlotUrSelf hero with search console and trust signals
+- Restore original SlotUrSelf navigation bar and footer with Concept A brand mark
+- Revert marketing layout to clean unmerged design without CarePoint/CareNova overlays
+- Re-align metadata, structured data, sitemap, robots, and open-graph image to SlotUrSelf
+- Retain profile header redesign and active Supabase database records

@@ -14,7 +14,7 @@ export async function GET() {
       },
     })
   } catch (error) {
-    return new NextResponse('# CarePoint Clinic\n\nCarePoint Clinic outpatient healthcare platform.', {
+    return new NextResponse('# SlotUrSelf\n\nSlotUrSelf clinic appointment and doctor consultation platform.', {
       status: 200,
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',

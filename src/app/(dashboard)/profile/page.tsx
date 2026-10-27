@@ -51,7 +51,7 @@ export default async function ProfilePage() {
           className="inline-flex items-center gap-2 text-xs font-semibold text-[#173F30] dark:text-[#A9C2B2] hover:underline transition-all"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to CarePoint Clinic Website</span>
+          <span>Back to SlotUrSelf Website</span>
         </Link>
         <span className="text-xs text-muted-foreground font-medium">
           Personal Patient Profile &bull; HIPAA Compliant
